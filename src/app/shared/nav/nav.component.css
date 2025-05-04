@@ -1,0 +1,44 @@
+.colorFondo {
+    background: linear-gradient(to right,
+            rgba(87, 146, 223, 0.6) 10%,
+            rgba(42, 157, 143, 0.6) 50%);
+}
+
+nav {
+    font-family: "jura";
+
+}
+
+#imagenLogo {
+    width: 90%;
+}
+
+.ancho {
+    width: 300px;
+}
+
+.altura {
+    height: 100vh;
+}
+
+.alturaFoto {
+    width: 35px;
+}
+
+.active {
+    background-color: #ffffff;
+    font-weight: bolder;
+}
+
+.btn {
+    border: none;
+}
+
+p {
+    font-size: 15pt;
+}
+
+@font-face {
+    font-family: "jura";
+    src: url(../../../../public/assets/fonts/Jura/static/Jura-Bold.ttf);
+}

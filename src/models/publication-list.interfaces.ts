@@ -1,0 +1,46 @@
+export interface PublicationListsResponse {
+    numPagina: number
+    tamanioPagina: number
+    elementosEncontrados: number
+    paginasTotales: number
+    contenido: PublicationList[]
+}
+
+export interface PublicationList {
+    imageURL: string
+    descripcion: string
+    fechaRegistro: string
+    usuario: Usuario
+    mascotaDTO: MascotaDto
+}
+
+export interface Usuario {
+    username: string
+    email: string
+    fechaRegistro: string
+}
+
+export interface MascotaDto {
+    nombre: string
+    biografia: string
+    fechaNacimiento: string
+    avatar: string
+    raza: Raza
+    especie: Especie
+    userDTO: UserDto
+}
+
+export interface Raza {
+    nombre: string
+}
+
+export interface Especie {
+    nombre: string
+    localDate: string
+}
+
+export interface UserDto {
+    username: string
+    email: string
+    fechaRegistro: string
+}
