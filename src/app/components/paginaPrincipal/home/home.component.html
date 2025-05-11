@@ -1,7 +1,15 @@
 <div class="layout">
     <app-nav class="colorFondo ancho"></app-nav>
     <main>
-        <h3>Descripción general</h3>
-        <app-card-user-pet></app-card-user-pet>
+        <app-card-user-line class="me-5"></app-card-user-line>
+        <h3 class="ms-3 mb-5">Descripción general</h3>
+        <div class="d-flex gap-5 justify-content-between me-3 ms-3">
+            <app-card-user-pet></app-card-user-pet>
+            <app-card-comentarios-likes></app-card-comentarios-likes>
+            <app-card-razas-especies></app-card-razas-especies>
+        </div>
+
+        <canvas id="publicacionesChart" width="500" height="150" class="mt-5"></canvas>
+
     </main>
 </div>

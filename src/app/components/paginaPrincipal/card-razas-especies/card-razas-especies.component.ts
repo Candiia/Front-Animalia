@@ -3,15 +3,16 @@ import { HomeService } from '../../../services/home.service';
 import { EstadisticasResponse } from '../../../../models/estadisticas-home.interfaces';
 
 @Component({
-  selector: 'app-card-user-pet',
-  templateUrl: './card-user-pet.component.html',
-  styleUrls: ['./card-user-pet.component.css']
+  selector: 'app-card-razas-especies',
+  templateUrl: './card-razas-especies.component.html',
+  styleUrl: './card-razas-especies.component.css'
 })
-export class CardUserPetComponent {
+export class CardRazasEspeciesComponent {
 
-  totalUsuarios: number = 0;
-  totalMascotas: number = 0;
-  
+
+  totalRazas: number = 0;
+  totalEspecies: number = 0;
+
 
   constructor(private homeService: HomeService) { }
 
@@ -24,8 +25,8 @@ export class CardUserPetComponent {
     this.homeService.obtenerEstaditicass().subscribe({
       next: (res: EstadisticasResponse) => {
         console.log('Respuesta de estadísticas:', res);
-        this.totalUsuarios = res.numUser;
-        this.totalMascotas = res.numMascotas;
+        this.totalEspecies = res.numEspecies;
+        this.totalRazas = res.numRazas;
       },
       error: (err) => {
         console.error('Error al obtener estadísticas:', err);

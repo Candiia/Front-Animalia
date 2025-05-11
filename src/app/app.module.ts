@@ -15,12 +15,15 @@ import { ListUserComponent } from './components/user/list-user/list-user.compone
 import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
 import { ListLikesComponent } from './components/likes/list-likes/list-likes.component';
 import { FooterComponent } from './shared/footer/footer.component';
-import { CardUserLineComponent } from './components/card-user-line/card-user-line.component';
+import { CardUserLineComponent } from './components/paginaPrincipal/card-user-line/card-user-line.component';
 import { CardUserPetComponent } from './components/paginaPrincipal/card-user-pet/card-user-pet.component';
 import { MatCardModule } from '@angular/material/card';
 import { LoginComponent } from './components/login/login.component';
 import { FormsModule } from '@angular/forms';
 import { provideHttpClient } from '@angular/common/http';
+import { CardComentariosLikesComponent } from './components/paginaPrincipal/card-comentarios-likes/card-comentarios-likes.component';
+import { CardRazasEspeciesComponent } from './components/paginaPrincipal/card-razas-especies/card-razas-especies.component';
+import { AgChartsModule } from 'ag-charts-angular';
 
 
 @NgModule({
@@ -40,12 +43,15 @@ import { provideHttpClient } from '@angular/common/http';
     FooterComponent,
     CardUserLineComponent,
     CardUserPetComponent,
-    LoginComponent
+    LoginComponent,
+    CardComentariosLikesComponent,
+    CardRazasEspeciesComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    AgChartsModule
   ],
   providers: [
     provideAnimationsAsync(),

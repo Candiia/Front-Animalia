@@ -1,8 +1,11 @@
 .colorFondo {
     background: linear-gradient(to right,
-            rgba(87, 146, 223, 0.6) 10%,
-            rgba(42, 157, 143, 0.6) 50%);
+            rgba(87, 146, 223, 0.4) 30%,
+            rgba(87, 146, 223, 0.3) 40%,
+            rgba(42, 157, 143, 0.3) 70%,
+            rgba(42, 157, 143, 0.4) 90%);
 }
+
 
 nav {
     font-family: "jura";
