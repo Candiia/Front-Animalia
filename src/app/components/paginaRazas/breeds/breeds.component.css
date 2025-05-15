@@ -1,0 +1,13 @@
+h3 {
+    font-family: "jura";
+}
+
+@font-face {
+    font-family: "jura";
+    src: url(../../../../../public/assets/fonts/Jura/static/Jura-SemiBold.ttf);
+}
+
+
+.bi-plus-circle-fill {
+    font-size: 30pt;
+}
