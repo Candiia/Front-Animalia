@@ -5,11 +5,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { NavComponent } from './shared/nav/nav.component';
-import { DetailPetComponent } from './components/pet/detail-pet/detail-pet.component';
 import { HomeComponent } from './components/paginaPrincipal/home/home.component';
-import { ListPetComponent } from './components/pet/list-pet/list-pet.component';
 import { ListCommentsComponent } from './components/comment/list-comments/list-comments.component';
-import { ListSpeciesComponent } from './components/species/list-species/list-species.component';
 import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
 import { ListLikesComponent } from './components/likes/list-likes/list-likes.component';
 import { FooterComponent } from './shared/footer/footer.component';
@@ -26,17 +23,18 @@ import { BreedsComponent } from './components/paginaRazas/breeds/breeds.componen
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CardUserComponent } from './components/paginaUsers/card-user/card-user.component';
 import { UserComponent } from './components/paginaUsers/user/user.component';
+import { CardPetComponent } from './components/paginaMascotas/card-pet/card-pet.component';
+import { PetComponent } from './components/paginaMascotas/pet/pet.component';
+import { SpeciesComponent } from './components/paginaEspecie/species/species.component';
+import { CardSpeciesComponent } from './components/paginaEspecie/card-species/card-species.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     NavComponent,
-    DetailPetComponent,
     ListCommentsComponent,
-    ListSpeciesComponent,
     HomeComponent,
-    ListPetComponent,
     PageNotFoundComponent,
     ListLikesComponent,
     FooterComponent,
@@ -48,7 +46,11 @@ import { UserComponent } from './components/paginaUsers/user/user.component';
     CardBreedsComponent,
     BreedsComponent,
     CardUserComponent,
-    UserComponent
+    UserComponent,
+    CardPetComponent,
+    PetComponent,
+    SpeciesComponent,
+    CardSpeciesComponent
   ],
   imports: [
     BrowserModule,

@@ -1,18 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { SpeciesListsResponse } from '../../models/species-list.interfaces';
 import { Observable } from 'rxjs';
-import { PetListsResponse } from '../../models/pet-list.interfaces';
 import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PetService {
+export class SpeciesService {
 
   constructor(private http: HttpClient) { }
 
-  obtenerListadoMascotas(page: number): Observable<PetListsResponse> {
-    return this.http.get<PetListsResponse>(`${environment.apiBaseUrl}/mascota/admin?page=${page}`, {
+  obtenerListadoSpecies(page: number): Observable<SpeciesListsResponse> {
+    return this.http.get<SpeciesListsResponse>(`${environment.apiBaseUrl}/especie/admin?page=${page}`, {
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
         'Content-Type': 'application/json',

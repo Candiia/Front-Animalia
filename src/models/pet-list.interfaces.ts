@@ -9,7 +9,7 @@ export interface PetListsResponse {
 }
 
 export interface MascotaList {
-    id: UUID,
+    id: UUID
     nombre: string
     biografia: string
     fechaNacimiento: string
@@ -20,16 +20,16 @@ export interface MascotaList {
 }
 
 export interface Raza {
+    id: UUID
     nombre: string
 }
 
 export interface Especie {
+    id: UUID
     nombre: string
     localDate: string
 }
 
 export interface UserDto {
-    username: string
-    email: string
-    fechaRegistro: string
+    username: UUID
 }

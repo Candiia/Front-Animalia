@@ -1,5 +1,6 @@
 .card {
     width: 350px;
+    height: 150px;
     background: transparent;
     border: 1px solid rgba(0, 0, 0, 0.3);
     color: rgba(0, 0, 0, 0.7);
@@ -7,8 +8,20 @@
     font-family: "jura";
     font-size: 16pt;
     transition: all 0.3s ease-in-out;
-    height: 90px;
     box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+}
+
+.textMascotas {
+    font-size: 13pt;
+}
+
+.toggle-enabled {
+    color: rgb(38, 184, 82);
+}
+
+.toggle-disabled {
+    color: rgb(184, 38, 38);
+
 }
 
 .card:hover {

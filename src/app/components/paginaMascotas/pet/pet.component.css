@@ -1,6 +1,5 @@
 h3 {
     font-family: "jura";
-    font-size: 25pt;
 }
 
 @font-face {
@@ -8,14 +7,9 @@ h3 {
     src: url(../../../../../public/assets/fonts/Jura/static/Jura-SemiBold.ttf);
 }
 
-.layout {
-    display: flex;
-}
 
-main {
-    flex: 1;
-    padding: 20px;
-    overflow-y: auto;
+.bi-plus-circle-fill {
+    font-size: 30pt;
 }
 
 .marginDe {
