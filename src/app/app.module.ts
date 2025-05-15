@@ -10,7 +10,6 @@ import { HomeComponent } from './components/paginaPrincipal/home/home.component'
 import { ListPetComponent } from './components/pet/list-pet/list-pet.component';
 import { ListCommentsComponent } from './components/comment/list-comments/list-comments.component';
 import { ListSpeciesComponent } from './components/species/list-species/list-species.component';
-import { ListUserComponent } from './components/user/list-user/list-user.component';
 import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
 import { ListLikesComponent } from './components/likes/list-likes/list-likes.component';
 import { FooterComponent } from './shared/footer/footer.component';
@@ -25,19 +24,19 @@ import { AgChartsModule } from 'ag-charts-angular';
 import { CardBreedsComponent } from './components/paginaRazas/card-breeds/card-breeds.component';
 import { BreedsComponent } from './components/paginaRazas/breeds/breeds.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CardUserComponent } from './components/paginaUsers/card-user/card-user.component';
+import { UserComponent } from './components/paginaUsers/user/user.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    ListUserComponent,
     NavComponent,
     DetailPetComponent,
     ListCommentsComponent,
     ListSpeciesComponent,
     HomeComponent,
     ListPetComponent,
-    ListUserComponent,
     PageNotFoundComponent,
     ListLikesComponent,
     FooterComponent,
@@ -47,7 +46,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     CardComentariosLikesComponent,
     CardRazasEspeciesComponent,
     CardBreedsComponent,
-    BreedsComponent
+    BreedsComponent,
+    CardUserComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,

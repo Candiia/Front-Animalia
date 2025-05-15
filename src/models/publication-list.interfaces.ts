@@ -1,3 +1,5 @@
+import { UUID } from "crypto"
+
 export interface PublicationListsResponse {
     numPagina: number
     tamanioPagina: number
@@ -7,6 +9,7 @@ export interface PublicationListsResponse {
 }
 
 export interface PublicationList {
+    id: UUID, 
     imageURL: string
     descripcion: string
     fechaRegistro: string

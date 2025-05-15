@@ -1,0 +1,53 @@
+ <div class="d-flex flex-wrap gap-3 justify-content-between ms-3">
+    @for (user of users; track user.id) {
+    <div class="card mt-3">
+        <div class="card-body">
+            <div class="position-absolute  me-3">
+                <div class="position-absolute me-3">
+                    @if (user.enable) {
+                    <i class="bi bi-toggle-on toggle-enabled"></i>
+                    } @else {
+                    <i class="bi bi-toggle-off toggle-disabled"></i>
+                    }
+                </div>
+            </div>
+            <div class="position-absolute end-0 me-3">
+                <i class="bi bi-three-dots"></i>
+            </div>
+            <p class=" text-center ">{{user.username}}</p>
+
+            <p class="textMascotas">
+                Mascotas:
+                @if (user.mascotaDTOList.length === 0) {
+                No tiene mascotas
+                } @else {
+                @for (mascota of user.mascotaDTOList; track mascota.id; let i = $index) {
+                @if (i < 3) {
+                {{ mascota.nombre }}
+                @if (i < user.mascotaDTOList.length - 1 && i < 2) {
+                ,
+                }
+                }
+                @if (i === 2 && user.mascotaDTOList.length > 3) {
+                ...
+                }
+                }
+                }
+            </p>
+
+            <p class="textMascotas text-capitalize">
+                Rol: {{ user.roles[0].slice(0, 1).toUpperCase() + user.roles[0].slice(1).toLowerCase() }}
+            </p>
+        </div>
+    </div>
+    }
+</div>
+
+<ngb-pagination
+    class="d-flex justify-content-center mt-5"
+    [collectionSize]="elementosEncontrados"
+    [(page)]="page"
+    [boundaryLinks]="true"
+    [pageSize]="tamanioPagina"
+    (pageChange)="onPage($event)">
+</ngb-pagination>

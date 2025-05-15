@@ -1,3 +1,5 @@
+import { UUID } from "crypto"
+
 export interface SpeciesListsResponse {
     numPagina: number
     tamanioPagina: number
@@ -7,6 +9,7 @@ export interface SpeciesListsResponse {
 }
 
 export interface SpeciesLists {
+    id: UUID,
     nombre: string
     localDate: string
 }

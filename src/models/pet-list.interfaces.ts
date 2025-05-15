@@ -1,3 +1,5 @@
+import { UUID } from "crypto"
+
 export interface PetListsResponse {
     numPagina: number
     tamanioPagina: number
@@ -7,6 +9,7 @@ export interface PetListsResponse {
 }
 
 export interface MascotaList {
+    id: UUID,
     nombre: string
     biografia: string
     fechaNacimiento: string
