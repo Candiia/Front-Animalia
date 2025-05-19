@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { BreedsService } from '../../../services/breeds.service';
-import { BreedsLists, BreedsListsResponse } from '../../../../models/breeds-list.interfaces';
+import { Breed, BreedsListsResponse } from '../../../../models/breeds-list.interfaces';
 
 @Component({
   selector: 'app-card-breeds',
@@ -11,7 +11,7 @@ export class CardBreedsComponent {
 
   constructor(private breedsService: BreedsService) { }
 
-  razas: BreedsLists[] = [];
+  razas: Breed[] = [];
   page = 1;
   elementosEncontrados = 0;
   tamanioPagina = 20;

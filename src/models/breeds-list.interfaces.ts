@@ -5,10 +5,10 @@ export interface BreedsListsResponse {
     tamanioPagina: number
     elementosEncontrados: number
     paginasTotales: number
-    contenido: BreedsLists[]
+    contenido: Breed[]
 }
 
-export interface BreedsLists {
+export interface Breed {
     id: UUID,
     nombre: string
 }

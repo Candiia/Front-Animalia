@@ -1,10 +1,11 @@
 .profile-card {
     display: flex;
     align-items: center;
-    background: #ffffff;
+    background: #000000;
     padding: 10px 15px;
     border-radius: 10px;
     width: fit-content;
+    color: white;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
