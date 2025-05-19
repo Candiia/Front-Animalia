@@ -21,7 +21,7 @@ export class BreedsService {
   }
 
 
-  guardarRaza(nuevaRaza: string): Observable<any> {
+  addRaza(nuevaRaza: string): Observable<any> {
     return this.http.post(`${environment.apiBaseUrl}/raza`, {
       nombre: nuevaRaza
     },
@@ -33,4 +33,17 @@ export class BreedsService {
       }
     );
   }
+
+  editRaza(id: string, nombre: string): Observable<any> {
+    return this.http.put(`${environment.apiBaseUrl}/raza/${id}`,
+      { nombre },
+      {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json',
+        }
+      }
+    );
+  }
+
 }

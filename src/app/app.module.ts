@@ -27,6 +27,7 @@ import { CardPetComponent } from './components/paginaMascotas/card-pet/card-pet.
 import { PetComponent } from './components/paginaMascotas/pet/pet.component';
 import { SpeciesComponent } from './components/paginaEspecie/species/species.component';
 import { CardSpeciesComponent } from './components/paginaEspecie/card-species/card-species.component';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -58,6 +59,7 @@ import { CardSpeciesComponent } from './components/paginaEspecie/card-species/ca
     FormsModule,
     AgChartsModule,
     NgbModule,
+    NgbDropdownModule
   ],
   providers: [
     provideAnimationsAsync(),

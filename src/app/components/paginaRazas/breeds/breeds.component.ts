@@ -25,7 +25,7 @@ export class BreedsComponent {
   guardarRaza(modalRef: any) {
     if (!this.nuevaRaza.nombre) return;
 
-    this.breedsService.guardarRaza(this.nuevaRaza.nombre).subscribe({
+    this.breedsService.addRaza(this.nuevaRaza.nombre).subscribe({
       next: (raza: Breed) => {
         this.nuevaRaza.nombre = '';
         modalRef.close();
