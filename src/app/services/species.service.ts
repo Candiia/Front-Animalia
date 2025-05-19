@@ -19,4 +19,17 @@ export class SpeciesService {
       }
     });
   }
+
+  addEspecie(nuevaEspecie: string): Observable<any> {
+    return this.http.post(`${environment.apiBaseUrl}/especie`, {
+      nombre: nuevaEspecie
+    },
+      {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json',
+        }
+      }
+    );
+  }
 }
