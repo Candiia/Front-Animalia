@@ -11,8 +11,11 @@
                     }
                 </div>
             </div>
-            <div class="position-absolute end-0 me-3">
-                <i class="bi bi-three-dots"></i>
+            <div class="position-absolute end-0 me-3" ngbDropdown>
+                <button class="btn btn-link text-dark p-0" ngbDropdownToggle></button>
+                <div ngbDropdownMenu>
+                    <button class="dropdown-item text-danger" (click)="abrirModalDeEliminar(user)">Eliminar</button>
+                </div>
             </div>
             <p class=" text-center ">{{user.username}}</p>
 
@@ -51,3 +54,19 @@
     [pageSize]="tamanioPagina"
     (pageChange)="onPage($event)">
 </ngb-pagination>
+
+<ng-template #confirmDeleteModal let-modal>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title text-danger">Confirmar Eliminación</h5>
+            <button type="button" class="btn-close" (click)="modal.dismiss()" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+            <p>¿Estás seguro que quieres eliminar el usuario <strong>{{userEnEliminacion?.username}}</strong>?</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Cancelar</button>
+            <button type="button" class="btn btn-danger" (click)="confirmarEliminar()">Eliminar</button>
+        </div>
+    </div>
+</ng-template>
