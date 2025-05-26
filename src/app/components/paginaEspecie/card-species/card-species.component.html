@@ -1,21 +1,63 @@
- <div class="d-flex flex-wrap gap-3 justify-content-between ms-3">
+<div class="row ms-3 g-3 mb-3">
     @for (especie of especies; track especie.id) {
-    <div class="card mt-3">
-        <div class="card-body">
-            <div class="position-absolute end-0 me-3">
-                <i class="bi bi-three-dots"></i>
+    <div class="col-12 col-sm-3 col-md-3 col-lg-3 col-xl-2">
+        <div class="card">
+            <div class="card-body position-relative">
+                <div class="position-absolute end-0 me-3">
+                    <i class="bi bi-three-dots"></i>
+                </div>
+                <p class="mt-3 text-center">{{especie.nombre}}</p>
             </div>
-            <p class="mt-3 text-center">{{especie.nombre}}</p>
         </div>
     </div>
     }
 </div>
 
-<ngb-pagination
-    class="d-flex justify-content-center mt-5"
+<ngb-pagination class="d-flex justify-content-center margenTop"
     [collectionSize]="elementosEncontrados"
     [(page)]="page"
     [boundaryLinks]="true"
     [pageSize]="tamanioPagina"
     (pageChange)="onPage($event)">
 </ngb-pagination>
+
+<ng-template #editBreedModal let-modal>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Editar Raza</h5>
+            <button type="button" class="btn-close" (click)="modal.dismiss()" aria-label="Cerrar"></button>
+        </div>
+
+        <div class="modal-body">
+            <form (ngSubmit)="editarEspecie(modal)">
+                <div class="mb-3">
+                    <label for="editBreedName" class="form-label">Nombre</label>
+                    <input
+                        type="text"
+                        id="editBreedName"
+                        [(ngModel)]="espcieEnEdicion.nombre"
+                        name="nombre"
+                        class="form-control"
+                        required>
+                </div>
+                <button type="submit" class="btn btn-dark">Guardar</button>
+            </form>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #confirmDeleteModal let-modal>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title text-danger">Confirmar Eliminación</h5>
+            <button type="button" class="btn-close" (click)="modal.dismiss()" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+            <p>¿Estás seguro que quieres eliminar la especie <strong>{{especieEnEliminacion?.nombre}}</strong>?</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Cancelar</button>
+            <button type="button" class="btn btn-danger" (click)="confirmarEliminar(modal)">Eliminar</button>
+        </div>
+    </div>
+</ng-template>

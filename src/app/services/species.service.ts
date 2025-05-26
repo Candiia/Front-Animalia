@@ -32,4 +32,26 @@ export class SpeciesService {
       }
     );
   }
+
+  editEspecie(id: string, nombre: string): Observable<any> {
+    return this.http.put(`${environment.apiBaseUrl}/especie/${id}`,
+      { nombre },
+      {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json',
+        }
+      }
+    );
+  }
+
+
+  eliminarEspecie(id: string): Observable<void> {
+    return this.http.delete<void>(`${environment.apiBaseUrl}/especie/${id}`, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      }
+    });
+  }
 }

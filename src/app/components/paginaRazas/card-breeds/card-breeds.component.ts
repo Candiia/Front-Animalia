@@ -18,6 +18,8 @@ export class CardBreedsComponent {
   elementosEncontrados = 0;
   tamanioPagina = 20;
   @ViewChild('editBreedModal') editBreedModal!: TemplateRef<any>;
+  @ViewChild('confirmDeleteModal') confirmDeleteModal!: TemplateRef<any>;
+  razaEnEliminacion: Breed | null = null;
   private modalRef?: NgbModalRef;
 
   ngOnInit(): void {
@@ -61,7 +63,25 @@ export class CardBreedsComponent {
       }
     });
   }
-  eliminar(raza: any) {
+
+
+  abrirModalDeEliminar(raza: Breed) {
+    this.razaEnEliminacion = raza;
+    this.modalRef = this.modalService.open(this.confirmDeleteModal, { centered: true, backdrop: 'static' });
+  }
+
+  confirmarEliminar(modal: any) {
+    if (!this.razaEnEliminacion) return;
+
+    this.breedsService.eliminarRaza(this.razaEnEliminacion.id).subscribe({
+      next: () => {
+        modal.close();
+        this.obtenerListado();
+      },
+      error: err => {
+        console.error('Error eliminando raza', err);
+      }
+    });
   }
 
 

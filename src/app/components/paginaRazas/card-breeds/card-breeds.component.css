@@ -1,5 +1,7 @@
 .card {
-    width: 350px;
+    width: 100%;
+    max-width: 350px;
+    height: 90px;
     background: transparent;
     border: 1px solid rgba(0, 0, 0, 0.3);
     color: rgba(0, 0, 0, 0.7);
@@ -53,4 +55,12 @@ ngb-pagination {
     transform: translateX(-50%);
     z-index: 1000;
     font-family: "jura";
+}
+
+
+@media (max-width: 1200px) and (min-width: 992px) {
+    .card {
+        transform: scale(0.85);
+        transition: transform 0.3s ease;
+    }
 }

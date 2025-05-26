@@ -46,4 +46,14 @@ export class BreedsService {
     );
   }
 
+
+  eliminarRaza(id: string): Observable<void> {
+    return this.http.delete<void>(`${environment.apiBaseUrl}/raza/${id}`, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      }
+    });
+  }
+
 }

@@ -1,19 +1,22 @@
-<div class="d-flex flex-wrap gap-3 justify-content-start justify-content-md-between ms-3 me-3">
+<div class="row ms-3 g-3">
     @for (raza of razas; track raza.id) {
-    <div class="card mt-3 flex-grow-1" style="min-width: 300px; max-width: 350px;">
-        <div class="card-body position-relative">
-            <div class="position-absolute end-0 me-3" ngbDropdown>
-                <button class="btn btn-link text-dark p-0" ngbDropdownToggle></button>
-                <div ngbDropdownMenu>
-                    <button class="dropdown-item" (click)="abrirModalEdicion(raza)">Editar</button>
-                    <button class="dropdown-item text-danger" (click)="eliminar(raza)">Eliminar</button>
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+        <div class="card">
+            <div class="card-body position-relative">
+                <div class="position-absolute end-0 me-3" ngbDropdown>
+                    <button class="btn btn-link text-dark p-0" ngbDropdownToggle></button>
+                    <div ngbDropdownMenu>
+                        <button class="dropdown-item" (click)="abrirModalEdicion(raza)">Editar</button>
+                        <button class="dropdown-item text-danger" (click)="abrirModalDeEliminar(raza)">Eliminar</button>
+                    </div>
                 </div>
+                <p class="mt-3 text-center">{{raza.nombre}}</p>
             </div>
-            <p class="mt-3 text-center">{{raza.nombre}}</p>
         </div>
     </div>
     }
 </div>
+
 
 <ngb-pagination
     class="d-flex justify-content-center mt-5"
@@ -45,6 +48,22 @@
                 </div>
                 <button type="submit" class="btn btn-dark">Guardar</button>
             </form>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #confirmDeleteModal let-modal>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title text-danger">Confirmar Eliminación</h5>
+            <button type="button" class="btn-close" (click)="modal.dismiss()" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+            <p>¿Estás seguro que quieres eliminar la raza <strong>{{razaEnEliminacion?.nombre}}</strong>?</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Cancelar</button>
+            <button type="button" class="btn btn-danger" (click)="confirmarEliminar(modal)">Eliminar</button>
         </div>
     </div>
 </ng-template>

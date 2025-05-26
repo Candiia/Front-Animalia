@@ -7,10 +7,6 @@ h3 {
     src: url(../../../../../public/assets/fonts/Jura/static/Jura-SemiBold.ttf);
 }
 
-.marginDe {
-    margin-top: 90px;
-}
-
 
 .bi-plus-circle-fill {
     font-size: 30pt;
@@ -22,11 +18,7 @@ h3 {
     transform: scale(1.1);
 }
 
-.marginDe {
-    margin-top: 90px;
-}
-
-.modal-content.card {
+w .modal-content.card {
     border-radius: 20px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     border: none;
