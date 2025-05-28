@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { PetService } from '../../../services/pet.service';
 import { MascotaList, PetListsResponse } from '../../../../models/pet-list.interfaces';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-card-pet',
@@ -9,13 +10,15 @@ import { MascotaList, PetListsResponse } from '../../../../models/pet-list.inter
 })
 export class CardPetComponent {
 
-  constructor(private petService: PetService) { }
+  constructor(private petService: PetService, private modalService: NgbModal) { }
 
   mascotas: MascotaList[] = [];
   page = 1;
   elementosEncontrados = 0;
   tamanioPagina = 3;
-
+  mascotaEnEliminacion: MascotaList | null = null;
+  @ViewChild('confirmDeleteModal', { static: true }) confirmarEliminarTemplate!: TemplateRef<any>;
+  private modalRef?: NgbModalRef;
 
   ngOnInit(): void {
     this.obtenerListado();
@@ -48,6 +51,29 @@ export class CardPetComponent {
     } else {
       return "http://localhost:8080/download/" + mascota.avatar;
     }
+  }
+
+  abrirModalDeEliminar(mascota: MascotaList) {
+    this.mascotaEnEliminacion = mascota;
+    this.modalRef = this.modalService.open(this.confirmarEliminarTemplate, {
+      centered: true,
+      backdrop: 'static'
+    });
+  }
+
+
+  confirmarEliminar(): void {
+    if (!this.mascotaEnEliminacion || !this.modalRef) return;
+
+    this.petService.eliminarPet(this.mascotaEnEliminacion.id).subscribe({
+      next: () => {
+        this.modalRef?.close();
+        this.obtenerListado();
+      },
+      error: err => {
+        console.error('Error eliminando a la mascota', err);
+      }
+    });
   }
 
 

@@ -19,4 +19,14 @@ export class PetService {
       }
     });
   }
+
+  eliminarPet(id: string): Observable<void> {
+    return this.http.delete<void>(`${environment.apiBaseUrl}/mascota/${id}`, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      }
+    });
+  }
+
 }

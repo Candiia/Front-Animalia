@@ -7,7 +7,7 @@
                     <button class="btn btn-link text-dark p-0" ngbDropdownToggle></button>
                     <div ngbDropdownMenu>
                         <button class="dropdown-item">Editar</button>
-                        <button class="dropdown-item text-danger">Eliminar</button>
+                        <button class="dropdown-item text-danger" (click)="abrirModalDeEliminar(mascota)">Eliminar</button>
                     </div>
                 </div>
             </div>
@@ -40,3 +40,19 @@
     [pageSize]="tamanioPagina"
     (pageChange)="onPage($event)">
 </ngb-pagination>
+
+<ng-template #confirmDeleteModal let-modal>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title text-danger">Confirmar Eliminación</h5>
+            <button type="button" class="btn-close" (click)="modal.dismiss()" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+            <p>¿Estás seguro que quieres eliminar la mascota <strong>{{mascotaEnEliminacion?.nombre}}</strong>?</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Cancelar</button>
+            <button type="button" class="btn btn-danger" (click)="confirmarEliminar()">Eliminar</button>
+        </div>
+    </div>
+</ng-template>
