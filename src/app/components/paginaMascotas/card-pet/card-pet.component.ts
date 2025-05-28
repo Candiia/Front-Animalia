@@ -14,7 +14,7 @@ export class CardPetComponent {
   mascotas: MascotaList[] = [];
   page = 1;
   elementosEncontrados = 0;
-  tamanioPagina = 20;
+  tamanioPagina = 3;
 
 
   ngOnInit(): void {

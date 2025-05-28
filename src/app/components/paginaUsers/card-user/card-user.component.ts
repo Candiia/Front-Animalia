@@ -19,7 +19,20 @@ export class CardUserComponent {
   tamanioPagina = 20;
   userEnEliminacion: UserList | null = null;
   @ViewChild('confirmDeleteModal', { static: true }) confirmarEliminarTemplate!: TemplateRef<any>;
+  @ViewChild('editUserModal') editUserModal!: TemplateRef<any>;
+
   private modalRef?: NgbModalRef;
+  userEnEdicion: UserList = {
+    id: '00000000-0000-0000-0000-000000000000',
+    username: '',
+    email: '',
+    fechaRegistro: '',
+    roles: [],
+    enable: false,
+    mascotaDTOList: [],
+    password: '',
+    verifyPassword: ''
+  };
 
 
   ngOnInit(): void {
@@ -67,6 +80,23 @@ export class CardUserComponent {
       },
       error: err => {
         console.error('Error eliminando un usuario', err);
+      }
+    });
+  }
+
+  abrirModalEdicion(user: UserList) {
+    this.userEnEdicion = { ...user };
+    this.modalRef = this.modalService.open(this.editUserModal, { centered: true, backdrop: 'static' });
+  }
+
+  editarUsuario(modal: any) {
+    this.userServices.editUser(this.userEnEdicion.id, this.userEnEdicion.email, this.userEnEdicion.password, this.userEnEdicion.verifyPassword).subscribe({
+      next: () => {
+        modal.close();
+        this.obtenerListado();
+      },
+      error: err => {
+        console.error('Error editando usuario', err);
       }
     });
   }

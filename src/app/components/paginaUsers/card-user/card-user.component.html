@@ -1,6 +1,6 @@
- <div class="d-flex flex-wrap gap-3 justify-content-between ms-3">
+ <div class="d-flex flex-wrap gap-3 justify-content-start ms-3">
     @for (user of users; track user.id) {
-    <div class="card mt-3">
+    <div class="card mt-3 me-4">
         <div class="card-body">
             <div class="position-absolute  me-3">
                 <div class="position-absolute me-3">
@@ -14,6 +14,7 @@
             <div class="position-absolute end-0 me-3" ngbDropdown>
                 <button class="btn btn-link text-dark p-0" ngbDropdownToggle></button>
                 <div ngbDropdownMenu>
+                    <button class="dropdown-item" (click)="abrirModalEdicion(user)">Editar</button>
                     <button class="dropdown-item text-danger" (click)="abrirModalDeEliminar(user)">Eliminar</button>
                 </div>
             </div>
@@ -54,6 +55,47 @@
     [pageSize]="tamanioPagina"
     (pageChange)="onPage($event)">
 </ngb-pagination>
+
+<ng-template #editUserModal let-modal>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Editar Usuario</h5>
+            <button type="button" class="btn-close" (click)="modal.dismiss()" aria-label="Cerrar"></button>
+        </div>
+
+        <div class="modal-body">
+            <form (ngSubmit)="editarUsuario(modal)">
+                <div class="mb-3">
+                    <label for="editBreedName" class="form-label">Email</label>
+                    <input
+                        type="email"
+                        id="edituserEmail"
+                        [(ngModel)]="userEnEdicion.email"
+                        name="editUserEmail"
+                        class="form-control"
+                        required>
+                    <label for="editBreedName" class="form-label">Contraseña</label>
+                    <input
+                        type="password"
+                        id="editUserPass"
+                        [(ngModel)]="userEnEdicion.password"
+                        name="password"
+                        class="form-control"
+                        required>
+                    <label for="editUserPass" class="form-label">Verificar contraseña</label>
+                    <input
+                        type="password"
+                        id="editUserVerifyPass"
+                        [(ngModel)]="userEnEdicion.verifyPassword"
+                        name="editUserVerifyPass"
+                        class="form-control"
+                        required>
+                </div>
+                <button type="submit" class="btn btn-dark">Guardar</button>
+            </form>
+        </div>
+    </div>
+</ng-template>
 
 <ng-template #confirmDeleteModal let-modal>
     <div class="modal-content">

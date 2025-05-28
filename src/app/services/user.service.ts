@@ -29,4 +29,37 @@ export class UserService {
       }
     });
   }
+
+  addUser(username: string, password: string, verifyPassword: string, email: string): Observable<any> {
+    return this.http.post(`${environment.apiBaseUrl}/usuario/register`, {
+      username,
+      password,
+      verifyPassword,
+      email
+    },
+      {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json',
+        }
+      }
+    );
+  }
+
+
+  editUser(id: string, email: string, password: string, verifyPassword: string,): Observable<any> {
+    return this.http.put(`${environment.apiBaseUrl}/usuario/${id}`,
+      {
+        email,
+        password,
+        verifyPassword
+      },
+      {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json',
+        }
+      }
+    );
+  }
 }

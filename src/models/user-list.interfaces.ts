@@ -14,6 +14,8 @@ export interface UserList {
   roles: string[]
   enable: boolean
   mascotaDTOList: MascotaDtolist[]
+  password: string
+  verifyPassword: string
 }
 
 export interface MascotaDtolist {

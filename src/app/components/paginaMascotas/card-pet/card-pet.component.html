@@ -1,12 +1,33 @@
- <div class="d-flex flex-wrap gap-3 justify-content-between ms-3">
+<div class="d-flex flex-wrap gap-3 justify-content-start ms-3">
     @for (mascota of mascotas; track mascota.id) {
-    <div class="card mt-3">
+    <div class="card mt-3 me-4">
         <div class="card-body">
-            <img
-                [src]="getAvatarUrl(mascota)"
-                alt="{{ mascota.nombre }}"
-                style="max-width: 100px; height: auto;">
+            <div>
+                <div class="position-absolute end-0 me-3" ngbDropdown>
+                    <button class="btn btn-link text-dark p-0" ngbDropdownToggle></button>
+                    <div ngbDropdownMenu>
+                        <button class="dropdown-item">Editar</button>
+                        <button class="dropdown-item text-danger">Eliminar</button>
+                    </div>
+                </div>
+            </div>
+            <p class="text-center fw-bold">{{ mascota.nombre }}</p>
+
+            <div class="d-flex flex-row align-items-start">
+                <div class="me-3">
+                    <img
+                        [src]="getAvatarUrl(mascota)"
+                        alt="{{ mascota.nombre }}"
+                        style="max-width: 100px; height: auto;">
+                </div>
+                <div class="textMascotass">
+                    <p>Usuario: {{ mascota.userDTO.username }}</p>
+                    <p class="mb-1">Fecha Nac:</p>
+                    <p> {{ mascota.fechaNacimiento | date: 'dd/MM/yyyy' }}</p>
+                </div>
+            </div>
         </div>
+
     </div>
     }
 </div>

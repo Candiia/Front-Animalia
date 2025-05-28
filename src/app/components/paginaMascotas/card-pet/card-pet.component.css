@@ -1,6 +1,6 @@
 .card {
     width: 350px;
-    height: 150px;
+    height: 180px;
     background: transparent;
     border: 1px solid rgba(0, 0, 0, 0.3);
     color: rgba(0, 0, 0, 0.7);
@@ -15,21 +15,32 @@
     font-size: 13pt;
 }
 
-.toggle-enabled {
-    color: rgb(38, 184, 82);
-}
-
-.toggle-disabled {
-    color: rgb(184, 38, 38);
-
-}
-
 .card:hover {
     background: rgba(0, 0, 0, 0.15);
     color: black !important;
     transform: scale(1.02);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
+
+.card .dropdown-menu {
+    background-color: #fff !important;
+    color: #000 !important;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1050;
+    opacity: 1 !important;
+    backdrop-filter: none !important;
+    background-image: none !important;
+}
+
+.card:hover .dropdown-menu {
+    background-color: #fff !important;
+    color: #000 !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    opacity: 1 !important;
+}
+
 
 @font-face {
     font-family: "jura";

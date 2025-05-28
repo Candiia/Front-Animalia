@@ -16,12 +16,11 @@
 }
 
 .toggle-enabled {
-    color: rgb(38, 184, 82);
+    color: rgb(67, 230, 116);
 }
 
 .toggle-disabled {
-    color: rgb(184, 38, 38);
-
+    color: rgb(238, 40, 40);
 }
 
 .card:hover {
@@ -31,10 +30,30 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-    @font-face {
-        font-family: "jura";
-        src: url(../../../../../public/assets/fonts/Jura/static/Jura-SemiBold.ttf);
-    }
+.card .dropdown-menu {
+    background-color: #fff !important;
+    color: #000 !important;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1050;
+    opacity: 1 !important;
+    backdrop-filter: none !important;
+    background-image: none !important;
+}
+
+.card:hover .dropdown-menu {
+    background-color: #fff !important;
+    color: #000 !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    opacity: 1 !important;
+}
+
+
+@font-face {
+    font-family: "jura";
+    src: url(../../../../../public/assets/fonts/Jura/static/Jura-SemiBold.ttf);
+}
 
 ngb-pagination ::ng-deep .page-link {
     background: transparent;

@@ -7,9 +7,34 @@ h3 {
     src: url(../../../../../public/assets/fonts/Jura/static/Jura-SemiBold.ttf);
 }
 
-
 .bi-plus-circle-fill {
     font-size: 30pt;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.bi-plus-circle-fill:hover {
+    transform: scale(1.1);
+}
+
+.modal-content.card {
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    border: none;
+    font-family: "jura";
+    background-color: #ffffff;
+}
+
+.modal-header {
+    border-bottom: none;
+    font-family: "jura";
+}
+
+button.btn-dark {
+    border-radius: 8px;
+    padding: 6px 16px;
+    font-weight: 600;
+    font-family: "jura";
 }
 
 .marginDe {
