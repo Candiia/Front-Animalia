@@ -6,7 +6,7 @@
                 <div class="position-absolute end-0 me-3" ngbDropdown>
                     <button class="btn btn-link text-dark p-0" ngbDropdownToggle></button>
                     <div ngbDropdownMenu>
-                        <button class="dropdown-item">Editar</button>
+                        <button class="dropdown-item" (click)="abrirModalEdicion(mascota)">Editar</button>
                         <button class="dropdown-item text-danger" (click)="abrirModalDeEliminar(mascota)">Eliminar</button>
                     </div>
                 </div>
@@ -53,6 +53,112 @@
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Cancelar</button>
             <button type="button" class="btn btn-danger" (click)="confirmarEliminar()">Eliminar</button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #editPetModal let-modal>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Editar Mascota</h5>
+            <button type="button" class="btn-close" (click)="modal.dismiss()" aria-label="Cerrar"></button>
+        </div>
+
+        <div class="modal-body">
+            <form #editPetForm="ngForm" (ngSubmit)="editarMascota(modal)" enctype="multipart/form-data" novalidate>
+                <div class="mb-3">
+                    <label for="editPetName" class="form-label">Nombre</label>
+                    <input
+                        type="text"
+                        id="editPetName"
+                        [(ngModel)]="petEnEdicion.nombre"
+                        name="nombre"
+                        class="form-control"
+                        required
+                        #nombre="ngModel" />
+                    <div *ngIf="nombre.invalid && nombre.touched" class="text-danger">El nombre es obligatorio.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="editPetBirth" class="form-label">Fecha de nacimiento</label>
+                    <input
+                        type="date"
+                        id="editPetBirth"
+                        [(ngModel)]="petEnEdicion.fechaNacimiento"
+                        name="fechaNacimiento"
+                        class="form-control"
+                        required
+                        #fechaNacimiento="ngModel" />
+                    <div *ngIf="fechaNacimiento.invalid && fechaNacimiento.touched" class="text-danger">La fecha es
+                        obligatoria.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="editPetBio" class="form-label">Biografía</label>
+                    <textarea
+                        id="editPetBio"
+                        [(ngModel)]="petEnEdicion.biografia"
+                        name="biografia"
+                        class="form-control"
+                        rows="3"
+                        required
+                        #biografia="ngModel"></textarea>
+                    <div *ngIf="biografia.invalid && biografia.touched" class="text-danger">La biografía es obligatoria.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="editPetRaza" class="form-label">Raza</label>
+                    <select
+                        id="editPetRaza"
+                        [(ngModel)]="petEnEdicion.raza.id"
+                        name="razaId"
+                        class="form-select"
+                        required
+                        #razaId="ngModel">
+                        <option [ngValue]="null" disabled>Seleccione raza</option>
+                        <option *ngFor="let raza of listaRazas" [value]="raza.id">{{ raza.nombre }}</option>
+                    </select>
+                    <div *ngIf="razaId.invalid && razaId.touched" class="text-danger">La raza es obligatoria.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="editPetEspecie" class="form-label">Especie</label>
+                    <select
+                        id="editPetEspecie"
+                        [(ngModel)]="petEnEdicion.especie.id"
+                        name="especieId"
+                        class="form-select"
+                        required
+                        #especieId="ngModel">
+                        <option [ngValue]="null" disabled>Seleccione especie</option>
+                        <option *ngFor="let especie of listaEspecies" [value]="especie.id">{{ especie.nombre }}</option>
+                    </select>
+                    <div *ngIf="especieId.invalid && especieId.touched" class="text-danger">La especie es obligatoria.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Avatar actual</label>
+                    <div>
+                        <img
+                            *ngIf="petEnEdicion.avatar"
+                            [src]="getAvatarUrl(petEnEdicion)"
+                            alt="Avatar de {{petEnEdicion.nombre}}"
+                            style="max-width: 150px; max-height: 150px; object-fit: contain;" />
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="editPetAvatar" class="form-label">Cambiar Avatar</label>
+                    <input
+                        type="file"
+                        id="editPetAvatar"
+                        (change)="onFileSelected($event)"
+                        accept="image/*"
+                        class="form-control" />
+                </div>
+
+                <button type="submit" class="btn btn-dark" [disabled]="editPetForm.invalid">Guardar</button>
+            </form>
         </div>
     </div>
 </ng-template>

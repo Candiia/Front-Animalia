@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PetListsResponse } from '../../models/pet-list.interfaces';
 import { environment } from '../../environments/environment';
+import e from 'express';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +26,24 @@ export class PetService {
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
         'Content-Type': 'application/json',
+      }
+    });
+  }
+
+
+  editPet(id: string, petData: any, file: File | null): Observable<any> {
+    const url = `${environment.apiBaseUrl}/mascota/admin/${id}`;
+    const formData = new FormData();
+    formData.append('post', new Blob([JSON.stringify(petData)], { type: 'application/json' }));
+    if (file) {
+      formData.append('file', file, file.name);
+    } else {
+      formData.append('file', new Blob([], { type: 'application/octet-stream' }), 'empty.txt');
+    }
+    return this.http.put(url, formData, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+
       }
     });
   }
