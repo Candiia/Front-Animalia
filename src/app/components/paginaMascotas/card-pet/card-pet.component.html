@@ -16,7 +16,7 @@
             <div class="d-flex flex-row align-items-start">
                 <div class="me-3">
                     <img
-                        [src]="getAvatarUrl(mascota)"
+                        [src]="getImage(mascota.avatar)"
                         alt="{{ mascota.nombre }}"
                         style="max-width: 100px; height: auto;">
                 </div>
@@ -141,7 +141,7 @@
                     <div>
                         <img
                             *ngIf="petEnEdicion.avatar"
-                            [src]="getAvatarUrl(petEnEdicion)"
+                            [src]="getImage(petEnEdicion.avatar)"
                             alt="Avatar de {{petEnEdicion.nombre}}"
                             style="max-width: 150px; max-height: 150px; object-fit: contain;" />
                     </div>

@@ -111,12 +111,18 @@ export class CardPetComponent {
     this.obtenerListado();
   }
 
-  getAvatarUrl(mascota: MascotaList): string {
-    if (mascota.avatar) {
-      return mascota.avatar;
-    } else {
-      return "http://localhost:8080/download/" + mascota.avatar;
+  getImage(url: string | undefined | null): string {
+    const prefix = "http://localhost:8080/download/";
+    if (!url) {
+      return '';
     }
+    if (url.startsWith(prefix) && url.includes("http", prefix.length)) {
+      return url.substring(prefix.length);
+    }
+    if (!url.startsWith(prefix) && !url.startsWith("http")) {
+      return prefix + url;
+    }
+    return url;
   }
 
   abrirModalDeEliminar(mascota: MascotaList) {

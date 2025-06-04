@@ -11,6 +11,7 @@ import { UserComponent } from './components/paginaUsers/user/user.component';
 import { PetComponent } from './components/paginaMascotas/pet/pet.component';
 import { SpeciesComponent } from './components/paginaEspecie/species/species.component';
 import { DetailUserComponent } from './components/paginaDetailUser/detail-user/detail-user.component';
+import { DetailPublicacionComponent } from './components/paginaPublicacion/detail-publicacion/detail-publicacion.component';
 
 const routes: Routes = [
 
@@ -25,6 +26,7 @@ const routes: Routes = [
   { path: 'not-found', component: PageNotFoundComponent },
   { path: 'login', component: LoginComponent },
   { path: 'detailUser/:id', component: DetailUserComponent },
+  { path: 'detailPublicacion/:id', component: DetailPublicacionComponent },
   { path: '', redirectTo: '/login', pathMatch: 'full' }
 ];
 

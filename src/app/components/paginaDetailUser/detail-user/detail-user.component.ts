@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../services/user.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MascotaDtolist, PublicacionDtos, UserDetailResponse } from '../../../../models/detail-user.interfaces';
 
 @Component({
@@ -19,7 +19,7 @@ export class DetailUserComponent implements OnInit {
   public pageMascota: number = 1;
   public tamanioPaginaMascota: number = 4;
   public elementosEncontradosMascota: number = 0;
-  constructor(private route: ActivatedRoute, private userService: UserService) { }
+  constructor(private route: ActivatedRoute, private userService: UserService, private router: Router) { }
 
   ngOnInit() {
     this.userId = this.route.snapshot.paramMap.get('id')!;
@@ -72,12 +72,18 @@ export class DetailUserComponent implements OnInit {
     return pub.id;
   }
 
-  getPublicacionUrl(publicacion: PublicacionDtos): string {
-    if (publicacion.imageURL) {
-      return publicacion.imageURL;
-    } else {
-      return "http://localhost:8080/download/" + publicacion.imageURL;
+  getImage(url: string | undefined | null): string {
+    const prefix = "http://localhost:8080/download/";
+    if (!url) {
+      return '';
     }
+    if (url.startsWith(prefix) && url.includes("http", prefix.length)) {
+      return url.substring(prefix.length);
+    }
+    if (!url.startsWith(prefix) && !url.startsWith("http")) {
+      return prefix + url;
+    }
+    return url;
   }
 
   get publicacionesPaginadas() {
@@ -89,6 +95,10 @@ export class DetailUserComponent implements OnInit {
 
   onPagePubli(event: number): void {
     this.pagePubli = event;
+  }
+
+  irADetallePublicacion(id: string) {
+    this.router.navigate(['/detailPublicacion', id]);
   }
 
 }
