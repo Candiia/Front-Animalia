@@ -1,0 +1,95 @@
+<div class="layout">
+    <app-nav class="colorFondo ancho"></app-nav>
+    <main>
+        <app-card-user-line class="me-3 position-absolute end-0"></app-card-user-line>
+        <div class="card position-relative marginDe" #cardContainer>
+            <div class="d-flex justify-content-between align-items-center px-3 pt-2">
+                <h5 class="mb-2">{{ '@' + publicacion?.usename?.username }}</h5>
+                <p class="mb-0 text-muted" style="font-size: 0.9rem;">{{publicacion?.fechaRegistro}}</p>
+            </div>
+
+            <div *ngIf="mostrarComentarios" class="overlay-comentarios" (click)="$event.stopPropagation()">
+                <div *ngFor="let comentario of publicacion?.comentarioDTOList">
+                    <p class="mb-1">
+                        <strong>{{comentario.userDTO.username}}</strong>: {{comentario.texto}}
+                    </p>
+                    <hr class="my-1">
+                </div>
+                <button (click)="toggleComentarios()" class="btn btn-sm btn-secondary w-100 mt-2">
+                    Cerrar comentarios
+                </button>
+            </div>
+
+            <img *ngIf="publicacion"
+                [src]="getImage(publicacion.imageURL)"
+                [ngClass]="{'img-card': true, 'img-opaca': mostrarComentarios}"
+                alt="Publicación de la mascota" />
+
+            <div class="card-body">
+                <p class="card-text">{{publicacion?.descripcion}}</p>
+
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <i class="bi bi-heart-fill"></i> {{publicacion?.numeroLikes}}
+                    </div>
+                    <div class="d-flex align-items-center" style="cursor: pointer;" (click)="toggleComentarios()">
+                        <i class="bi bi-chat-dots-fill me-1"></i> {{publicacion?.numeroComentarios}}
+                    </div>
+                </div>
+            </div>
+
+            <div
+                *ngIf="mostrarComentarios"
+                class="overlay-comentarios p-3 rounded shadow-sm bg-white">
+                <button
+                    type="button"
+                    class="btn-close position-absolute top-0 end-0 me-3 mt-1"
+                    aria-label="Cerrar"
+                    (click)="toggleComentarios()"></button>
+
+                <div
+                    [ngClass]="{'comentarios-scroll': tieneMuchosComentarios()}" class="mt-4">
+                    <div
+                        *ngFor="let comentario of publicacion?.comentarioDTOList"
+                        class="d-flex justify-content-between align-items-center mb-2">
+                        <div class="mb-4">
+                            <p class="tamayousrname">{{'@' + comentario.userDTO.username}}</p>
+                            <p>{{comentario.texto}}</p>
+                        </div>
+                        <div
+                            class="btn-group btn-group-sm"
+                            role="group"
+                            aria-label="Acciones comentario">
+                            <button class="btn" title="Editar comentario" (click)="editarComentario()">
+                                <i class="bi bi-pen-fill fs-5"></i>
+                            </button>
+                            <button
+                                class="btn text-danger"
+                                title="Eliminar comentario"
+                                (click)="eliminarComentario()">
+                                <i class="bi bi-trash-fill fs-5"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <hr />
+
+                <form (submit)="agregarComentario()">
+                    <div class="input-group">
+                        <input
+                            [(ngModel)]="nuevoComentario"
+                            name="nuevoComentario"
+                            type="text"
+                            class="form-control"
+                            placeholder="Escribe un comentario..."
+                            required />
+                        <button class="btn btn-dark" type="submit">Enviar</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+    </main>
+</div>

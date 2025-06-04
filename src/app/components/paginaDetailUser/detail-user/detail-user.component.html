@@ -28,7 +28,7 @@
                     <p class="text-center fw-bold">{{ mascota.nombre }}</p>
                     <div class="d-flex flex-row align-items-start">
                         <div class="me-3">
-                            <img [src]="getAvatarUrl(mascota)" alt="{{ mascota.nombre }}" class="img-card">
+                            <img [src]="getImage(mascota.avatar)" alt="{{ mascota.nombre }}" class="img-card">
 
                         </div>
                         <div class="textMascotas">
@@ -63,12 +63,13 @@
         <div *ngIf="mostrarPublicaciones && publicacionesPaginadas.length > 0"
             class="d-flex flex-wrap gap-3 justify-content-start ms-3">
             <div class="card mt-3 me-4"
-                *ngFor="let publicacion of publicacionesPaginadas; trackBy: trackByPublicacionId">
+                *ngFor="let publicacion of publicacionesPaginadas; trackBy: trackByPublicacionId"
+                (click)="irADetallePublicacion(publicacion.id)">
                 <div class="card-body">
 
                     <div class="d-flex flex-row align-items-start mt-4">
                         <div class="me-3">
-                            <img [src]="getPublicacionUrl(publicacion)" alt="Publicación de la mascota" class="img-card">
+                            <img [src]="getImage(publicacion.imageURL)" alt="Publicación de la mascota" class="img-card">
                         </div>
                         <div class="textMascotas me-3">
                             <p>
