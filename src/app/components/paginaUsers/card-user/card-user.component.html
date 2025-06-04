@@ -1,6 +1,6 @@
  <div class="d-flex flex-wrap gap-3 justify-content-start ms-3">
     @for (user of users; track user.id) {
-    <div class="card mt-3 me-4">
+    <div class="card mt-3 me-4" [routerLink]="['/detailUser', user.id]" style="cursor: pointer;">
         <div class="card-body">
             <div class="position-absolute  me-3">
                 <div class="position-absolute me-3">
@@ -12,11 +12,13 @@
                 </div>
             </div>
             <div class="position-absolute end-0 me-3" ngbDropdown>
-                <button class="btn btn-link text-dark p-0" ngbDropdownToggle></button>
-                <div ngbDropdownMenu>
-                    <button class="dropdown-item" (click)="abrirModalEdicion(user)">Editar</button>
-                    <button class="dropdown-item text-danger" (click)="abrirModalDeEliminar(user)">Eliminar</button>
+                <button class="btn btn-link text-dark p-0" ngbDropdownToggle (click)="$event.stopPropagation()"></button>
+                <div ngbDropdownMenu (click)="$event.stopPropagation()">
+                    <button class="dropdown-item" (click)="abrirModalEdicion(user); $event.stopPropagation()">Editar</button>
+                    <button class="dropdown-item text-danger"
+                        (click)="abrirModalDeEliminar(user); $event.stopPropagation()">Eliminar</button>
                 </div>
+
             </div>
             <p class=" text-center ">{{user.username}}</p>
 

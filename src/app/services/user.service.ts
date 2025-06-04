@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { UserListsResponse } from '../../models/user-list.interfaces';
+import { UserList, UserListsResponse } from '../../models/user-list.interfaces';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import { UserDetailResponse } from '../../models/detail-user.interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -62,4 +63,14 @@ export class UserService {
       }
     );
   }
+
+  getUserById(id: string): Observable<UserDetailResponse> {
+    return this.http.get<UserDetailResponse>(`${environment.apiBaseUrl}/usuario/${id}`, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      }
+    });
+  }
+
 }

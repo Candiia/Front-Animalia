@@ -1,0 +1,103 @@
+<div class="layout">
+    <app-nav class="colorFondo ancho"></app-nav>
+    <main>
+        <app-card-user-line class="me-3 position-absolute end-0"></app-card-user-line>
+        <div class="d-flex marginDe">
+            <div class="card card-user-info w-100">
+                <h5 class="mb-3 mt-3 ms-4">Información del Usuario</h5>
+                <div class="d-flex justify-content-between ms-4 me-4 mt-3">
+                    <p><i class="bi bi-person-fill"></i> {{ userData?.username ?? 'No disponible' }}</p>
+                    <p><i class="bi bi-envelope"></i> {{ userData?.email ?? 'No disponible' }}</p>
+                    <p><i class="bi bi-calendar2-check-fill"></i> {{ userData?.fechaRegistro }}</p>
+                </div>
+
+            </div>
+        </div>
+        <div class="d-flex align-items-center ms-3 mt-3">
+            <h4>Mascotas</h4>
+        </div>
+
+        <div *ngIf="mostrarMascotas && mascotasPaginadas.length > 0"
+            class="d-flex flex-wrap gap-3 justify-content-start ms-3">
+            <div class="card mt-3 me-4"
+                *ngFor="let mascota of mascotasPaginadas; trackBy: trackByMascotaId">
+                <div class="card-body">
+                    <div class="position-absolute end-0 me-3" ngbDropdown>
+                        <button class="btn btn-link text-dark p-0" ngbDropdownToggle></button>
+                    </div>
+                    <p class="text-center fw-bold">{{ mascota.nombre }}</p>
+                    <div class="d-flex flex-row align-items-start">
+                        <div class="me-3">
+                            <img [src]="getAvatarUrl(mascota)" alt="{{ mascota.nombre }}" class="img-card">
+
+                        </div>
+                        <div class="textMascotas">
+                            <p> <i class="bi bi-cake2-fill"></i> {{ mascota.fechaNacimiento | date: 'dd/MM/yyyy' }}</p>
+                            <p><i class="fa-solid fa-fish"></i>{{ mascota.especie.nombre}}</p>
+                            <p>{{ mascota.raza.nombre }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="mostrarMascotas && userData?.mascotaDTOList?.length === 0" class="ms-3 mt-3">
+            <p class="text-muted">Este usuario no tiene mascotas registradas.</p>
+        </div>
+
+        <div *ngIf="mostrarMascotas && elementosEncontradosMascota > tamanioPaginaMascota" class="ms-3 mt-3 mb-3">
+            <ngb-pagination
+                class="d-flex justify-content-center"
+                [collectionSize]="elementosEncontradosMascota"
+                [(page)]="pageMascota"
+                [pageSize]="tamanioPaginaMascota"
+                [boundaryLinks]="true"
+                (pageChange)="onPageMascotas($event)">
+            </ngb-pagination>
+        </div>
+
+        <div class="d-flex align-items-center ms-3 margenPubli">
+            <h4>Publicaciones</h4>
+        </div>
+
+        <div *ngIf="mostrarPublicaciones && publicacionesPaginadas.length > 0"
+            class="d-flex flex-wrap gap-3 justify-content-start ms-3">
+            <div class="card mt-3 me-4"
+                *ngFor="let publicacion of publicacionesPaginadas; trackBy: trackByPublicacionId">
+                <div class="card-body">
+
+                    <div class="d-flex flex-row align-items-start mt-4">
+                        <div class="me-3">
+                            <img [src]="getPublicacionUrl(publicacion)" alt="Publicación de la mascota" class="img-card">
+                        </div>
+                        <div class="textMascotas me-3">
+                            <p>
+                                {{publicacion.descripcion.length > 10 ? (publicacion.descripcion | slice:0:30) + '...' :
+                                publicacion.descripcion}}
+                            </p>
+
+                            <p>
+                                <i class="bi bi-calendar2-event-fill"></i> {{ publicacion.fechaRegistro | date: 'dd/MM/yyyy'}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="mostrarPublicaciones && userData?.publicacionDTOS?.length === 0" class="ms-3 mt-3">
+            <p class="text-muted">Este usuario no tiene publicaciones registradas.</p>
+        </div>
+
+        <div *ngIf="mostrarPublicaciones && elementosEncontradosPubli > tamanioPaginaPubli" class="ms-3 mt-3">
+            <ngb-pagination
+                class="d-flex justify-content-center"
+                [collectionSize]="elementosEncontradosPubli"
+                [(page)]="pagePubli"
+                [pageSize]="tamanioPaginaPubli"
+                [boundaryLinks]="true"
+                (pageChange)="onPagePubli($event)">
+            </ngb-pagination>
+        </div>
+    </main>
+</div>
