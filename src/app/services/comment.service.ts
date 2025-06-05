@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { ComentarioDtolist } from '../../models/detail-publication.interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -20,9 +21,9 @@ export class CommentService {
   }
 
 
-  agregarComentario(publicacionId: string, texto: string): Observable<any> {
+  agregarComentario(publicacionId: string, texto: string): Observable<ComentarioDtolist> {
     const body = { texto };
-    return this.http.post<any>(
+    return this.http.post<ComentarioDtolist>(
       `${environment.apiBaseUrl}/comentario/publicacion/${publicacionId}`,
       body,
       {
@@ -33,5 +34,15 @@ export class CommentService {
       }
     );
   }
+
+  editarComentario(id: string, body: { comentario: string }): Observable<ComentarioDtolist> {
+    return this.http.put<ComentarioDtolist>(`${environment.apiBaseUrl}/comentario/admin/${id}`, body, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      }
+    });
+  }
+
 
 }
