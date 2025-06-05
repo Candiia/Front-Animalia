@@ -41,3 +41,38 @@ button.btn-dark {
     font-weight: 600;
     font-family: "jura";
 }
+
+.search {
+    display: flex;
+    width: 300px;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: white;
+    height: 36px;
+    margin-top: 7px;
+}
+
+.searchTerm {
+    flex-grow: 1;
+    border: none;
+    padding: 0 12px;
+    outline: none;
+    font-size: 14px;
+}
+
+.searchButton {
+    width: 40px;
+    border: none;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.searchButton:hover {
+    background-color: #e0e0e0;
+}
