@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { PublicacionResponse } from '../../../../models/detail-publication.interfaces';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ComentarioDtolist, PublicacionResponse } from '../../../../models/detail-publication.interfaces';
 import { ActivatedRoute } from '@angular/router';
 import { PublicationService } from '../../../services/publication.service';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { CommentService } from '../../../services/comment.service';
 
 @Component({
   selector: 'app-detail-publicacion',
@@ -13,8 +15,11 @@ export class DetailPublicacionComponent implements OnInit {
   publicacion?: PublicacionResponse;
   mostrarComentarios = false;
   nuevoComentario = '';
+  comentarioEnEliminacion: ComentarioDtolist | null = null;
+  @ViewChild('confirmDeleteModal', { static: true }) confirmarEliminarTemplate!: TemplateRef<any>;
+  private modalRef?: NgbModalRef;
 
-  constructor(private route: ActivatedRoute, private publicationService: PublicationService) { }
+  constructor(private route: ActivatedRoute, private publicationService: PublicationService, private modalService: NgbModal, private commentService: CommentService) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
@@ -51,9 +56,38 @@ export class DetailPublicacionComponent implements OnInit {
   editarComentario() {
   }
 
-  eliminarComentario() {
+  abrirModalEliminarComentario(comentario: ComentarioDtolist): void {
+    this.comentarioEnEliminacion = comentario;
+    this.modalRef = this.modalService.open(this.confirmarEliminarTemplate, {
+      centered: true,
+      backdrop: 'static'
+    });
   }
 
+  confirmarEliminarComentario(): void {
+    if (!this.comentarioEnEliminacion) return;
+
+    this.commentService.eliminarComentario(this.comentarioEnEliminacion.id).subscribe({
+      next: () => {
+        this.modalRef?.close();
+        this.comentarioEnEliminacion = null;
+        this.recargarPublicacion();
+      },
+      error: err => {
+        console.error('Error al eliminar el comentario', err);
+      }
+    });
+  }
+
+  private recargarPublicacion(): void {
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.publicationService.obtenerPublicacionPorId(id).subscribe({
+        next: (data) => this.publicacion = data,
+        error: (err) => console.error('Error al refrescar publicación:', err)
+      });
+    }
+  }
   tieneMuchosComentarios(): boolean {
     return (this.publicacion?.comentarioDTOList?.length ?? 0) > 4;
   }
