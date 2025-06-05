@@ -66,7 +66,7 @@
                             <button
                                 class="btn text-danger"
                                 title="Eliminar comentario"
-                                (click)="eliminarComentario()">
+                                (click)="abrirModalEliminarComentario(comentario)">
                                 <i class="bi bi-trash-fill fs-5"></i>
                             </button>
                         </div>
@@ -93,3 +93,19 @@
 
     </main>
 </div>
+
+<ng-template #confirmDeleteModal let-modal>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title text-danger">Confirmar Eliminación</h5>
+            <button type="button" class="btn-close" aria-label="Cerrar" (click)="modal.dismiss()"></button>
+        </div>
+        <div class="modal-body">
+            <p>¿Estás seguro que deseas eliminar este comentario?</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Cancelar</button>
+            <button type="button" class="btn btn-danger" (click)="confirmarEliminarComentario()">Eliminar</button>
+        </div>
+    </div>
+</ng-template>

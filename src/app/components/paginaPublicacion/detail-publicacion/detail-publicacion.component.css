@@ -69,3 +69,8 @@ h5 {
 .tamayousrname {
     font-size: 13pt;
 }
+
+.btn-close:focus {
+    outline: none;
+    box-shadow: none;
+}
