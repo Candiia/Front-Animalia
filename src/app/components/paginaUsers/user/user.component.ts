@@ -19,6 +19,9 @@ export class UserComponent {
     verifyPassword: '',
     email: ''
   };
+
+    searchTerm: string = '';
+
   constructor(private userServices: UserService, private modalService: NgbModal) { }
 
 

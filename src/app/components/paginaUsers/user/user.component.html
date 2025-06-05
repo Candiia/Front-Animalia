@@ -59,13 +59,13 @@
                 </div>
             </div>
             <div class="search ms-auto me-4">
-                <input type="text" class="searchTerm ms-2" placeholder="Buscar..." />
+                <input type="text" class="searchTerm ms-2" placeholder="Buscar..." [(ngModel)]="searchTerm" />
                 <button type="submit" class="searchButton">
                     <i class="bi bi-search"></i>
                 </button>
             </div>
         </div>
-        <app-card-user></app-card-user>
+        <app-card-user [searchTerm]="searchTerm"></app-card-user>
     </main>
 </div>
 

@@ -1,4 +1,4 @@
-import { Component, ElementRef, TemplateRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 import { BreedsService } from '../../../services/breeds.service';
 import { Breed, BreedsListsResponse } from '../../../../models/breeds-list.interfaces';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -8,12 +8,14 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './card-breeds.component.html',
   styleUrl: './card-breeds.component.css'
 })
-export class CardBreedsComponent {
+export class CardBreedsComponent implements OnChanges, OnInit {
 
   constructor(private breedsService: BreedsService, private modalService: NgbModal) { }
 
   razaEnEdicion: Breed = { id: '00000000-0000-0000-0000-000000000000', nombre: '' };
   razas: Breed[] = [];
+  @Input() searchTerm: string = '';
+  razasFiltradas: Breed[] = [];
   page = 1;
   elementosEncontrados = 0;
   tamanioPagina = 20;
@@ -26,6 +28,12 @@ export class CardBreedsComponent {
     this.obtenerListado();
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['searchTerm']) {
+      this.filtrarRazas();
+    }
+  }
+
   obtenerListado(): void {
     this.breedsService.obtenerListadoBreeds(this.page - 1).subscribe({
       next: (res: BreedsListsResponse) => {
@@ -33,7 +41,7 @@ export class CardBreedsComponent {
         this.razas = res.contenido;
         this.tamanioPagina = res.tamanioPagina;
         this.elementosEncontrados = res.elementosEncontrados;
-
+        this.filtrarRazas();
       },
       error: (err) => {
         console.error('Error al obtener el listado', err);
@@ -84,5 +92,16 @@ export class CardBreedsComponent {
     });
   }
 
+  filtrarRazas(): void {
+    const term = this.searchTerm.toLowerCase().trim();
+    if (term === '') {
+      this.razasFiltradas = [...this.razas];
+    } else {
+      this.razasFiltradas = this.razas.filter(r =>
+        r.nombre.toLowerCase().includes(term)
+      );
+
+    }
+  }
 
 }

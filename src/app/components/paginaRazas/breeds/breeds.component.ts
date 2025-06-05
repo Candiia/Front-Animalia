@@ -15,6 +15,7 @@ export class BreedsComponent {
   nuevaRaza: { nombre: string } = { nombre: '' };
   @ViewChild('breedModal') breedModal!: TemplateRef<any>;
   mostrarError = false;
+  searchTerm: string = '';
 
   constructor(private breedsService: BreedsService, private modalService: NgbModal) { }
 

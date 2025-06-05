@@ -6,9 +6,7 @@ import { AppComponent } from './app.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { NavComponent } from './shared/nav/nav.component';
 import { HomeComponent } from './components/paginaPrincipal/home/home.component';
-import { ListCommentsComponent } from './components/comment/list-comments/list-comments.component';
 import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
-import { ListLikesComponent } from './components/likes/list-likes/list-likes.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { CardUserLineComponent } from './components/paginaPrincipal/card-user-line/card-user-line.component';
 import { CardUserPetComponent } from './components/paginaPrincipal/card-user-pet/card-user-pet.component';
@@ -36,10 +34,8 @@ import { DetailPublicacionComponent } from './components/paginaPublicacion/detai
   declarations: [
     AppComponent,
     NavComponent,
-    ListCommentsComponent,
     HomeComponent,
     PageNotFoundComponent,
-    ListLikesComponent,
     FooterComponent,
     CardUserLineComponent,
     CardUserPetComponent,

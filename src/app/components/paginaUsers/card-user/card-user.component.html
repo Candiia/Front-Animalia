@@ -1,5 +1,5 @@
  <div class="d-flex flex-wrap gap-3 justify-content-start ms-3">
-    @for (user of users; track user.id) {
+    @for (user of userFiltrados; track user.id) {
     <div class="card mt-3 me-4" [routerLink]="['/detailUser', user.id]" style="cursor: pointer;">
         <div class="card-body">
             <div class="position-absolute  me-3">

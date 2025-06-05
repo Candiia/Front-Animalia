@@ -9,6 +9,6 @@ import { MascotaList, PetListsResponse } from '../../../../models/pet-list.inter
 })
 export class PetComponent {
 
-
+  searchTerm: string = '';
 
 }

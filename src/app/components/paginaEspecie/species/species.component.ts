@@ -14,6 +14,7 @@ export class SpeciesComponent {
   nuevaEspecie: { nombre: string } = { nombre: '' };
   @ViewChild('especieModal') especieModal!: TemplateRef<any>;
   mostrarError = false;
+  searchTerm: string = '';
 
   constructor(private especieService: SpeciesService, private modalService: NgbModal) { }
 

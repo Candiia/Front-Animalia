@@ -1,4 +1,4 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 import { SpeciesService } from '../../../services/species.service';
 import { SpeciesLists, SpeciesListsResponse } from '../../../../models/species-list.interfaces';
 import { Especie } from '../../../../models/pet-list.interfaces';
@@ -9,9 +9,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './card-species.component.html',
   styleUrl: './card-species.component.css'
 })
-export class CardSpeciesComponent {
+export class CardSpeciesComponent implements OnChanges, OnInit {
   modalRef: any;
-
+  @Input() searchTerm: string = '';
+  especiesFiltradas: Especie[] = [];
   constructor(private speciesService: SpeciesService, private modalService: NgbModal) { }
   espcieEnEdicion: Especie = { id: '00000000-0000-0000-0000-000000000000', nombre: '', localDate: '' };
   especies: SpeciesLists[] = [];
@@ -26,14 +27,19 @@ export class CardSpeciesComponent {
     this.obtenerListado();
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['searchTerm']) {
+      this.filtrarEspecies();
+    }
+  }
+
   obtenerListado(): void {
     this.speciesService.obtenerListadoSpecies(this.page - 1).subscribe({
       next: (res: SpeciesListsResponse) => {
-        console.log(res.contenido);
         this.especies = res.contenido;
         this.tamanioPagina = res.tamanioPagina;
         this.elementosEncontrados = res.elementosEncontrados;
-
+        this.filtrarEspecies();
       },
       error: (err) => {
         console.error('Error al obtener el listado', err);
@@ -84,4 +90,17 @@ export class CardSpeciesComponent {
       }
     });
   }
+
+  filtrarEspecies(): void {
+    const term = this.searchTerm.toLowerCase().trim();
+    if (term === '') {
+      this.especiesFiltradas = [...this.especies];
+    } else {
+      this.especiesFiltradas = this.especies.filter(e =>
+        e.nombre.toLowerCase().includes(term)
+      );
+
+    }
+  }
+
 }
