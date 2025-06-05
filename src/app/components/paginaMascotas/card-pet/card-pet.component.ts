@@ -1,4 +1,4 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 import { PetService } from '../../../services/pet.service';
 import { MascotaList, PetListsResponse } from '../../../../models/pet-list.interfaces';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -12,7 +12,7 @@ import { SpeciesLists } from '../../../../models/species-list.interfaces';
   templateUrl: './card-pet.component.html',
   styleUrl: './card-pet.component.css'
 })
-export class CardPetComponent {
+export class CardPetComponent implements OnChanges, OnInit {
 
   constructor(private petService: PetService, private modalService: NgbModal,
     private breedsService: BreedsService, private speciesService: SpeciesService,) { }
@@ -22,6 +22,8 @@ export class CardPetComponent {
   listaEspecies: SpeciesLists[] = [];
   mascotas: MascotaList[] = [];
   page = 1;
+  @Input() searchTerm: string = '';
+  mascotasFiltradas: MascotaList[] = [];
   elementosEncontrados = 0;
   tamanioPagina = 3;
   mascotaEnEliminacion: MascotaList | null = null;
@@ -56,6 +58,12 @@ export class CardPetComponent {
     this.cargarEspecies();
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['searchTerm']) {
+      this.filtrarMascotas();
+    }
+  }
+
   cargarRazas(): void {
     this.breedsService.obtenerListadoBreeds(0).subscribe({
       next: res => {
@@ -84,7 +92,7 @@ export class CardPetComponent {
         this.mascotas = res.contenido;
         this.tamanioPagina = res.tamanioPagina;
         this.elementosEncontrados = res.elementosEncontrados;
-
+        this.filtrarMascotas();
       },
       error: (err) => {
         console.error('Error al obtener el listado', err);
@@ -176,4 +184,15 @@ export class CardPetComponent {
     });
   }
 
+  filtrarMascotas(): void {
+    const term = this.searchTerm.toLowerCase().trim();
+    if (term === '') {
+      this.mascotasFiltradas = [...this.mascotas];
+    } else {
+      this.mascotasFiltradas = this.mascotas.filter(m =>
+        m.nombre.toLowerCase().includes(term)
+      );
+
+    }
+  }
 }

@@ -1,5 +1,5 @@
 <div class="d-flex flex-wrap gap-3 justify-content-start ms-3">
-    @for (mascota of mascotas; track mascota.id) {
+    @for (mascota of mascotasFiltradas; track mascota.id) {
     <div class="card mt-3 me-4">
         <div class="card-body">
             <div>
@@ -17,8 +17,7 @@
                 <div class="me-3">
                     <img
                         [src]="getImage(mascota.avatar)"
-                        alt="{{ mascota.nombre }}"
-                        style="max-width: 100px; height: auto;">
+                        alt="{{ mascota.nombre }}" class="img-card">
                 </div>
                 <div class="textMascotass">
                     <p>Usuario: {{ mascota.userDTO.username }}</p>

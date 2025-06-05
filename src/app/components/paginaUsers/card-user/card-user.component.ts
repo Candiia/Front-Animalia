@@ -1,4 +1,4 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, TemplateRef, ViewChild } from '@angular/core';
 import { UserService } from '../../../services/user.service';
 import { UserList, UserListsResponse } from '../../../../models/user-list.interfaces';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -8,11 +8,12 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './card-user.component.html',
   styleUrl: './card-user.component.css'
 })
-export class CardUserComponent {
+export class CardUserComponent implements OnChanges, OnInit {
 
 
   constructor(private userServices: UserService, private modalService: NgbModal) { }
-
+  @Input() searchTerm: string = '';
+  userFiltrados: UserList[] = [];
   users: UserList[] = [];
   page = 1;
   elementosEncontrados = 0;
@@ -39,6 +40,12 @@ export class CardUserComponent {
     this.obtenerListado();
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['searchTerm']) {
+      this.filtrarUser();
+    }
+  }
+
   obtenerListado(): void {
     this.userServices.obtenerListadoUser(this.page - 1).subscribe({
       next: (res: UserListsResponse) => {
@@ -46,7 +53,7 @@ export class CardUserComponent {
         this.users = res.contenido;
         this.tamanioPagina = res.tamanioPagina;
         this.elementosEncontrados = res.elementosEncontrados;
-
+        this.filtrarUser();
       },
       error: (err) => {
         console.error('Error al obtener el listado', err);
@@ -101,5 +108,17 @@ export class CardUserComponent {
     });
   }
 
+
+  filtrarUser(): void {
+    const term = this.searchTerm.toLowerCase().trim();
+    if (term === '') {
+      this.userFiltrados = [...this.users];
+    } else {
+      this.userFiltrados = this.users.filter(e =>
+        e.username.toLowerCase().includes(term)
+      );
+
+    }
+  }
 
 }
