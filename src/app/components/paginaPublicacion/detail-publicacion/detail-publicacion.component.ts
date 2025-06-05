@@ -49,9 +49,20 @@ export class DetailPublicacionComponent implements OnInit {
     return url;
   }
 
-  agregarComentario() {
+  agregarComentario(): void {
+    if (!this.nuevoComentario.trim() || !this.publicacion?.id) return;
 
+    this.commentService.agregarComentario(this.publicacion.id, this.nuevoComentario.trim()).subscribe({
+      next: () => {
+        this.nuevoComentario = '';
+        this.recargarPublicacion();
+      },
+      error: err => {
+        console.error('Error al agregar el comentario:', err);
+      }
+    });
   }
+
 
   editarComentario() {
   }
