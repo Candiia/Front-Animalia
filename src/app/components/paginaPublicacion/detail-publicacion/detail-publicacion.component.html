@@ -60,7 +60,7 @@
                             class="btn-group btn-group-sm"
                             role="group"
                             aria-label="Acciones comentario">
-                            <button class="btn" title="Editar comentario" (click)="editarComentario()">
+                            <button class="btn" title="Editar comentario" (click)="editarComentario(comentario)">
                                 <i class="bi bi-pen-fill fs-5"></i>
                             </button>
                             <button
@@ -75,18 +75,28 @@
 
                 <hr />
 
-                <form (submit)="agregarComentario()">
+                <form (submit)="manejarComentario()">
                     <div class="input-group">
                         <input
                             [(ngModel)]="nuevoComentario"
                             name="nuevoComentario"
                             type="text"
                             class="form-control"
-                            placeholder="Escribe un comentario..."
+                            placeholder="Escribe o edita un comentario..."
                             required />
-                        <button class="btn btn-dark" type="submit">Enviar</button>
+                        <button class="btn btn-dark" type="submit">
+                            {{ comentarioEditando ? 'Guardar' : 'Enviar' }}
+                        </button>
+                        <button
+                            *ngIf="comentarioEditando"
+                            class="btn btn-outline-secondary"
+                            type="button"
+                            (click)="cancelarEdicion()">
+                            Cancelar
+                        </button>
                     </div>
                 </form>
+
             </div>
 
         </div>

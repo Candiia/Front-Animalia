@@ -18,6 +18,7 @@ export class DetailPublicacionComponent implements OnInit {
   comentarioEnEliminacion: ComentarioDtolist | null = null;
   @ViewChild('confirmDeleteModal', { static: true }) confirmarEliminarTemplate!: TemplateRef<any>;
   private modalRef?: NgbModalRef;
+  comentarioEditando: ComentarioDtolist | null = null;
 
   constructor(private route: ActivatedRoute, private publicationService: PublicationService, private modalService: NgbModal, private commentService: CommentService) { }
 
@@ -47,24 +48,6 @@ export class DetailPublicacionComponent implements OnInit {
       return prefix + url;
     }
     return url;
-  }
-
-  agregarComentario(): void {
-    if (!this.nuevoComentario.trim() || !this.publicacion?.id) return;
-
-    this.commentService.agregarComentario(this.publicacion.id, this.nuevoComentario.trim()).subscribe({
-      next: () => {
-        this.nuevoComentario = '';
-        this.recargarPublicacion();
-      },
-      error: err => {
-        console.error('Error al agregar el comentario:', err);
-      }
-    });
-  }
-
-
-  editarComentario() {
   }
 
   abrirModalEliminarComentario(comentario: ComentarioDtolist): void {
@@ -99,8 +82,50 @@ export class DetailPublicacionComponent implements OnInit {
       });
     }
   }
+
   tieneMuchosComentarios(): boolean {
     return (this.publicacion?.comentarioDTOList?.length ?? 0) > 4;
+  }
+
+
+  manejarComentario(): void {
+    if (!this.nuevoComentario.trim() || !this.publicacion?.id) return;
+
+    if (this.comentarioEditando) {
+      // Modo edición
+      const editDto = { comentario: this.nuevoComentario.trim() };
+
+      this.commentService.editarComentario(this.comentarioEditando.id, editDto).subscribe({
+        next: () => {
+          this.nuevoComentario = '';
+          this.comentarioEditando = null;
+          this.recargarPublicacion();
+        },
+        error: err => {
+          console.error('Error al editar el comentario:', err);
+        }
+      });
+    } else {
+      this.commentService.agregarComentario(this.publicacion.id, this.nuevoComentario.trim()).subscribe({
+        next: () => {
+          this.nuevoComentario = '';
+          this.recargarPublicacion();
+        },
+        error: err => {
+          console.error('Error al agregar el comentario:', err);
+        }
+      });
+    }
+  }
+
+  editarComentario(comentario: ComentarioDtolist): void {
+    this.comentarioEditando = comentario;
+    this.nuevoComentario = comentario.texto;  // Prellenar input con el comentario
+  }
+
+  cancelarEdicion(): void {
+    this.comentarioEditando = null;
+    this.nuevoComentario = '';
   }
 
 }
