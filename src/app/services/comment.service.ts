@@ -19,4 +19,19 @@ export class CommentService {
     });
   }
 
+
+  agregarComentario(publicacionId: string, texto: string): Observable<any> {
+    const body = { texto };
+    return this.http.post<any>(
+      `${environment.apiBaseUrl}/comentario/publicacion/${publicacionId}`,
+      body,
+      {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json',
+        }
+      }
+    );
+  }
+
 }
