@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { PublicationService } from '../../../services/publication.service';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { CommentService } from '../../../services/comment.service';
+import { LikeService } from '../../../services/like.service';
 
 @Component({
   selector: 'app-detail-publicacion',
@@ -20,7 +21,13 @@ export class DetailPublicacionComponent implements OnInit {
   private modalRef?: NgbModalRef;
   comentarioEditando: ComentarioDtolist | null = null;
 
-  constructor(private route: ActivatedRoute, private publicationService: PublicationService, private modalService: NgbModal, private commentService: CommentService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private publicationService: PublicationService,
+    private modalService: NgbModal,
+    private commentService: CommentService,
+    private likeService: LikeService
+  ) { }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
@@ -120,12 +127,25 @@ export class DetailPublicacionComponent implements OnInit {
 
   editarComentario(comentario: ComentarioDtolist): void {
     this.comentarioEditando = comentario;
-    this.nuevoComentario = comentario.texto;  // Prellenar input con el comentario
+    this.nuevoComentario = comentario.texto;
   }
 
   cancelarEdicion(): void {
     this.comentarioEditando = null;
     this.nuevoComentario = '';
+  }
+
+
+  darLike(): void {
+    if (!this.publicacion?.id) return;
+    this.likeService.agregarLike(this.publicacion.id).subscribe({
+      next: () => {
+        this.recargarPublicacion();
+      },
+      error: (err) => {
+        console.error('Error al dar like:', err);
+      }
+    });
   }
 
 }
