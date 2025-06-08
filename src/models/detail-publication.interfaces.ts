@@ -7,6 +7,8 @@ export interface PublicacionResponse {
     numeroComentarios: number
     comentarioDTOList: ComentarioDtolist[]
     usename: Username
+    hasLike: boolean
+
 }
 
 export interface ComentarioDtolist {

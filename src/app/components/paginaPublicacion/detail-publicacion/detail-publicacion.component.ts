@@ -127,7 +127,7 @@ export class DetailPublicacionComponent implements OnInit {
 
   editarComentario(comentario: ComentarioDtolist): void {
     this.comentarioEditando = comentario;
-    this.nuevoComentario = comentario.texto;
+    this.nuevoComentario = comentario.texto;  // Prellenar input con el comentario
   }
 
   cancelarEdicion(): void {
@@ -136,16 +136,20 @@ export class DetailPublicacionComponent implements OnInit {
   }
 
 
-  darLike(): void {
+  alternarLike(): void {
     if (!this.publicacion?.id) return;
-    this.likeService.agregarLike(this.publicacion.id).subscribe({
-      next: () => {
-        this.recargarPublicacion();
-      },
-      error: (err) => {
-        console.error('Error al dar like:', err);
-      }
-    });
+
+    if (this.publicacion.hasLike) {
+      this.likeService.quitarLike(this.publicacion.id).subscribe({
+        next: () => this.recargarPublicacion(),
+        error: (err) => console.error('Error al quitar like:', err)
+      });
+    } else {
+      this.likeService.agregarLike(this.publicacion.id).subscribe({
+        next: () => this.recargarPublicacion(),
+        error: (err) => console.error('Error al agregar like:', err)
+      });
+    }
   }
 
 }

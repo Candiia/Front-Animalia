@@ -27,13 +27,19 @@
 
             <div class="card-body">
                 <p class="card-text">{{publicacion?.descripcion}}</p>
-
                 <div class="d-flex justify-content-between align-items-center">
-                    <div (click)="darLike()" style="cursor: pointer;">
-                        <i class="bi bi-heart text-dark"></i> {{publicacion?.numeroLikes}}
+                    <div (click)="alternarLike()" class="icon-text">
+                        <i
+                            [ngClass]="{
+          'bi bi-heart-fill text-danger': publicacion?.hasLike,
+          'bi bi-heart text-dark': !publicacion?.hasLike
+        }"></i>
+                        <span>{{ publicacion?.numeroLikes }}</span>
                     </div>
-                    <div class="d-flex align-items-center" style="cursor: pointer;" (click)="toggleComentarios()">
-                        <i class="bi bi-chat-dots-fill me-1"></i> {{publicacion?.numeroComentarios}}
+
+                    <div class="icon-text" (click)="toggleComentarios()">
+                        <i class="bi bi-chat-dots-fill"></i>
+                        <span>{{publicacion?.numeroComentarios}}</span>
                     </div>
                 </div>
             </div>
