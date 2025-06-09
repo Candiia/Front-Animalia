@@ -1,6 +1,6 @@
 .colorFondo {
     background: linear-gradient(to right,
-            rgba(87, 146, 223, 0.4) 30%,
+            #5792df66 30%,
             rgba(87, 146, 223, 0.3) 40%,
             rgba(42, 157, 143, 0.3) 70%,
             rgba(42, 157, 143, 0.4) 90%);

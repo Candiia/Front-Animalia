@@ -28,6 +28,7 @@ import { CardSpeciesComponent } from './components/paginaEspecie/card-species/ca
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { DetailUserComponent } from './components/paginaDetailUser/detail-user/detail-user.component';
 import { DetailPublicacionComponent } from './components/paginaPublicacion/detail-publicacion/detail-publicacion.component';
+import { DetailPetComponent } from './components/paginaMascotas/detail-pet/detail-pet.component';
 
 
 @NgModule({
@@ -51,7 +52,8 @@ import { DetailPublicacionComponent } from './components/paginaPublicacion/detai
     SpeciesComponent,
     CardSpeciesComponent,
     DetailUserComponent,
-    DetailPublicacionComponent
+    DetailPublicacionComponent,
+    DetailPetComponent
   ],
   imports: [
     BrowserModule,
