@@ -19,4 +19,14 @@ export class PublicationService {
       }
     });
   }
+
+  eliminarPublicacion(id: string): Observable<void> {
+    return this.http.delete<void>(`${environment.apiBaseUrl}/publicacion/admin/${id}`, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json'
+      }
+    });
+  }
+
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ComentarioDtolist, PublicacionResponse } from '../../../../models/detail-publication.interfaces';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PublicationService } from '../../../services/publication.service';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { CommentService } from '../../../services/comment.service';
@@ -18,15 +18,18 @@ export class DetailPublicacionComponent implements OnInit {
   nuevoComentario = '';
   comentarioEnEliminacion: ComentarioDtolist | null = null;
   @ViewChild('confirmDeleteModal', { static: true }) confirmarEliminarTemplate!: TemplateRef<any>;
-  private modalRef?: NgbModalRef;
+  modalRef?: NgbModalRef;
   comentarioEditando: ComentarioDtolist | null = null;
+  @ViewChild('confirmDeletePublicacionModal', { static: true }) confirmarEliminarPublicacionTemplate!: TemplateRef<any>;
+  modalPublicacionRef?: NgbModalRef;
 
   constructor(
     private route: ActivatedRoute,
     private publicationService: PublicationService,
     private modalService: NgbModal,
     private commentService: CommentService,
-    private likeService: LikeService
+    private likeService: LikeService,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -127,7 +130,7 @@ export class DetailPublicacionComponent implements OnInit {
 
   editarComentario(comentario: ComentarioDtolist): void {
     this.comentarioEditando = comentario;
-    this.nuevoComentario = comentario.texto;  // Prellenar input con el comentario
+    this.nuevoComentario = comentario.texto;
   }
 
   cancelarEdicion(): void {
@@ -150,6 +153,29 @@ export class DetailPublicacionComponent implements OnInit {
         error: (err) => console.error('Error al agregar like:', err)
       });
     }
+  }
+
+  abrirModalEliminarPublicacion(): void {
+    this.modalPublicacionRef = this.modalService.open(this.confirmarEliminarPublicacionTemplate, {
+      centered: true,
+      backdrop: 'static'
+    });
+  }
+
+  confirmarEliminarPublicacion(): void {
+    if (!this.publicacion?.id) return;
+
+    this.publicationService.eliminarPublicacion(this.publicacion.id).subscribe({
+      next: () => {
+        this.modalPublicacionRef?.close();
+        setTimeout(() => {
+          this.router.navigate(['/user-list']);
+        });
+      },
+      error: err => {
+        console.error('Error al eliminar la publicación', err);
+      }
+    });
   }
 
 }
