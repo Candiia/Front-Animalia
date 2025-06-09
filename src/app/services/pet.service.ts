@@ -48,4 +48,19 @@ export class PetService {
     });
   }
 
+  createPet(petData: any, file: File | null): Observable<any> {
+    const url = `${environment.apiBaseUrl}/mascota/usuario`;
+    const formData = new FormData();
+    formData.append('post', new Blob([JSON.stringify(petData)], { type: 'application/json' }));
+    if (file) {
+      formData.append('file', file, file.name);
+    }
+    return this.http.post(url, formData, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      }
+    });
+  }
+
+
 }
