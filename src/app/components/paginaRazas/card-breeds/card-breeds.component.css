@@ -86,3 +86,8 @@ ngb-pagination {
         font-size: 14pt;
     }
 }
+
+.btn-close:focus {
+    outline: none;
+    box-shadow: none;
+}

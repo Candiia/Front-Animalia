@@ -93,3 +93,8 @@ ngb-pagination {
     z-index: 1000;
     font-family: "jura";
 }
+
+.btn-close:focus {
+    outline: none;
+    box-shadow: none;
+}

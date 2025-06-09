@@ -73,4 +73,14 @@ export class UserService {
     });
   }
 
+  getUsuarioLogueado(): Observable<UserDetailResponse> {
+    return this.http.get<UserDetailResponse>(`${environment.apiBaseUrl}/usuario/loggeado`, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      }
+    });
+  }
+
+
 }
