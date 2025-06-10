@@ -12,14 +12,14 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
 
-  loginUser(username: string, password: string): Observable<LoginResponse>{
-    return this.http.post<LoginResponse>(`${environment.apiBaseUrl}/usuario/login/admin`, {
+  loginUser(username: string, password: string): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(`${environment.apiBaseUrl}/usuario/login`, {
       username: username,
       password: password
     }, {
       headers: {
-        'Content-Type': 'application/json',        
+        'Content-Type': 'application/json'
       }
-    })
+    });
   }
 }

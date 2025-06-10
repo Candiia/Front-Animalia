@@ -29,6 +29,7 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { DetailUserComponent } from './components/paginaDetailUser/detail-user/detail-user.component';
 import { DetailPublicacionComponent } from './components/paginaPublicacion/detail-publicacion/detail-publicacion.component';
 import { DetailPetComponent } from './components/paginaMascotas/detail-pet/detail-pet.component';
+import { ParaTiComponent } from './components/paginaPrincpaUser/para-ti/para-ti.component';
 
 
 @NgModule({
@@ -53,7 +54,8 @@ import { DetailPetComponent } from './components/paginaMascotas/detail-pet/detai
     CardSpeciesComponent,
     DetailUserComponent,
     DetailPublicacionComponent,
-    DetailPetComponent
+    DetailPetComponent,
+    ParaTiComponent
   ],
   imports: [
     BrowserModule,
