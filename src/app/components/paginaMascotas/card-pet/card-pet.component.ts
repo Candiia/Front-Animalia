@@ -6,6 +6,7 @@ import { SpeciesService } from '../../../services/species.service';
 import { BreedsService } from '../../../services/breeds.service';
 import { Breed } from '../../../../models/breeds-list.interfaces';
 import { SpeciesLists } from '../../../../models/species-list.interfaces';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-card-pet',
@@ -15,7 +16,7 @@ import { SpeciesLists } from '../../../../models/species-list.interfaces';
 export class CardPetComponent implements OnChanges, OnInit {
 
   constructor(private petService: PetService, private modalService: NgbModal,
-    private breedsService: BreedsService, private speciesService: SpeciesService,) { }
+    private breedsService: BreedsService, private speciesService: SpeciesService, private router: Router) { }
 
 
   listaRazas: Breed[] = [];
@@ -194,5 +195,9 @@ export class CardPetComponent implements OnChanges, OnInit {
       );
 
     }
+  }
+
+  goToPetDetail(petId: string): void {
+    this.router.navigate(['/detailPet', petId]);
   }
 }

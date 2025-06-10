@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { PetListsResponse } from '../../models/pet-list.interfaces';
+import { MascotaList, PetListsResponse } from '../../models/pet-list.interfaces';
 import { environment } from '../../environments/environment';
-import e from 'express';
+import { MascotaResponse } from '../../models/detail-mascota.interfaces';
+import { PublicacionResponse } from '../../models/detail-publication.interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -58,6 +59,15 @@ export class PetService {
     return this.http.post(url, formData, {
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      }
+    });
+  }
+
+  getPetById(id: string): Observable<MascotaResponse> {
+    return this.http.get<MascotaResponse>(`${environment.apiBaseUrl}/mascota/${id}`, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
       }
     });
   }
