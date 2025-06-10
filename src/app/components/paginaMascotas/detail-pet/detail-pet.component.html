@@ -9,7 +9,7 @@
             </div>
 
             <div *ngIf="petDetails">
-                <div class="row align-items-center">
+                <div class="row align-items-center ">
                     <div class="col-md-4 text-center">
                         <img [src]="getImage(petDetails.avatar)" alt="{{ petDetails.nombre }}"
                             class="img-fluid rounded-circle shadow mb-3"
@@ -28,8 +28,8 @@
                                 petDetails.fechaNacimiento | date:
                                 'dd/MM/yyyy' }}</span></p>
                     </div>
-                    <div class="col-md-8">
-                        <div class="card p-4 shadow-sm">
+                    <div class="col-md-8 ">
+                        <div class="card p-4 shadow-sm cardDetail">
                             <div class="d-flex justify-content-between">
                                 <div>
                                     <h5 class="text-secondary ms-5">{{ petDetails.publicationCount }}</h5>
