@@ -26,16 +26,22 @@ export class LoginComponent {
   loginUser() {
     this.authService.loginUser(this.username, this.password).subscribe({
       next: resp => {
-        localStorage.setItem('account_id', resp.id)
-        localStorage.setItem('token', resp.token)
+        localStorage.setItem('account_id', resp.id);
+        localStorage.setItem('token', resp.token);
+        localStorage.setItem('roles', JSON.stringify(resp.roles));
+
         if (resp.roles.includes('ADMIN')) {
           this.router.navigateByUrl('/home');
+        } else if (resp.roles.includes('USER')) {
+          this.router.navigateByUrl('/paraTi');
+        } else {
+          this.errorMessage = 'Rol no autorizado para acceder.';
         }
       },
       error: (err) => {
         this.errorMessage = err.error.detail || 'No tienes acceso para entrar.';
       }
-    })
+    });
   }
 
   showRegisterDialog() {
