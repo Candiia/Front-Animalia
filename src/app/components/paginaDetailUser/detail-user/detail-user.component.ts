@@ -52,9 +52,9 @@ export class DetailUserComponent implements OnInit {
   };
   archivoAvatar: File | null = null;
   modalRef!: NgbModalRef;
- usuarioLogueado: UserDetailResponse | null = null;
+  usuarioLogueado: UserDetailResponse | null = null;
   mostrarBotonAddMascota: boolean = false;
-  
+
   @ViewChild('addPetModal') addPetModal!: any;
   constructor(
     private route: ActivatedRoute,
@@ -210,4 +210,9 @@ export class DetailUserComponent implements OnInit {
       }
     });
   }
+
+  irADetalleMascota(id: string) {
+    this.router.navigate(['/detailPet', id]);
+  }
+
 }

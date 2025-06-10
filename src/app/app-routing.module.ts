@@ -10,6 +10,7 @@ import { PetComponent } from './components/paginaMascotas/pet/pet.component';
 import { SpeciesComponent } from './components/paginaEspecie/species/species.component';
 import { DetailUserComponent } from './components/paginaDetailUser/detail-user/detail-user.component';
 import { DetailPublicacionComponent } from './components/paginaPublicacion/detail-publicacion/detail-publicacion.component';
+import { DetailPetComponent } from './components/paginaMascotas/detail-pet/detail-pet.component';
 
 const routes: Routes = [
 
@@ -23,6 +24,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'detailUser/:id', component: DetailUserComponent },
   { path: 'detailPublicacion/:id', component: DetailPublicacionComponent },
+  { path: 'detailPet/:id', component: DetailPetComponent },
   { path: '', redirectTo: '/login', pathMatch: 'full' }
 ];
 

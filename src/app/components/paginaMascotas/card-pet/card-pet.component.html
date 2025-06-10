@@ -1,13 +1,15 @@
 <div class="d-flex flex-wrap gap-3 justify-content-start ms-3">
     @for (mascota of mascotasFiltradas; track mascota.id) {
-    <div class="card mt-3 me-4">
+    <div class="card mt-3 me-4" (click)="goToPetDetail(mascota.id)">
         <div class="card-body">
             <div>
                 <div class="position-absolute end-0 me-3" ngbDropdown>
-                    <button class="btn btn-link text-dark p-0" ngbDropdownToggle></button>
+                    <button class="btn btn-link text-dark p-0" ngbDropdownToggle (click)="$event.stopPropagation()"></button>
                     <div ngbDropdownMenu>
-                        <button class="dropdown-item" (click)="abrirModalEdicion(mascota)">Editar</button>
-                        <button class="dropdown-item text-danger" (click)="abrirModalDeEliminar(mascota)">Eliminar</button>
+                        <button class="dropdown-item"
+                            (click)="abrirModalEdicion(mascota); $event.stopPropagation()">Editar</button>
+                        <button class="dropdown-item text-danger"
+                            (click)="abrirModalDeEliminar(mascota); $event.stopPropagation()">Eliminar</button>
                     </div>
                 </div>
             </div>
@@ -15,9 +17,7 @@
 
             <div class="d-flex flex-row align-items-start">
                 <div class="me-3">
-                    <img
-                        [src]="getImage(mascota.avatar)"
-                        alt="{{ mascota.nombre }}" class="img-card">
+                    <img [src]="getImage(mascota.avatar)" alt="{{ mascota.nombre }}" class="img-card">
                 </div>
                 <div class="textMascotass">
                     <p>Usuario: {{ mascota.userDTO.username }}</p>

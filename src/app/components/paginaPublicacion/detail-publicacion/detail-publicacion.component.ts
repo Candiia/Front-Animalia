@@ -102,9 +102,7 @@ export class DetailPublicacionComponent implements OnInit {
     if (!this.nuevoComentario.trim() || !this.publicacion?.id) return;
 
     if (this.comentarioEditando) {
-      // Modo edición
       const editDto = { comentario: this.nuevoComentario.trim() };
-
       this.commentService.editarComentario(this.comentarioEditando.id, editDto).subscribe({
         next: () => {
           this.nuevoComentario = '';

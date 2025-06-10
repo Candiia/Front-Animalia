@@ -57,7 +57,8 @@
     src: url(../../../../../public/assets/fonts/Jura/static/Jura-SemiBold.ttf);
 }
 
-h5 {
+h5,
+main {
     font-family: "jura";
 }
 

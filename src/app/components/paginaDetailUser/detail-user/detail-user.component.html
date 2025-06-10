@@ -41,7 +41,10 @@
         <div *ngIf="mostrarMascotas && mascotasPaginadas.length > 0"
             class="d-flex flex-wrap gap-3 justify-content-start ms-3">
             <div class="card mt-3 me-4"
-                *ngFor="let mascota of mascotasPaginadas; trackBy: trackByMascotaId">
+                *ngFor="let mascota of mascotasPaginadas; trackBy: trackByMascotaId"
+                (click)="irADetalleMascota(mascota.id)"
+                style="cursor: pointer;">
+
                 <div class="card-body">
                     <p class="text-center fw-bold">{{ mascota.nombre }}</p>
                     <div class="d-flex flex-row align-items-start">

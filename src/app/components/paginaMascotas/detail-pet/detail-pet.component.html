@@ -1,0 +1,87 @@
+<div class="layout">
+    <app-nav class="colorFondo ancho"></app-nav>
+    <main>
+        <app-card-user-line class="me-3 position-absolute end-0"></app-card-user-line>
+
+        <div class="container mt-5">
+            <div *ngIf="!petDetails" class="text-center">
+                <p>Cargando detalles de la mascota...</p>
+            </div>
+
+            <div *ngIf="petDetails">
+                <div class="row align-items-center ">
+                    <div class="col-md-4 text-center">
+                        <img [src]="getImage(petDetails.avatar)" alt="{{ petDetails.nombre }}"
+                            class="img-fluid rounded-circle shadow mb-3"
+                            style="width: 200px; height: 200px; object-fit: cover;">
+                        <h2 class="fw-bold text-dark">{{ petDetails.nombre }}</h2>
+
+                        <p class="text-muted fs-5">
+                            <i class="bi bi-person-fill me-2"></i>
+                            <a [routerLink]="['/detailUser', petDetails.userDTO.id]"
+                                class="fw-semibold text-decoration-none text-muted">
+                                {{ petDetails.userDTO.username }}
+                            </a>
+                        </p>
+
+                        <p class="text-muted"><i class="bi bi-cake2-fill me-2"></i><span class="fw-semibold">{{
+                                petDetails.fechaNacimiento | date:
+                                'dd/MM/yyyy' }}</span></p>
+                    </div>
+                    <div class="col-md-8 ">
+                        <div class="card p-4 shadow-sm cardDetail">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h5 class="text-secondary ms-5">{{ petDetails.publicationCount }}</h5>
+                                    <p class="fw-bold">Publicaciones</p>
+                                </div>
+                                <div>
+                                    <h5 class="text-dark">Biografía</h5>
+                                    <p class="text-muted">{{ petDetails.biografia }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-5">
+                    <div *ngIf="petDetails.publicaciones.length === 0" class="text-center">
+                        <p>No hay publicaciones para esta mascota.</p>
+                    </div>
+                    <div class="row">
+                        <div *ngFor="let publicacion of petDetails.publicaciones" class="col-md-4 mb-4">
+                            <a [routerLink]="['/detailPublicacion', publicacion.id]" class="text-decoration-none"
+                                [attr.aria-label]="'Ver publicación de ' + publicacion.usename.username">
+                                <div class="card position-relative card-small">
+                                    <div class="d-flex align-items-center px-3 pt-2">
+                                        <h6 class="mb-2 me-auto">{{ '@' + publicacion.usename.username }}</h6>
+                                        <p class="mb-0 text-muted ms-2" style="font-size: 0.8rem;">
+                                            {{ publicacion.fechaRegistro | date: 'dd/MM/yyyy' }}
+                                        </p>
+                                    </div>
+                                    <img [src]="getImage(publicacion.imageURL)" class="img-card"
+                                        alt="Publicación de la mascota" />
+                                    <div class="card-body">
+                                        <p class="card-text">{{ publicacion.descripcion }}</p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="icon-text">
+                                                <i [ngClass]="{
+                          'bi bi-heart-fill text-danger': publicacion.hasLike,
+                          'bi bi-heart text-dark': !publicacion.hasLike
+                        }"></i>
+                                                <span class="ms-1">{{ publicacion.numeroLikes }}</span>
+                                            </div>
+                                            <div class="icon-text">
+                                                <i class="bi bi-chat-dots-fill"></i>
+                                                <span class="ms-1">{{ publicacion.numeroComentarios }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
