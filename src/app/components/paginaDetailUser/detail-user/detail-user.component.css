@@ -121,3 +121,18 @@ ngb-pagination {
 .imagenEspcie {
     width: 30px;
 }
+
+.bi-plus-circle-fill {
+    font-size: 30pt;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.bi-plus-circle-fill:hover {
+    transform: scale(1.1);
+}
+
+.btn-close:focus {
+    outline: none;
+    box-shadow: none;
+}

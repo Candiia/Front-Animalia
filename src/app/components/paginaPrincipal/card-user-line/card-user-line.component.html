@@ -1,7 +1,13 @@
-<div class="profile-card">
-  <div class="profile-info">
-    <span class="name">Admin</span>
-    <span class="id">Id: 1234dsad6</span>
+<div class="profile-card btn btn-dark text-white w-auto" ngbDropdown>
+  <div class="d-flex profile-text" ngbDropdownToggle style="gap: 1rem; cursor: pointer;">
+    <div>
+      <div class="name">{{ user?.username || 'Cargando...' }}</div>
+      <div class="text-light">Id: {{ user?.id || '-' }}</div>
+    </div>
   </div>
-  <i class="bi bi-chevron-down"></i>
+
+  <div ngbDropdownMenu class="mt-2 dropdown-menu-right">
+    <button class="dropdown-item text-white" (click)="viewProfile()"><i class="bi bi-person-fill"></i> Ver perfil</button>
+    <button class="dropdown-item text-danger" (click)="logout()"><i class="bi bi-power"></i> Salir</button>
+  </div>
 </div>

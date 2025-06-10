@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { error } from 'node:console';
-import { ErrorResponse } from '../../../models/error.interfaces';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -31,7 +29,7 @@ export class LoginComponent {
         localStorage.setItem('account_id', resp.id)
         localStorage.setItem('token', resp.token)
         if (resp.roles.includes('ADMIN')) {
-          this.router.navigateByUrl('/home')
+          this.router.navigateByUrl('/home');
         }
       },
       error: (err) => {

@@ -76,16 +76,22 @@ h5 {
 }
 
 .icon-text {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  user-select: none; 
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
 }
 
 .icon-text i {
-  font-size: 1.25rem; 
-  margin-right: 0.5rem; 
-  line-height: 1;
-  display: inline-block;
-  vertical-align: middle;
+    font-size: 1.25rem;
+    margin-right: 0.5rem;
+    line-height: 1;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.dropdown-menu .dropdown-item:focus,
+.dropdown-menu .dropdown-item:active,
+.dropdown-menu .dropdown-item:hover {
+    background-color: white !important;
 }

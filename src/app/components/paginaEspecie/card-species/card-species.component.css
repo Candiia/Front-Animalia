@@ -81,7 +81,6 @@ ngb-pagination {
     }
 }
 
-/* Estilos para pantallas medianas (ej. portátil ~ >=768px y <1200px) */
 @media (min-width: 768px) and (max-width: 1199.98px) {
     .card {
         max-width: 300px;
@@ -90,11 +89,16 @@ ngb-pagination {
     }
 }
 
-/* Estilos para móviles */
 @media (max-width: 767.98px) {
     .card {
         max-width: 100%;
         height: auto;
         font-size: 13pt;
     }
+}
+
+
+.btn-close:focus {
+    outline: none;
+    box-shadow: none;
 }
