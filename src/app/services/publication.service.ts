@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { PublicacionResponse } from '../../models/detail-publication.interfaces';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { PublicacionListReponse } from '../../models/publication-list.interrface';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +26,33 @@ export class PublicationService {
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
         'Content-Type': 'application/json'
+      }
+    });
+  }
+
+  createPublicacion(data: { descripcion: string }, file: File | null, mascotaId: string) {
+    const url = `${environment.apiBaseUrl}/publicacion/${mascotaId}`;
+    const formData = new FormData();
+
+    const jsonBlob = new Blob([JSON.stringify(data)], { type: 'application/json' });
+    formData.append('post', jsonBlob);
+
+    if (file) {
+      formData.append('file', file, file.name);
+    }
+
+    return this.http.post(url, formData, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    });
+  }
+
+  getAllPublicaciones(page: number = 0): Observable<PublicacionListReponse> {
+    const url = `${environment.apiBaseUrl}/publicacion?page=${page}`;
+    return this.http.get<PublicacionListReponse>(url, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
       }
     });
   }

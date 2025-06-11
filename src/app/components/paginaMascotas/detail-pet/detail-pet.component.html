@@ -1,7 +1,7 @@
 <div class="layout">
     <app-nav class="colorFondo ancho"></app-nav>
     <main>
-        <app-card-user-line class="me-3 position-absolute end-0"></app-card-user-line>
+        <app-card-user-line class="margenCard"></app-card-user-line>
 
         <div class="container mt-5">
             <div *ngIf="!petDetails" class="text-center">
@@ -29,6 +29,13 @@
                                 'dd/MM/yyyy' }}</span></p>
                     </div>
                     <div class="col-md-8 ">
+                        <i *ngIf="petDetails?.userDTO?.id === currentUserId"
+                            class="bi bi-plus-circle-fill ms-2 text-dark mb-2 disenoIconAdd"
+                            title="Agregar nueva publicación"
+                            (click)="abrirModalCrearPublicacion(modalPublicacion)"
+                            style="cursor: pointer;">
+                        </i>
+
                         <div class="card p-4 shadow-sm cardDetail">
                             <div class="d-flex justify-content-between">
                                 <div>
@@ -85,3 +92,29 @@
         </div>
     </main>
 </div>
+
+<ng-template #modalPublicacion let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title">Crear nueva publicación</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+    </div>
+    <div class="modal-body">
+        <form (ngSubmit)="crearPublicacion(modal)">
+            <div class="mb-3">
+                <label for="descripcion" class="form-label">Descripción</label>
+                <textarea class="form-control" [(ngModel)]="nuevaPublicacionDescripcion"
+                    name="descripcion" rows="3" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="archivo" class="form-label">Imagen</label>
+                <input class="form-control" type="file" (change)="onArchivoSeleccionado($event)" required>
+            </div>
+            <div *ngIf="mostrarError" class="alert alert-danger mt-2">
+                Todos los campos son obligatorios.
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-dark">Publicar</button>
+            </div>
+        </form>
+    </div>
+</ng-template>

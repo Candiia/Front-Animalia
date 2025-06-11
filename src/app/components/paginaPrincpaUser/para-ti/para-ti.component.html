@@ -1,7 +1,51 @@
 <div class="layout">
     <app-nav-user class="colorFondo ancho"></app-nav-user>
     <main>
-        <app-card-user-line class="me-3 position-absolute end-0"></app-card-user-line>
+        <app-card-user-line class="margenCard"></app-card-user-line>
         <h3 class="ms-3 mb-5 marginDe">Para ti</h3>
+
+        <div class="mt-5">
+            <div class="row justify-content-center">
+                <div *ngFor="let publicacion of publicaciones" class="col-12">
+
+                    <div class="card position-relative card-small" [routerLink]="['/detailPublicacion', publicacion.id]">
+                        <div class="d-flex align-items-center px-3 pt-2">
+                            <h6 class="mb-2 me-auto">{{ '@' + publicacion.getMascotaDTOName.nombre }}</h6>
+                            <p class="mb-0 text-muted ms-2" style="font-size: 0.8rem;">
+                                {{ publicacion.fechaRegistro | date: 'dd/MM/yyyy' }}
+                            </p>
+                        </div>
+                        <img [src]="getImage(publicacion.imageURL)" class="img-card"
+                            alt="Publicación de la mascota" />
+                        <div class="card-body">
+                            <p class="card-text">{{ publicacion.descripcion }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="icon-text">
+                                    <i [ngClass]="{
+                      'bi bi-heart-fill text-danger': publicacion.hasLike,
+                      'bi bi-heart text-dark': !publicacion.hasLike
+                    }"></i>
+                                    <span class="ms-1">{{ publicacion.numeroLikes }}</span>
+                                </div>
+                                <div class="icon-text">
+                                    <i class="bi bi-chat-dots-fill"></i>
+                                    <span class="ms-1">{{ publicacion.numeroComentarios }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div *ngIf="cargando" class="text-center my-4">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Cargando...</span>
+                </div>
+            </div>
+
+            <div #observador></div>
+
+        </div>
     </main>
 </div>

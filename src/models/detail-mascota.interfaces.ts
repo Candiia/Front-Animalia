@@ -37,6 +37,7 @@ export interface Publicacione {
   comentarioDTOList: ComentarioDtolist[]
   usename: Usename
   hasLike: boolean
+  getMascotaDTOName: GetMascotaDtoname
 }
 
 export interface ComentarioDtolist {
@@ -52,4 +53,8 @@ export interface UserDto2 {
 
 export interface Usename {
   username: string
+}
+
+export interface GetMascotaDtoname {
+  nombre: string
 }

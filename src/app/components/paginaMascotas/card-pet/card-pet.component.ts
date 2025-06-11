@@ -47,7 +47,8 @@ export class CardPetComponent implements OnChanges, OnInit {
       localDate: ''
     },
     userDTO: {
-      username: '00000000-0000-0000-0000-000000000000'
+      username: '',
+      id: '00000000-0000-0000-0000-000000000000',
     }
   };
 

@@ -30,6 +30,8 @@ export interface Especie {
     localDate: string
 }
 
+
 export interface UserDto {
-    username: UUID
+    username: string
+    id: UUID
 }

@@ -4,11 +4,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MascotaDtolist, PublicacionDtos, UserDetailResponse } from '../../../../models/detail-user.interfaces';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { PetService } from '../../../services/pet.service';
-import { MascotaList } from '../../../../models/pet-list.interfaces';
 import { Breed } from '../../../../models/breeds-list.interfaces';
 import { SpeciesLists } from '../../../../models/species-list.interfaces';
 import { SpeciesService } from '../../../services/species.service';
 import { BreedsService } from '../../../services/breeds.service';
+import { PublicationService } from '../../../services/publication.service';
+import { MascotaList } from '../../../../models/pet-list.interfaces';
 
 @Component({
   selector: 'app-detail-user',
@@ -28,7 +29,7 @@ export class DetailUserComponent implements OnInit {
   public elementosEncontradosMascota: number = 0;
   mostrarToast = false;
   mostrarError = false;
-
+  misMascotas: MascotaDtolist[] = [];
   listaRazas: Breed[] = [];
   listaEspecies: SpeciesLists[] = [];
   nuevaMascota: MascotaList = {
@@ -47,16 +48,29 @@ export class DetailUserComponent implements OnInit {
       localDate: ''
     },
     userDTO: {
-      username: '00000000-0000-0000-0000-000000000000'
+      username: '',
+      id: '00000000-0000-0000-0000-000000000000'
     }
   };
+
   archivoAvatar: File | null = null;
   modalRef!: NgbModalRef;
   usuarioLogueado: UserDetailResponse | null = null;
   mostrarBotonAddMascota: boolean = false;
   rolUsuario: string | null = null;
 
+  nuevaPublicacionDescripcion: string = '';
+  archivoPublicacion: File | null = null;
+  @ViewChild('addPublicationModal') addPublicationModal!: any;
   @ViewChild('addPetModal') addPetModal!: any;
+
+  publicacion = {
+    mascota: {
+      id: ''
+    },
+    descripcion: ''
+  };
+
   constructor(
     private route: ActivatedRoute,
     private userService: UserService,
@@ -64,7 +78,8 @@ export class DetailUserComponent implements OnInit {
     private modalService: NgbModal,
     private petServices: PetService,
     private breedsService: BreedsService,
-    private speciesService: SpeciesService
+    private speciesService: SpeciesService,
+    private publicationServices: PublicationService
   ) { }
 
   ngOnInit() {
@@ -75,6 +90,7 @@ export class DetailUserComponent implements OnInit {
     this.userService.getUsuarioLogueado().subscribe((usuario) => {
       this.usuarioLogueado = usuario;
       this.mostrarBotonAddMascota = this.usuarioLogueado?.id === this.userId;
+      this.getUserDetail(this.userId)
     });
 
     this.rolUsuario = localStorage.getItem('roles');
@@ -85,6 +101,9 @@ export class DetailUserComponent implements OnInit {
       this.userData = data;
       this.elementosEncontradosPubli = data.publicacionDTOS?.length || 0;
       this.elementosEncontradosMascota = data.mascotaDTOList?.length || 0;
+      if (this.usuarioLogueado) {
+        this.misMascotas = data.mascotaDTOList?.filter(m => m.userDTO.id === this.usuarioLogueado!.id) || [];
+      }
     });
   }
 
@@ -181,16 +200,18 @@ export class DetailUserComponent implements OnInit {
       next: () => {
         modal.close();
         this.getUserDetail(this.userId);
+        this.resetNuevaMascota();
         this.mostrarToast = true;
         setTimeout(() => this.mostrarToast = false, 3000);
       },
       error: err => {
         console.error('Error creando mascota', err);
-        this.mostrarToast = true;
-        setTimeout(() => this.mostrarToast = false, 3000);
+        this.mostrarError = true;
+        setTimeout(() => this.mostrarError = false, 3000);
       }
     });
   }
+
 
   cargarRazas(): void {
     this.breedsService.obtenerListadoBreeds(0).subscribe({
@@ -217,5 +238,72 @@ export class DetailUserComponent implements OnInit {
   irADetalleMascota(id: string) {
     this.router.navigate(['/detailPet', id]);
   }
+
+  abrirModalPublicacion() {
+    console.log('Abriendo modal publicación');
+    this.nuevaPublicacionDescripcion = '';
+    this.archivoPublicacion = null;
+    this.modalRef = this.modalService.open(this.addPublicationModal, { centered: true, backdrop: 'static' });
+  }
+
+
+  onFileChangePublicacion(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.archivoPublicacion = file;
+    }
+  }
+
+  crearPublicacion(modal: any) {
+    this.publicacion.descripcion = this.nuevaPublicacionDescripcion;
+    const { descripcion, mascota } = this.publicacion;
+    const mascotaId = mascota.id;
+
+    if (!descripcion || !mascotaId || !this.archivoPublicacion) {
+      this.mostrarError = true;
+      setTimeout(() => this.mostrarError = false, 3000);
+      return;
+    }
+
+    const postData = { descripcion };
+    this.publicationServices.createPublicacion(postData, this.archivoPublicacion, mascotaId).subscribe({
+      next: () => {
+        modal.close();
+        this.getUserDetail(this.userId);
+        this.mostrarToast = true;
+        setTimeout(() => this.mostrarToast = false, 3000);
+      },
+      error: err => {
+        console.error('Error creando publicación', err);
+        this.mostrarError = true;
+        setTimeout(() => this.mostrarError = false, 3000);
+      }
+    });
+  }
+
+  resetNuevaMascota() {
+    this.nuevaMascota = {
+      id: '00000000-0000-0000-0000-000000000000',
+      nombre: '',
+      biografia: '',
+      fechaNacimiento: '',
+      avatar: '',
+      raza: {
+        id: '00000000-0000-0000-0000-000000000000',
+        nombre: ''
+      },
+      especie: {
+        id: '00000000-0000-0000-0000-000000000000',
+        nombre: '',
+        localDate: ''
+      },
+      userDTO: {
+        username: '',
+        id: '00000000-0000-0000-0000-000000000000'
+      }
+    };
+    this.archivoAvatar = null;
+  }
+
 
 }
