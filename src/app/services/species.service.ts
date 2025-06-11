@@ -12,7 +12,7 @@ export class SpeciesService {
   constructor(private http: HttpClient) { }
 
   obtenerListadoSpecies(page: number): Observable<SpeciesListsResponse> {
-    return this.http.get<SpeciesListsResponse>(`${environment.apiBaseUrl}/especie/admin?page=${page}`, {
+    return this.http.get<SpeciesListsResponse>(`${environment.apiBaseUrl}/especie/?page=${page}`, {
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
         'Content-Type': 'application/json',
