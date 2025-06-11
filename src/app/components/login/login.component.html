@@ -6,14 +6,14 @@
                     <div class="card-body p-5 text-center">
                         <form (ngSubmit)="loginUser()">
                             <img class="w-32 mx-auto" src="/assets/logo.png" alt="logo">
-                            <p class="text-dark mb-5">Please enter your username and password!</p>
+                            <p class="text-dark mb-5">¡Por favor, introduza su usuario y contraseña!</p>
 
                             <div *ngIf="errorMessage" class="alert alert-danger text-dark py-2 mb-4" role="alert">
                                 {{ errorMessage }}
                             </div>
 
                             <div data-mdb-input-init class="form-outline form-white mb-4">
-                                <input type="text" id="typeUsername" class="form-control form-control-lg" placeholder="Username"
+                                <input type="text" id="typeUsername" class="form-control form-control-lg" placeholder="Usuario"
                                     [(ngModel)]="username" name="username" required />
                             </div>
 
@@ -23,11 +23,12 @@
                             </div>
 
                             <button data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-dark btn-lg px-5"
-                                type="submit">Login</button>
+                                type="submit">Entrar</button>
                         </form>
 
                         <div class="mt-3">
-                            <a href="#!" class="text-white-50 fw-bold">Sign Up</a>
+                            <a routerLink="/registrar" class="text-dark fw-bold">¿Aún no tienes cuenta?
+                                Registrar</a>
                         </div>
 
                     </div>
