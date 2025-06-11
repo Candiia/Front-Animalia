@@ -31,12 +31,13 @@ export class LoginComponent {
         localStorage.setItem('roles', JSON.stringify(resp.roles));
 
         if (resp.roles.includes('ADMIN')) {
+          localStorage.setItem('roles', 'ADMIN');
           this.router.navigateByUrl('/home');
         } else if (resp.roles.includes('USER')) {
+          localStorage.setItem('roles', 'USER');
           this.router.navigateByUrl('/paraTi');
-        } else {
-          this.errorMessage = 'Rol no autorizado para acceder.';
         }
+
       },
       error: (err) => {
         this.errorMessage = err.error.detail || 'No tienes acceso para entrar.';

@@ -30,6 +30,7 @@ import { DetailUserComponent } from './components/paginaDetailUser/detail-user/d
 import { DetailPublicacionComponent } from './components/paginaPublicacion/detail-publicacion/detail-publicacion.component';
 import { DetailPetComponent } from './components/paginaMascotas/detail-pet/detail-pet.component';
 import { ParaTiComponent } from './components/paginaPrincpaUser/para-ti/para-ti.component';
+import { NavUserComponent } from './shared/nav-user/nav-user.component';
 
 
 @NgModule({
@@ -55,7 +56,8 @@ import { ParaTiComponent } from './components/paginaPrincpaUser/para-ti/para-ti.
     DetailUserComponent,
     DetailPublicacionComponent,
     DetailPetComponent,
-    ParaTiComponent
+    ParaTiComponent,
+    NavUserComponent
   ],
   imports: [
     BrowserModule,

@@ -123,6 +123,11 @@ export class DetailPetComponent {
     if (this.petId) {
       this.petService.getPetById(this.petId).subscribe({
         next: (data) => {
+          if (data.publicaciones) {
+            data.publicaciones.sort((a, b) => {
+              return new Date(b.fechaRegistro).getTime() - new Date(a.fechaRegistro).getTime();
+            });
+          }
           this.petDetails = data;
           console.log('Publicaciones cargadas:', this.petDetails.publicaciones);
         },

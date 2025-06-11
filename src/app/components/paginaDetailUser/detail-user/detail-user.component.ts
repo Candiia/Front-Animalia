@@ -57,6 +57,8 @@ export class DetailUserComponent implements OnInit {
   modalRef!: NgbModalRef;
   usuarioLogueado: UserDetailResponse | null = null;
   mostrarBotonAddMascota: boolean = false;
+  rolUsuario: string | null = null;
+
   nuevaPublicacionDescripcion: string = '';
   archivoPublicacion: File | null = null;
   @ViewChild('addPublicationModal') addPublicationModal!: any;
@@ -90,6 +92,8 @@ export class DetailUserComponent implements OnInit {
       this.mostrarBotonAddMascota = this.usuarioLogueado?.id === this.userId;
       this.getUserDetail(this.userId)
     });
+
+    this.rolUsuario = localStorage.getItem('roles');
   }
 
   getUserDetail(id: string) {

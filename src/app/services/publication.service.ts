@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { PublicacionResponse } from '../../models/detail-publication.interfaces';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { PublicacionListReponse } from '../../models/publication-list.interrface';
 
 @Injectable({
   providedIn: 'root'
@@ -46,4 +47,14 @@ export class PublicationService {
       }
     });
   }
+
+  getAllPublicaciones(page: number = 0): Observable<PublicacionListReponse> {
+    const url = `${environment.apiBaseUrl}/publicacion?page=${page}`;
+    return this.http.get<PublicacionListReponse>(url, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    });
+  }
+
 }
