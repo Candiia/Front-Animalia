@@ -1,0 +1,51 @@
+<section class="vh-100 gradient-custom">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                <div class="card bg-light text-white" style="border-radius: 1rem;">
+                    <div class="card-body p-5 text-center">
+                        <form (ngSubmit)="registerUser()">
+                            <img class="w-32 mx-auto" src="/assets/logo.png" alt="logo">
+                            <p class="text-dark mb-5">¡Crea tu cuenta!</p>
+
+                            <div *ngIf="errorMessage" class="alert alert-danger text-dark py-2 mb-4">
+                                {{ errorMessage }}
+                            </div>
+                            <div *ngIf="successMessage" class="alert alert-success text-dark py-2 mb-4">
+                                {{ successMessage }}
+                            </div>
+
+                            <div class="form-outline form-white mb-4">
+                                <input type="text" class="form-control form-control-lg" placeholder="Username"
+                                    [(ngModel)]="username" name="username" required />
+                            </div>
+
+                            <div class="form-outline form-white mb-4">
+                                <input type="email" class="form-control form-control-lg" placeholder="Email"
+                                    [(ngModel)]="email" name="email" required />
+                            </div>
+
+                            <div class="form-outline form-white mb-4">
+                                <input type="password" class="form-control form-control-lg" placeholder="Contraseña"
+                                    [(ngModel)]="password" name="password" required />
+                            </div>
+
+                            <div class="form-outline form-white mb-4">
+                                <input type="password" class="form-control form-control-lg" placeholder="Confirmar Contraseña"
+                                    [(ngModel)]="verifyPassword" name="verifyPassword" required />
+                            </div>
+
+                            <button class="btn btn-outline-dark btn-lg px-5"
+                                type="submit">Registrarse</button>
+                        </form>
+
+                        <div class="mt-3">
+                            <a routerLink="/login" class="text-dark fw-bold">¿Ya tienes cuenta? Inicia sesión</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

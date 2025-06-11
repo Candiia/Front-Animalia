@@ -31,6 +31,8 @@ import { DetailPublicacionComponent } from './components/paginaPublicacion/detai
 import { DetailPetComponent } from './components/paginaMascotas/detail-pet/detail-pet.component';
 import { ParaTiComponent } from './components/paginaPrincpaUser/para-ti/para-ti.component';
 import { NavUserComponent } from './shared/nav-user/nav-user.component';
+import { RegistrarComponent } from './components/registrar/registrar.component';
+import { ValidacionComponent } from './components/validacion/validacion.component';
 
 
 @NgModule({
@@ -57,7 +59,9 @@ import { NavUserComponent } from './shared/nav-user/nav-user.component';
     DetailPublicacionComponent,
     DetailPetComponent,
     ParaTiComponent,
-    NavUserComponent
+    NavUserComponent,
+    RegistrarComponent,
+    ValidacionComponent
   ],
   imports: [
     BrowserModule,

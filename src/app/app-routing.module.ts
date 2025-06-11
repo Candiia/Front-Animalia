@@ -12,6 +12,8 @@ import { DetailUserComponent } from './components/paginaDetailUser/detail-user/d
 import { DetailPublicacionComponent } from './components/paginaPublicacion/detail-publicacion/detail-publicacion.component';
 import { DetailPetComponent } from './components/paginaMascotas/detail-pet/detail-pet.component';
 import { ParaTiComponent } from './components/paginaPrincpaUser/para-ti/para-ti.component';
+import { RegistrarComponent } from './components/registrar/registrar.component';
+import { ValidacionComponent } from './components/validacion/validacion.component';
 
 const routes: Routes = [
 
@@ -27,6 +29,8 @@ const routes: Routes = [
   { path: 'detailPublicacion/:id', component: DetailPublicacionComponent },
   { path: 'detailPet/:id', component: DetailPetComponent },
   { path: 'paraTi', component: ParaTiComponent },
+  { path: 'registrar', component: RegistrarComponent },
+  { path: 'validacion', component: ValidacionComponent },
   { path: '', redirectTo: '/login', pathMatch: 'full' }
 ];
 
