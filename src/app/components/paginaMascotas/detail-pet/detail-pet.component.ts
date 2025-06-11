@@ -6,6 +6,10 @@ import { MascotaDtolist } from '../../../../models/user-list.interfaces';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PublicacionResponse } from '../../../../models/detail-publication.interfaces';
 import { MascotaResponse } from '../../../../models/detail-mascota.interfaces';
+import { PublicationService } from '../../../services/publication.service';
+import { AuthService } from '../../../services/auth.service';
+import { UserService } from '../../../services/user.service';
+import { UserDetailResponse } from '../../../../models/detail-user.interfaces';
 
 @Component({
   selector: 'app-detail-pet',
@@ -19,27 +23,41 @@ export class DetailPetComponent {
   petDetails: MascotaResponse | undefined;
   selectedPublicacion: PublicacionResponse | null = null;
 
+  nuevaPublicacionDescripcion: string = '';
+  archivoPublicacion: File | null = null;
+  mostrarError: boolean = false;
+  mostrarToast: boolean = false;
+  currentUserId: string | null = null;
+
   constructor(
     private route: ActivatedRoute,
     private petService: PetService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private publicationService: PublicationService,
+    private userService: UserService
   ) { }
 
   ngOnInit(): void {
-    this.petId = this.route.snapshot.paramMap.get('id');
+    // Obtener usuario logueado
+    this.userService.getUsuarioLogueado().subscribe({
+      next: (user: UserDetailResponse) => {
+        this.currentUserId = user.id;
+      },
+      error: (err) => {
+        console.error('Error al obtener usuario logueado', err);
+      }
+    });
 
+    this.petId = this.route.snapshot.paramMap.get('id');
     if (this.petId) {
       this.petService.getPetById(this.petId).subscribe({
         next: (data) => {
           this.petDetails = data;
-          console.log('Detalles de la mascota:', this.petDetails);
         },
         error: (err) => {
           console.error('Error al obtener los detalles de la mascota:', err);
         }
       });
-    } else {
-      console.error('No se encontró el ID de la mascota en la URL.');
     }
   }
 
@@ -55,6 +73,62 @@ export class DetailPetComponent {
       return prefix + url;
     }
     return url;
+  }
+
+  abrirModalCrearPublicacion(content: any) {
+    this.modalService.open(content, { centered: true });
+  }
+
+
+  onArchivoSeleccionado(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.archivoPublicacion = input.files[0];
+    }
+  }
+
+
+  crearPublicacion(modal: any) {
+    const descripcion = this.nuevaPublicacionDescripcion;
+    const file = this.archivoPublicacion;
+    const mascotaId = this.petDetails?.id;
+
+    if (!descripcion || !file || !mascotaId) {
+      this.mostrarError = true;
+      setTimeout(() => this.mostrarError = false, 3000);
+      return;
+    }
+
+    const postData = { descripcion };
+
+    this.publicationService.createPublicacion(postData, file, mascotaId).subscribe({
+      next: () => {
+        modal.close();
+        this.recargarDetalles();
+        this.nuevaPublicacionDescripcion = '';
+        this.archivoPublicacion = null;
+        this.mostrarToast = true;
+        setTimeout(() => this.mostrarToast = false, 3000);
+      },
+      error: (err) => {
+        console.error('Error al crear la publicación', err);
+        this.mostrarError = true;
+        setTimeout(() => this.mostrarError = false, 3000);
+      }
+    });
+  }
+
+
+  recargarDetalles() {
+    if (this.petId) {
+      this.petService.getPetById(this.petId).subscribe({
+        next: (data) => {
+          this.petDetails = data;
+          console.log('Publicaciones cargadas:', this.petDetails.publicaciones);
+        },
+        error: (err) => console.error('Error al recargar detalles:', err)
+      });
+    }
   }
 
 }

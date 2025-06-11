@@ -12,7 +12,7 @@ export class BreedsService {
   constructor(private http: HttpClient) { }
 
   obtenerListadoBreeds(page: number): Observable<BreedsListsResponse> {
-    return this.http.get<BreedsListsResponse>(`${environment.apiBaseUrl}/raza/admin?page=${page}`, {
+    return this.http.get<BreedsListsResponse>(`${environment.apiBaseUrl}/raza/?page=${page}`, {
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
         'Content-Type': 'application/json',

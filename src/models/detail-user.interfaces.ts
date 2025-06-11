@@ -1,3 +1,5 @@
+import { UUID } from "crypto"
+
 export interface UserDetailResponse {
     id: string
     username: string
@@ -19,6 +21,7 @@ export interface MascotaDtolist {
     avatar: string
     raza: Raza
     especie: Especie
+    userDTO: UserDto
 }
 
 export interface Raza {
@@ -30,6 +33,11 @@ export interface Especie {
     id: string
     nombre: string
     localDate: string
+}
+
+export interface UserDto {
+    username: string
+    id: UUID
 }
 
 export interface PublicacionDtos {

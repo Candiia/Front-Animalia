@@ -29,4 +29,21 @@ export class PublicationService {
     });
   }
 
+  createPublicacion(data: { descripcion: string }, file: File | null, mascotaId: string) {
+    const url = `${environment.apiBaseUrl}/publicacion/${mascotaId}`;
+    const formData = new FormData();
+
+    const jsonBlob = new Blob([JSON.stringify(data)], { type: 'application/json' });
+    formData.append('post', jsonBlob);
+
+    if (file) {
+      formData.append('file', file, file.name);
+    }
+
+    return this.http.post(url, formData, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    });
+  }
 }
