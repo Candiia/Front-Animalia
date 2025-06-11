@@ -1,0 +1,32 @@
+.error-message {
+    color: red;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.gradient-custom {
+    background: linear-gradient(to right,
+            rgba(87, 146, 223, 0.6) 10%,
+            rgba(42, 157, 143, 0.6) 50%);
+}
+
+
+section {
+    font-family: "jura";
+
+}
+
+@font-face {
+    font-family: "jura";
+    src: url(../../../../public/assets/fonts/Jura/static/Jura-Bold.ttf);
+}
+
+input {
+    border-radius: 20px;
+}
+
+input:focus {
+    outline: none;
+    box-shadow: none;
+    border-color: rgb(153, 153, 153);
+}
