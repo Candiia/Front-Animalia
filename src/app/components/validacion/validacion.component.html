@@ -1,1 +1,55 @@
-<p>validacion works!</p>
+<div *ngIf="mostrarToastExito"
+    class="alert alert-success alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x text-center"
+    role="alert"
+    style="z-index: 1055; margin-top: 20px; min-width: 300px;">
+    ¡Cuenta activada con éxito!
+    <button type="button" class="btn-close" aria-label="Close" (click)="mostrarToastExito = false"></button>
+</div>
+
+<div *ngIf="mostrarToastError"
+    class="alert alert-danger alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x text-center"
+    role="alert"
+    style="z-index: 1055; margin-top: 20px; min-width: 300px;">
+    Código inválido o expirado
+    <button type="button" class="btn-close" aria-label="Close" (click)="mostrarToastError = false"></button>
+</div>
+
+<section class="vh-100 gradient-custom">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                <div class="card bg-light text-white" style="border-radius: 1rem;">
+                    <div class="card-body p-5 text-center">
+                        <img class="w-32 mx-auto" src="/assets/logo.png" alt="logo">
+                        <p class="text-dark mb-4">Código de verificación</p>
+
+                        <div class="d-flex justify-content-between mb-3">
+                            <input type="text" maxlength="1" class="form-control text-center inputSize me-2" [(ngModel)]="code1"
+                                name="code1" required autocomplete="off" #input1 inputmode="numeric" pattern="[0-9]*"
+                                (input)="autoFocusNext($event, input2)" (keydown)="autoFocusPrev($event, null)"
+                                (paste)="onPaste($event)">
+                            <input type="text" maxlength="1" class="form-control text-center inputSize me-2" [(ngModel)]="code2"
+                                name="code2" required autocomplete="off" #input2 inputmode="numeric" pattern="[0-9]*"
+                                (input)="autoFocusNext($event, input3)" (keydown)="autoFocusPrev($event, input1)">
+                            <input type="text" maxlength="1" class="form-control text-center inputSize me-2" [(ngModel)]="code3"
+                                name="code3" required autocomplete="off" #input3 inputmode="numeric" pattern="[0-9]*"
+                                (input)="autoFocusNext($event, input4)" (keydown)="autoFocusPrev($event, input2)">
+                            <input type="text" maxlength="1" class="form-control text-center inputSize me-2" [(ngModel)]="code4"
+                                name="code4" required autocomplete="off" #input4 inputmode="numeric" pattern="[0-9]*"
+                                (input)="autoFocusNext($event, input5)" (keydown)="autoFocusPrev($event, input3)">
+                            <input type="text" maxlength="1" class="form-control text-center inputSize me-2" [(ngModel)]="code5"
+                                name="code5" required autocomplete="off" #input5 inputmode="numeric" pattern="[0-9]*"
+                                (input)="autoFocusNext($event, input6)" (keydown)="autoFocusPrev($event, input4)">
+                            <input type="text" maxlength="1" class="form-control text-center inputSize me-2" [(ngModel)]="code6"
+                                name="code6" required autocomplete="off" #input6 inputmode="numeric" pattern="[0-9]*"
+                                (keydown)="autoFocusPrev($event, input5)">
+
+                        </div>
+
+                        <button class="btn btn-outline-dark btn-lg px-5" (click)="verifyCode()">Verificar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

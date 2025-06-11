@@ -22,4 +22,11 @@ export class AuthService {
       }
     });
   }
+
+  activateAccount(token: string): Observable<any> {
+    return this.http.post(`${environment.apiBaseUrl}/usuario/activate/account/`, {
+      token: token
+    });
+  }
+
 }
