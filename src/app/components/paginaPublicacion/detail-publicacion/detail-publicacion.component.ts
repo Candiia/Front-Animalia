@@ -22,6 +22,7 @@ export class DetailPublicacionComponent implements OnInit {
   comentarioEditando: ComentarioDtolist | null = null;
   @ViewChild('confirmDeletePublicacionModal', { static: true }) confirmarEliminarPublicacionTemplate!: TemplateRef<any>;
   modalPublicacionRef?: NgbModalRef;
+  rolUsuario: string | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -40,6 +41,8 @@ export class DetailPublicacionComponent implements OnInit {
         error: (err) => console.error('Error al obtener publicación:', err)
       });
     }
+    this.rolUsuario = localStorage.getItem('roles');
+
   }
 
   toggleComentarios(): void {

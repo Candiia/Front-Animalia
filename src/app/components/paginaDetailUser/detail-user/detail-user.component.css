@@ -136,3 +136,7 @@ ngb-pagination {
     outline: none;
     box-shadow: none;
 }
+
+.margenCard {
+    margin-left: 1450px;
+}

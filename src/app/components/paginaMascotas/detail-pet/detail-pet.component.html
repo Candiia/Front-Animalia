@@ -1,5 +1,6 @@
 <div class="layout">
-    <app-nav class="colorFondo ancho"></app-nav>
+    <app-nav class="colorFondo ancho" *ngIf="rolUsuario === 'ADMIN'"></app-nav>
+    <app-nav-user class="colorFondo ancho" *ngIf="rolUsuario === 'USER'"></app-nav-user>
     <main>
         <app-card-user-line class="margenCard"></app-card-user-line>
 
