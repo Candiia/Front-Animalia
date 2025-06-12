@@ -22,7 +22,7 @@ export class DetailPetComponent {
   petId: string | null = null;
   petDetails: MascotaResponse | undefined;
   selectedPublicacion: PublicacionResponse | null = null;
-
+  rolUsuario: string | null = null;
   nuevaPublicacionDescripcion: string = '';
   archivoPublicacion: File | null = null;
   mostrarError: boolean = false;
@@ -38,7 +38,6 @@ export class DetailPetComponent {
   ) { }
 
   ngOnInit(): void {
-    // Obtener usuario logueado
     this.userService.getUsuarioLogueado().subscribe({
       next: (user: UserDetailResponse) => {
         this.currentUserId = user.id;
@@ -59,6 +58,9 @@ export class DetailPetComponent {
         }
       });
     }
+
+    this.rolUsuario = localStorage.getItem('roles');
+
   }
 
   getImage(url: string | undefined | null): string {
