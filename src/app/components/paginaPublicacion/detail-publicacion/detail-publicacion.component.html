@@ -2,7 +2,7 @@
     <app-nav class="colorFondo ancho" *ngIf="rolUsuario === 'ADMIN'"></app-nav>
     <app-nav-user class="colorFondo ancho" *ngIf="rolUsuario === 'USER'"></app-nav-user>
     <main>
-        <app-card-user-line class="me-3 position-absolute end-0"></app-card-user-line>
+        <app-card-user-line class="me-3"></app-card-user-line>
         <div class="card position-relative marginDe" #cardContainer>
             <div class="d-flex align-items-center px-3 pt-2">
                 <h5 class="mb-2 me-auto">{{ '@' + publicacion?.usename?.username }}</h5>

@@ -38,20 +38,16 @@ h2 {
     font-family: "jura";
 }
 
-@font-face {
-    font-family: "jura";
-    src: url(../../../../../public/assets/fonts/Jura/static/Jura-Medium.ttf);
-}
-
 .margenCard {
     margin-left: 1450px;
 }
 
 
-.btn-close:focus {
-    outline: none;
-    box-shadow: none;
+input:focus {
+    outline: none !important;
+    box-shadow: none !important;
 }
+
 
 .btn-float {
     position: fixed;

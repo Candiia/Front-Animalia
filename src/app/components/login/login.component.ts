@@ -13,6 +13,7 @@ export class LoginComponent {
   password = '';
   registerDialog: boolean = false;
   errorMessage: string = '';
+  mostrarToastError = false;
 
   constructor(private authService: AuthService, private router: Router) { }
 
@@ -41,7 +42,13 @@ export class LoginComponent {
       },
       error: (err) => {
         this.errorMessage = err.error.detail || 'No tienes acceso para entrar.';
+        this.mostrarToastError = true;
+
+        setTimeout(() => {
+          this.mostrarToastError = false;
+        }, 5000);
       }
+
     });
   }
 

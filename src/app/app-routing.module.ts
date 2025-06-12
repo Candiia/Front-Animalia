@@ -14,6 +14,7 @@ import { DetailPetComponent } from './components/paginaMascotas/detail-pet/detai
 import { ParaTiComponent } from './components/paginaPrincpaUser/para-ti/para-ti.component';
 import { RegistrarComponent } from './components/registrar/registrar.component';
 import { ValidacionComponent } from './components/validacion/validacion.component';
+import { PantllaBuscarComponent } from './components/pantlla-buscar/pantlla-buscar.component';
 
 const routes: Routes = [
 
@@ -31,6 +32,7 @@ const routes: Routes = [
   { path: 'paraTi', component: ParaTiComponent },
   { path: 'registrar', component: RegistrarComponent },
   { path: 'validacion', component: ValidacionComponent },
+  { path: 'buscar', component: PantllaBuscarComponent },
   { path: '', redirectTo: '/login', pathMatch: 'full' }
 ];
 
