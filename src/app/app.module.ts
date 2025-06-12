@@ -33,6 +33,7 @@ import { ParaTiComponent } from './components/paginaPrincpaUser/para-ti/para-ti.
 import { NavUserComponent } from './shared/nav-user/nav-user.component';
 import { RegistrarComponent } from './components/registrar/registrar.component';
 import { ValidacionComponent } from './components/validacion/validacion.component';
+import { PantllaBuscarComponent } from './components/pantlla-buscar/pantlla-buscar.component';
 
 
 @NgModule({
@@ -61,7 +62,8 @@ import { ValidacionComponent } from './components/validacion/validacion.componen
     ParaTiComponent,
     NavUserComponent,
     RegistrarComponent,
-    ValidacionComponent
+    ValidacionComponent,
+    PantllaBuscarComponent
   ],
   imports: [
     BrowserModule,

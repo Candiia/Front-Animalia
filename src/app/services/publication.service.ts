@@ -57,4 +57,18 @@ export class PublicationService {
     });
   }
 
+  buscarPublicaciones(filtros: { nombre?: string; raza?: string; especie?: string }, page: number = 0): Observable<PublicacionListReponse> {
+    const url = `${environment.apiBaseUrl}/publicacion/filtro/buscar`;
+
+    return this.http.get<PublicacionListReponse>(url, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      },
+      params: {
+        ...filtros,
+        page: page.toString()
+      }
+    });
+  }
+
 }

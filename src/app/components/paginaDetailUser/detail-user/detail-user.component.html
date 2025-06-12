@@ -18,7 +18,7 @@
             <button type="button" class="btn-close" aria-label="Close" (click)="mostrarError = false"></button>
         </div>
 
-        <app-card-user-line class="me-3 margenCard"></app-card-user-line>
+        <app-card-user-line class="me-3"></app-card-user-line>
         <div class="d-flex marginDe">
             <div class="card card-user-info w-100">
                 <h5 class="mb-3 mt-3 ms-4">Información del Usuario</h5>
@@ -41,7 +41,7 @@
 
         <div *ngIf="mostrarMascotas && mascotasPaginadas.length > 0"
             class="d-flex flex-wrap gap-3 justify-content-start ms-3">
-            <div class="card mt-3 me-4"
+            <div class="card mt-2 me-4"
                 *ngFor="let mascota of mascotasPaginadas; trackBy: trackByMascotaId"
                 (click)="irADetalleMascota(mascota.id)"
                 style="cursor: pointer;">
@@ -89,7 +89,7 @@
 
         <div *ngIf="mostrarPublicaciones && publicacionesPaginadas.length > 0"
             class="d-flex flex-wrap gap-3 justify-content-start ms-3">
-            <div class="card mt-3 me-4"
+            <div class="card mt-2 me-4"
                 *ngFor="let publicacion of publicacionesPaginadas; trackBy: trackByPublicacionId"
                 (click)="irADetallePublicacion(publicacion.id)">
                 <div class="card-body">
@@ -117,7 +117,7 @@
             <p class="text-muted">Este usuario no tiene publicaciones registradas.</p>
         </div>
 
-        <div *ngIf="mostrarPublicaciones && elementosEncontradosPubli > tamanioPaginaPubli" class="ms-3 mt-3">
+        <div *ngIf="mostrarPublicaciones && elementosEncontradosPubli > tamanioPaginaPubli" class="ms-3 mt-2">
             <ngb-pagination
                 class="d-flex justify-content-center"
                 [collectionSize]="elementosEncontradosPubli"

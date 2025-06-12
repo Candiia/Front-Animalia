@@ -2,7 +2,7 @@
     <app-nav class="colorFondo ancho" *ngIf="rolUsuario === 'ADMIN'"></app-nav>
     <app-nav-user class="colorFondo ancho" *ngIf="rolUsuario === 'USER'"></app-nav-user>
     <main>
-        <app-card-user-line class="margenCard"></app-card-user-line>
+        <app-card-user-line></app-card-user-line>
 
         <div class="container mt-5">
             <div *ngIf="!petDetails" class="text-center">
@@ -31,7 +31,7 @@
                     </div>
                     <div class="col-md-8 ">
                         <i *ngIf="petDetails?.userDTO?.id === currentUserId"
-                            class="bi bi-plus-circle-fill ms-2 text-dark mb-2 disenoIconAdd"
+                            class="bi bi-plus-circle-fill ms-2 text-dark btn-float"
                             title="Agregar nueva publicación"
                             (click)="abrirModalCrearPublicacion(modalPublicacion)"
                             style="cursor: pointer;">

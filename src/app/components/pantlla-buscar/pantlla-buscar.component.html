@@ -1,0 +1,66 @@
+<div class="layout">
+    <app-nav-user class="colorFondo ancho"></app-nav-user>
+    <main class="pt-4">
+        <app-card-user-line></app-card-user-line>
+
+        <div class="container">
+            <div class="row mb-4">
+                <div class="col-12 col-md-6 mx-auto">
+                    <div class="d-flex gap-2 justify-content-center mb-4">
+                        <input [(ngModel)]="busquedaNombre" class="form-control" style="max-width: 200px;"
+                            placeholder="Nombre" />
+                        <input [(ngModel)]="busquedaRaza" class="form-control " style="max-width: 200px;"
+                            placeholder="Raza" />
+                        <input [(ngModel)]="busquedaEspecie" class="form-control " style="max-width: 200px;"
+                            placeholder="Especie" />
+                        <button class="btn btn-dark" (click)="buscar()">Buscar</button>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div *ngFor="let publicacion of publicaciones" class="col-12 col-sm-6 col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm" [routerLink]="['/detailPublicacion', publicacion.id]"
+                        style="cursor: pointer;">
+                        <div class="d-flex align-items-center px-3 pt-3">
+                            <h6 class="mb-2 me-auto">{{ '@' + publicacion.getMascotaDTOName.nombre }}</h6>
+                            <p class="mb-0 text-muted ms-2" style="font-size: 0.8rem;">
+                                {{ publicacion.fechaRegistro | date: 'dd/MM/yyyy' }}
+                            </p>
+                        </div>
+
+                        <img
+                            [src]="getImage(publicacion.imageURL)"
+                            class="img-fluid"
+                            style="object-fit: cover; width: 100%; height: 250px;"
+                            alt="Publicación de la mascota" />
+
+                        <div class="card-body">
+                            <p class="card-text text-muted">{{ publicacion.descripcion }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="icon-text">
+                                    <i [ngClass]="{
+                    'bi bi-heart-fill text-danger': publicacion.hasLike,
+                    'bi bi-heart text-dark': !publicacion.hasLike
+                  }"></i>
+                                    <span class="ms-1">{{ publicacion.numeroLikes }}</span>
+                                </div>
+                                <div class="icon-text">
+                                    <i class="bi bi-chat-dots-fill"></i>
+                                    <span class="ms-1">{{ publicacion.numeroComentarios }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="cargando" class="text-center my-4">
+                <div class="spinner-border text-dark" role="status">
+                    <span class="visually-hidden">Cargando...</span>
+                </div>
+            </div>
+
+            <div #observador></div>
+        </div>
+    </main>
+</div>
