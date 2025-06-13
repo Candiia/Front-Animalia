@@ -58,10 +58,10 @@
                     <div class="row">
                         <div *ngFor="let publicacion of petDetails.publicaciones" class="col-md-4 mb-4">
                             <a [routerLink]="['/detailPublicacion', publicacion.id]" class="text-decoration-none"
-                                [attr.aria-label]="'Ver publicación de ' + publicacion.usename.username">
+                                [attr.aria-label]="'Ver publicación de ' + publicacion.getMascotaDTOName.nombre">
                                 <div class="card position-relative card-small">
                                     <div class="d-flex align-items-center px-3 pt-2">
-                                        <h6 class="mb-2 me-auto">{{ '@' + publicacion.usename.username }}</h6>
+                                        <h6 class="mb-2 me-auto">{{ '@' + publicacion.getMascotaDTOName.nombre }}</h6>
                                         <p class="mb-0 text-muted ms-2" style="font-size: 0.8rem;">
                                             {{ publicacion.fechaRegistro | date: 'dd/MM/yyyy' }}
                                         </p>
