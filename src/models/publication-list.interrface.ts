@@ -1,3 +1,5 @@
+import { UUID } from "crypto"
+
 export interface PublicacionListReponse {
   numPagina: number
   tamanioPagina: number
@@ -35,5 +37,6 @@ export interface Usename {
 }
 
 export interface GetMascotaDtoname {
+  id: UUID
   nombre: string
 }

@@ -1,10 +1,11 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { ComentarioDtolist, PublicacionResponse } from '../../../../models/detail-publication.interfaces';
+import { ComentarioDtolist } from '../../../../models/detail-publication.interfaces';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PublicationService } from '../../../services/publication.service';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { CommentService } from '../../../services/comment.service';
 import { LikeService } from '../../../services/like.service';
+import { Publicaicones } from '../../../../models/publication-list.interrface';
 
 @Component({
   selector: 'app-detail-publicacion',
@@ -13,7 +14,7 @@ import { LikeService } from '../../../services/like.service';
 })
 export class DetailPublicacionComponent implements OnInit {
 
-  publicacion?: PublicacionResponse;
+  publicacion?: Publicaicones;
   mostrarComentarios = false;
   nuevoComentario = '';
   comentarioEnEliminacion: ComentarioDtolist | null = null;

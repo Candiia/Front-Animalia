@@ -12,8 +12,8 @@ export class PublicationService {
 
   constructor(private http: HttpClient) { }
 
-  obtenerPublicacionPorId(id: string): Observable<PublicacionResponse> {
-    return this.http.get<PublicacionResponse>(`${environment.apiBaseUrl}/publicacion/${id}`, {
+  obtenerPublicacionPorId(id: string): Observable<any> {
+    return this.http.get<any>(`${environment.apiBaseUrl}/publicacion/${id}`, {
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
         'Content-Type': 'application/json'

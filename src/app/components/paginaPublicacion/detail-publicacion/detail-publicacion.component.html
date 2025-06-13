@@ -5,7 +5,7 @@
         <app-card-user-line class="me-3"></app-card-user-line>
         <div class="card position-relative marginDe" #cardContainer>
             <div class="d-flex align-items-center px-3 pt-2">
-                <h5 class="mb-2 me-auto">{{ '@' + publicacion?.usename?.username }}</h5>
+                <h5 class="mb-2 me-auto"   [routerLink]="['/detailPet', publicacion?.getMascotaDTOName?.id]" >{{ '@' + publicacion?.getMascotaDTOName?.nombre }}</h5>
                 <p class="mb-0 text-muted ms-2" style="font-size: 0.9rem;">{{ publicacion?.fechaRegistro }}</p>
                 <div class="d-flex align-items-center">
                     <div ngbDropdown class="d-inline-block ms-2">
