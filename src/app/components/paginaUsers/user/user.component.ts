@@ -17,10 +17,11 @@ export class UserComponent {
     username: '',
     password: '',
     verifyPassword: '',
-    email: ''
+    email: '',
+    tipo: 'User'
   };
 
-    searchTerm: string = '';
+  searchTerm: string = '';
 
   constructor(private userServices: UserService, private modalService: NgbModal) { }
 
@@ -30,24 +31,28 @@ export class UserComponent {
   }
 
 
-  addUser(modalRef: any) {
-    const { username, password, verifyPassword, email } = this.nuevoUser;
+  submitUser(modalRef: any) {
+    const { username, password, verifyPassword, email, tipo } = this.nuevoUser;
 
-    if (!username || !password || !verifyPassword || !email) {
+    if (!username || !password || !verifyPassword || !email || !tipo) {
       this.mostrarError = true;
       setTimeout(() => this.mostrarError = false, 3000);
       return;
     }
 
-    this.userServices.addUser(username, password, verifyPassword, email).subscribe({
-      next: (user: UserList) => {
-        this.nuevoUser = { username: '', password: '', verifyPassword: '', email: '' };
+    const request$ = tipo === 'admin'
+      ? this.userServices.addAdmin(username, password, verifyPassword, email)
+      : this.userServices.addUser(username, password, verifyPassword, email);
+
+    request$.subscribe({
+      next: () => {
+        this.nuevoUser = { username: '', password: '', verifyPassword: '', email: '', tipo: 'user' };
         modalRef.close();
         this.mostrarToast = true;
         setTimeout(() => this.mostrarToast = false, 3000);
       },
       error: (error) => {
-        console.error('Error al guardar el usuario', error);
+        console.error('Error al guardar', error);
         this.mostrarError = true;
         setTimeout(() => this.mostrarError = false, 3000);
       }
