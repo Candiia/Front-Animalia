@@ -21,16 +21,9 @@
     margin-top: 90px;
 }
 
-.img-card {
-    width: 100%;
-    height: 600px;
-    object-fit: cover;
-    display: block;
-}
-
-
 .card {
-    width: 900px;
+    max-width: 900px;
+    width: 100%;
     background: transparent;
     color: rgba(0, 0, 0, 0.7);
     font-family: "jura";
@@ -40,6 +33,7 @@
     margin-left: auto;
     margin-right: auto;
 }
+
 
 .card:hover {
     background: rgba(0, 0, 0, 0.15);
@@ -95,4 +89,25 @@ main {
 .dropdown-menu .dropdown-item:active,
 .dropdown-menu .dropdown-item:hover {
     background-color: white !important;
+}
+
+.img-card {
+    width: 100%;
+    max-height: 600px;
+    object-fit: cover;
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .img-card {
+        max-height: 400px;
+        /* Reduce altura en pantallas medianas */
+    }
+}
+
+@media (max-width: 576px) {
+    .img-card {
+        max-height: 300px;
+        /* Reduce más en móviles */
+    }
 }

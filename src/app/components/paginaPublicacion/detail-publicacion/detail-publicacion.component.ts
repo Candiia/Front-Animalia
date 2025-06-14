@@ -24,6 +24,7 @@ export class DetailPublicacionComponent implements OnInit {
   @ViewChild('confirmDeletePublicacionModal', { static: true }) confirmarEliminarPublicacionTemplate!: TemplateRef<any>;
   modalPublicacionRef?: NgbModalRef;
   rolUsuario: string | null = null;
+  usernameActual: string | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -43,6 +44,8 @@ export class DetailPublicacionComponent implements OnInit {
       });
     }
     this.rolUsuario = localStorage.getItem('roles');
+    this.usernameActual = localStorage.getItem('username');
+
 
   }
 
@@ -75,7 +78,13 @@ export class DetailPublicacionComponent implements OnInit {
   confirmarEliminarComentario(): void {
     if (!this.comentarioEnEliminacion) return;
 
-    this.commentService.eliminarComentario(this.comentarioEnEliminacion.id).subscribe({
+    const isAdmin = this.rolUsuario === 'ADMIN';
+
+    const eliminar$ = isAdmin
+      ? this.commentService.eliminarComentario(this.comentarioEnEliminacion.id)
+      : this.commentService.eliminarComentarioUsuario(this.comentarioEnEliminacion.id);
+
+    eliminar$.subscribe({
       next: () => {
         this.modalRef?.close();
         this.comentarioEnEliminacion = null;
@@ -86,6 +95,7 @@ export class DetailPublicacionComponent implements OnInit {
       }
     });
   }
+
 
   private recargarPublicacion(): void {
     const id = this.route.snapshot.paramMap.get('id');
@@ -107,7 +117,13 @@ export class DetailPublicacionComponent implements OnInit {
 
     if (this.comentarioEditando) {
       const editDto = { comentario: this.nuevoComentario.trim() };
-      this.commentService.editarComentario(this.comentarioEditando.id, editDto).subscribe({
+      const isAdmin = this.rolUsuario === 'ADMIN';
+
+      const editar$ = isAdmin
+        ? this.commentService.editarComentario(this.comentarioEditando.id, editDto)
+        : this.commentService.editarComentarioUsuario(this.comentarioEditando.id, editDto);
+
+      editar$.subscribe({
         next: () => {
           this.nuevoComentario = '';
           this.comentarioEditando = null;
