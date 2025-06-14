@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MascotaList, PetListsResponse } from '../../../../models/pet-list.interfaces';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PetService } from '../../../services/pet.service';
 import { MascotaDtolist } from '../../../../models/user-list.interfaces';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -34,7 +34,8 @@ export class DetailPetComponent {
     private petService: PetService,
     private modalService: NgbModal,
     private publicationService: PublicationService,
-    private userService: UserService
+    private userService: UserService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -62,6 +63,11 @@ export class DetailPetComponent {
     this.rolUsuario = localStorage.getItem('roles');
 
   }
+
+  esDueno(): boolean {
+    return this.petDetails?.userDTO?.id === this.currentUserId;
+  }
+
 
   getImage(url: string | undefined | null): string {
     const prefix = 'http://localhost:8080/download/';
@@ -136,6 +142,26 @@ export class DetailPetComponent {
         error: (err) => console.error('Error al recargar detalles:', err)
       });
     }
+  }
+
+  confirmarEliminarMascota(modal: any) {
+    if (this.petId) {
+      this.petService.eliminarPet(this.petId).subscribe({
+        next: () => {
+          modal.close();
+          console.log('Mascota eliminada correctamente');
+          this.router.navigate(['/paraTi']);
+
+        },
+        error: (err) => {
+          console.error('Error al eliminar mascota', err);
+        }
+      });
+    }
+  }
+
+  abrirModalConfirmacionEliminar(content: any) {
+    this.modalService.open(content, { centered: true });
   }
 
 }
