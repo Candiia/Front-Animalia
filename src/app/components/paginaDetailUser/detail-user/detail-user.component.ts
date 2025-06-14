@@ -63,6 +63,7 @@ export class DetailUserComponent implements OnInit {
   archivoPublicacion: File | null = null;
   @ViewChild('addPublicationModal') addPublicationModal!: any;
   @ViewChild('addPetModal') addPetModal!: any;
+  @ViewChild('confirmDeleteAccountModal') confirmDeleteAccountModal!: any;
 
   publicacion = {
     mascota: {
@@ -70,7 +71,6 @@ export class DetailUserComponent implements OnInit {
     },
     descripcion: ''
   };
-
   constructor(
     private route: ActivatedRoute,
     private userService: UserService,
@@ -92,7 +92,6 @@ export class DetailUserComponent implements OnInit {
       this.mostrarBotonAddMascota = this.usuarioLogueado?.id === this.userId;
       this.getUserDetail(this.userId)
     });
-
     this.rolUsuario = localStorage.getItem('roles');
   }
 
@@ -305,5 +304,25 @@ export class DetailUserComponent implements OnInit {
     this.archivoAvatar = null;
   }
 
+  abrirModalEliminarCuenta() {
+    this.modalRef = this.modalService.open(this.confirmDeleteAccountModal, {
+      centered: true,
+      backdrop: 'static',
+    });
+  }
 
+  confirmarEliminarCuenta(modal: any) {
+    this.userService.eliminarMiCuenta().subscribe({
+      next: () => {
+        modal.close();
+        alert('Cuenta eliminada correctamente.');
+        this.router.navigate(['/login']);
+      },
+      error: err => {
+        modal.close();
+        alert('Error eliminando la cuenta.');
+        console.error(err);
+      }
+    });
+  }
 }

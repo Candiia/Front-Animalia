@@ -121,4 +121,8 @@ export class CardUserComponent implements OnChanges, OnInit {
     }
   }
 
+  esAdmin(user: UserList): boolean {
+    return user.roles.some(rol => rol.toLowerCase() === 'admin');
+  }
+
 }
