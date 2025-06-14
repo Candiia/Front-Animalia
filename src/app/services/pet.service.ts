@@ -73,4 +73,20 @@ export class PetService {
   }
 
 
+  editPetUsuario(id: string, petData: any, file: File | null): Observable<any> {
+    const url = `${environment.apiBaseUrl}/mascota/${id}`;
+    const formData = new FormData();
+    formData.append('post', new Blob([JSON.stringify(petData)], { type: 'application/json' }));
+    if (file) {
+      formData.append('file', file, file.name);
+    } else {
+      formData.append('file', new Blob([], { type: 'application/octet-stream' }), 'empty.txt');
+    }
+    return this.http.put(url, formData, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      }
+    });
+  }
+
 }
