@@ -16,7 +16,7 @@
                 <div ngbDropdownMenu (click)="$event.stopPropagation()">
                     <button class="dropdown-item" (click)="abrirModalEdicion(user); $event.stopPropagation()">Editar</button>
                     <button class="dropdown-item text-danger"
-                        (click)="abrirModalDeEliminar(user); $event.stopPropagation()">Eliminar</button>
+                        (click)="abrirModalDeEliminar(user); $event.stopPropagation()" *ngIf="!esAdmin(user)">Eliminar</button>
                 </div>
 
             </div>

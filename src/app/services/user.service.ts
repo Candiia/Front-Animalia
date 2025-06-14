@@ -98,5 +98,15 @@ export class UserService {
     });
   }
 
+  eliminarMiCuenta(): Observable<void> {
+    return this.http.delete<void>(`${environment.apiBaseUrl}/usuario`, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      }
+    });
+  }
+
+
 
 }
