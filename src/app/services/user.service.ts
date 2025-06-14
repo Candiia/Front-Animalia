@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { delay, Observable, of } from 'rxjs';
 import { UserList, UserListsResponse } from '../../models/user-list.interfaces';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
@@ -98,5 +98,13 @@ export class UserService {
     });
   }
 
+  getAllUsers(): Observable<UserDetailResponse[]> {
+    return this.http.get<UserDetailResponse[]>(`${environment.apiBaseUrl}/usuario/todos`, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      }
+    });
+  }
 
 }
