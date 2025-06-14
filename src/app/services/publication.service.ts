@@ -71,4 +71,13 @@ export class PublicationService {
     });
   }
 
+  eliminarPublicacionUsuario(id: string): Observable<void> {
+    return this.http.delete<void>(`${environment.apiBaseUrl}/publicacion/${id}`, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json'
+      }
+    });
+  }
+
 }

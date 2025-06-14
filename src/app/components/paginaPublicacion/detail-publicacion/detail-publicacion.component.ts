@@ -96,6 +96,12 @@ export class DetailPublicacionComponent implements OnInit {
     });
   }
 
+  puedeEliminarPublicacion(): boolean {
+    if (!this.publicacion || !this.usernameActual) return false;
+
+    return this.rolUsuario === 'ADMIN' || this.publicacion.usename.username === this.usernameActual;
+  }
+
 
   private recargarPublicacion(): void {
     const id = this.route.snapshot.paramMap.get('id');
@@ -183,17 +189,26 @@ export class DetailPublicacionComponent implements OnInit {
   confirmarEliminarPublicacion(): void {
     if (!this.publicacion?.id) return;
 
-    this.publicationService.eliminarPublicacion(this.publicacion.id).subscribe({
+    const isAdmin = this.rolUsuario === 'ADMIN';
+
+    const eliminar$ = isAdmin
+      ? this.publicationService.eliminarPublicacion(this.publicacion.id)
+      : this.publicationService.eliminarPublicacionUsuario(this.publicacion.id);
+
+    eliminar$.subscribe({
       next: () => {
         this.modalPublicacionRef?.close();
         setTimeout(() => {
-          this.router.navigate(['/user-list']);
+          const ruta = isAdmin ? '/user-list' : '/paraTi';
+          this.router.navigate([ruta]);
         });
+
       },
       error: err => {
         console.error('Error al eliminar la publicación', err);
       }
     });
   }
+
 
 }
