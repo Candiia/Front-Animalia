@@ -44,5 +44,23 @@ export class CommentService {
     });
   }
 
+  editarComentarioUsuario(id: string, body: { comentario: string }): Observable<ComentarioDtolist> {
+    return this.http.put<ComentarioDtolist>(`${environment.apiBaseUrl}/comentario/${id}`, body, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      }
+    });
+  }
+
+  eliminarComentarioUsuario(id: string): Observable<void> {
+    return this.http.delete<void>(`${environment.apiBaseUrl}/comentario/${id}`, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      }
+    });
+  }
+
 
 }

@@ -99,12 +99,13 @@ ngb-pagination ::ng-deep .page-link:hover {
 }
 
 ngb-pagination {
-    position: fixed;
-    left: 56%;
-    transform: translateX(-50%);
-    z-index: 1000;
+    position: relative;
+    left: auto;
+    transform: none;
     font-family: "jura";
+
 }
+
 
 .margenPubli {
     margin-top: 50px;

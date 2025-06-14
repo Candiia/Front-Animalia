@@ -29,6 +29,8 @@ export class LoginComponent {
       next: resp => {
         localStorage.setItem('account_id', resp.id);
         localStorage.setItem('token', resp.token);
+        localStorage.setItem('username', resp.username);
+
         localStorage.setItem('roles', JSON.stringify(resp.roles));
 
         if (resp.roles.includes('ADMIN')) {
