@@ -107,6 +107,21 @@ export class UserService {
     });
   }
 
+editarUsuarioLogueado(email: string, password: string, verifyPassword: string): Observable<any> {
+  return this.http.put(`${environment.apiBaseUrl}/usuario/me`,
+    {
+      email,
+      password,
+      verifyPassword
+    },
+    {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      }
+    }
+  );
+}
 
 
 }

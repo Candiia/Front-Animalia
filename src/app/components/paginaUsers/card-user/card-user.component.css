@@ -1,6 +1,6 @@
 .card {
     width: 350px;
-    height: 150px;
+    height: 180px;
     background: transparent;
     border: 1px solid rgba(0, 0, 0, 0.3);
     color: rgba(0, 0, 0, 0.7);
@@ -9,6 +9,58 @@
     font-size: 16pt;
     transition: all 0.3s ease-in-out;
     box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+    position: relative;
+    transform: none !important;
+}
+
+.card .position-absolute {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1060;
+}
+
+.card .dropdown-menu {
+    position: absolute;
+    margin-top: 5px;
+    background-color: #fff !important;
+    color: #000 !important;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1050;
+    opacity: 1 !important;
+    backdrop-filter: none !important;
+    background-image: none !important;
+    transform: none !important;
+}
+
+.card:hover .dropdown-menu {
+    background-color: #fff !important;
+    color: #000 !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    opacity: 1 !important;
+    transform: none !important;
+}
+
+.card:hover {
+    background: rgba(0, 0, 0, 0.15);
+    color: black !important;
+    transform: scale(1.02);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.card .position-absolute.end-0 {
+    right: 10px;
+    top: 10px;
+    z-index: 1;
+}
+
+.card .ngb-dropdown-menu:hover {
+    background-color: #fff !important;
+    color: #000 !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transform: none !important;
 }
 
 .textMascotas {
@@ -22,33 +74,6 @@
 .toggle-disabled {
     color: rgb(238, 40, 40);
 }
-
-.card:hover {
-    background: rgba(0, 0, 0, 0.15);
-    color: black !important;
-    transform: scale(1.02);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-.card .dropdown-menu {
-    background-color: #fff !important;
-    color: #000 !important;
-    border-radius: 12px;
-    border: 1px solid rgba(0, 0, 0, 0.15);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    z-index: 1050;
-    opacity: 1 !important;
-    backdrop-filter: none !important;
-    background-image: none !important;
-}
-
-.card:hover .dropdown-menu {
-    background-color: #fff !important;
-    color: #000 !important;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    opacity: 1 !important;
-}
-
 
 @font-face {
     font-family: "jura";
@@ -85,16 +110,16 @@ ngb-pagination ::ng-deep .page-link:hover {
     transform: scale(1.02);
 }
 
-ngb-pagination {
-    position: fixed;
-    bottom: 20px;
-    left: 56%;
-    transform: translateX(-50%);
-    z-index: 1000;
-    font-family: "jura";
-}
 
 .btn-close:focus {
     outline: none;
     box-shadow: none;
+}
+
+ngb-pagination {
+    position: relative;
+    left: auto;
+    transform: none;
+    font-family: "jura";
+
 }

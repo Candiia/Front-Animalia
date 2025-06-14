@@ -71,6 +71,13 @@ export class DetailUserComponent implements OnInit {
     },
     descripcion: ''
   };
+  @ViewChild('editUserModal') editUserModal!: any;
+
+  editUserForm = {
+    email: '',
+    password: '',
+    verifyPassword: ''
+  };
   constructor(
     private route: ActivatedRoute,
     private userService: UserService,
@@ -325,4 +332,39 @@ export class DetailUserComponent implements OnInit {
       }
     });
   }
+
+  abrirModalEditarUsuario() {
+    if (this.usuarioLogueado) {
+      this.editUserForm.email = this.usuarioLogueado.email;
+      this.editUserForm.password = '';
+      this.editUserForm.verifyPassword = '';
+      this.modalRef = this.modalService.open(this.editUserModal, { centered: true, backdrop: 'static' });
+    }
+  }
+
+
+  confirmarEditarUsuario(modal: any) {
+    const { email, password, verifyPassword } = this.editUserForm;
+
+    if (!email || !password || !verifyPassword) {
+      this.mostrarError = true;
+      setTimeout(() => this.mostrarError = false, 3000);
+      return;
+    }
+
+    this.userService.editarUsuarioLogueado(email, password, verifyPassword).subscribe({
+      next: () => {
+        modal.close();
+        this.mostrarToast = true;
+        this.userService.getUsuarioLogueado().subscribe(usuario => this.usuarioLogueado = usuario);
+        setTimeout(() => this.mostrarToast = false, 3000);
+      },
+      error: err => {
+        console.error('Error actualizando usuario', err);
+        this.mostrarError = true;
+        setTimeout(() => this.mostrarError = false, 3000);
+      }
+    });
+  }
+
 }

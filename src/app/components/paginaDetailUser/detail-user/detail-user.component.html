@@ -24,14 +24,23 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <h5 class="mb-3 mt-3 ms-4">Información del Usuario</h5>
 
-                    <i
-                        *ngIf="usuarioLogueado?.id === userData?.id && rolUsuario === 'USER'"
-                        class="bi bi-trash-fill text-danger mt-2 me-4"
-                        title="Eliminar cuenta"
-                        style="cursor: pointer; font-size: 1.5rem;"
-                        (click)="abrirModalEliminarCuenta()">
-                    </i>
+                    <div class="d-flex align-items-center me-4"
+                        *ngIf="usuarioLogueado?.id === userData?.id && rolUsuario === 'USER'">
+                        <i
+                            class="bi bi-pen-fill me-3"
+                            style="cursor: pointer; font-size: 1.2rem;"
+                            (click)="abrirModalEditarUsuario()"
+                            title="Editar cuenta">
+                        </i>
+                        <i
+                            class="bi bi-trash-fill text-danger"
+                            title="Eliminar cuenta"
+                            style="cursor: pointer; font-size: 1.5rem;"
+                            (click)="abrirModalEliminarCuenta()">
+                        </i>
+                    </div>
                 </div>
+
                 <div class="d-flex justify-content-between ms-4 me-4 mt-3">
                     <p><i class="bi bi-person-fill"></i> {{ userData?.username ?? 'No disponible' }}</p>
                     <p><i class="bi bi-envelope"></i> {{ userData?.email ?? 'No disponible' }}</p>
@@ -285,5 +294,33 @@
             <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Cancelar</button>
             <button type="button" class="btn btn-danger" (click)="confirmarEliminarCuenta(modal)">Eliminar</button>
         </div>
+    </div>
+</ng-template>
+
+<ng-template #editUserModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Editar datos de usuario</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+    </div>
+    <div class="modal-body">
+        <form #editForm="ngForm">
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" [(ngModel)]="editUserForm.email" name="email" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>Nueva contraseña</label>
+                <input type="password" [(ngModel)]="editUserForm.password" name="password" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>Confirmar contraseña</label>
+                <input type="password" [(ngModel)]="editUserForm.verifyPassword" name="verifyPassword" class="form-control"
+                    required>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Cancelar</button>
+        <button type="button" class="btn btn-dark" (click)="confirmarEditarUsuario(modal)">Guardar cambios</button>
     </div>
 </ng-template>
