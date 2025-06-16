@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/paginaPrincipal/home/home.component';
 import { PageNotFoundComponent } from './shared/page-not-found/page-not-found.component';
-import { ListPublicationsComponent } from './components/publications/list-publications/list-publications.component';
 import { LoginComponent } from './components/login/login.component';
 import { BreedsComponent } from './components/paginaRazas/breeds/breeds.component';
 import { UserComponent } from './components/paginaUsers/user/user.component';
@@ -15,24 +14,24 @@ import { ParaTiComponent } from './components/paginaPrincpaUser/para-ti/para-ti.
 import { RegistrarComponent } from './components/registrar/registrar.component';
 import { ValidacionComponent } from './components/validacion/validacion.component';
 import { PantllaBuscarComponent } from './components/pantlla-buscar/pantlla-buscar.component';
+import { authGuard } from './guards/auth.guard';
 
 const routes: Routes = [
 
-  { path: 'home', component: HomeComponent },
-  { path: 'user-list', component: UserComponent },
-  { path: 'pet-list', component: PetComponent },
-  { path: 'breeds-list', component: BreedsComponent },
-  { path: 'species-list', component: SpeciesComponent },
-  { path: 'publication-list', component: ListPublicationsComponent },
+  { path: 'home', component: HomeComponent, canActivate: [authGuard], data: { roles: ['ADMIN'] } },
+  { path: 'user-list', component: UserComponent, canActivate: [authGuard], data: { roles: ['ADMIN'] } },
+  { path: 'pet-list', component: PetComponent, canActivate: [authGuard], data: { roles: ['ADMIN'] } },
+  { path: 'breeds-list', component: BreedsComponent, canActivate: [authGuard], data: { roles: ['ADMIN'] } },
+  { path: 'species-list', component: SpeciesComponent, canActivate: [authGuard], data: { roles: ['ADMIN'] } },
   { path: 'not-found', component: PageNotFoundComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'detailUser/:id', component: DetailUserComponent },
-  { path: 'detailPublicacion/:id', component: DetailPublicacionComponent },
-  { path: 'detailPet/:id', component: DetailPetComponent },
-  { path: 'paraTi', component: ParaTiComponent },
+  { path: 'detailUser/:id', component: DetailUserComponent, canActivate: [authGuard], data: { roles: ['USER', 'ADMIN'] } },
+  { path: 'detailPublicacion/:id', component: DetailPublicacionComponent, canActivate: [authGuard], data: { roles: ['USER', 'ADMIN'] } },
+  { path: 'detailPet/:id', component: DetailPetComponent, canActivate: [authGuard], data: { roles: ['USER', 'ADMIN'] } },
+  { path: 'paraTi', component: ParaTiComponent, canActivate: [authGuard], data: { roles: ['USER'] } },
   { path: 'registrar', component: RegistrarComponent },
   { path: 'validacion', component: ValidacionComponent },
-  { path: 'buscar', component: PantllaBuscarComponent },
+  { path: 'buscar', component: PantllaBuscarComponent, canActivate: [authGuard], data: { roles: ['USER'] } },
   { path: '', redirectTo: '/login', pathMatch: 'full' }
 ];
 

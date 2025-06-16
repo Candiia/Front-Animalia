@@ -58,8 +58,9 @@ h2 {
     bottom: 20px;
     right: 60px;
     font-size: 40pt;
-    background: none;
-    border: none;
+    background: white;
+    border: 3px solid white;
+    border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -68,6 +69,11 @@ h2 {
     z-index: 999;
 }
 
+
 .btn-float:hover {
     transform: scale(1.1);
+}
+
+.alturaFoto {
+    height: 20px;
 }

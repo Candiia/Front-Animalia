@@ -16,7 +16,7 @@
                 <div ngbDropdownMenu (click)="$event.stopPropagation()">
                     <button class="dropdown-item" (click)="abrirModalEdicion(user); $event.stopPropagation()">Editar</button>
                     <button class="dropdown-item text-danger"
-                        (click)="abrirModalDeEliminar(user); $event.stopPropagation()">Eliminar</button>
+                        (click)="abrirModalDeEliminar(user); $event.stopPropagation()" *ngIf="!esAdmin(user)">Eliminar</button>
                 </div>
 
             </div>
@@ -66,33 +66,57 @@
         </div>
 
         <div class="modal-body">
-            <form (ngSubmit)="editarUsuario(modal)">
+            <form [formGroup]="userForm" (ngSubmit)="editarUsuario(modal)">
                 <div class="mb-3">
-                    <label for="editBreedName" class="form-label">Email</label>
+                    <label for="edituserEmail" class="form-label">Email</label>
                     <input
                         type="email"
                         id="edituserEmail"
-                        [(ngModel)]="userEnEdicion.email"
-                        name="editUserEmail"
+                        formControlName="email"
                         class="form-control"
-                        required>
-                    <label for="editBreedName" class="form-label">Contraseña</label>
+                        [ngClass]="{'is-invalid': userForm.get('email')?.invalid && userForm.get('email')?.touched}" />
+                    <div class="invalid-feedback"
+                        *ngIf="userForm.get('email')?.hasError('required') && userForm.get('email')?.touched">
+                        El email es requerido.
+                    </div>
+                    <div class="invalid-feedback"
+                        *ngIf="userForm.get('email')?.hasError('email') && userForm.get('email')?.touched">
+                        Ingresa un email válido.
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="editUserPass" class="form-label">Contraseña</label>
                     <input
                         type="password"
                         id="editUserPass"
-                        [(ngModel)]="userEnEdicion.password"
-                        name="password"
+                        formControlName="password"
                         class="form-control"
-                        required>
-                    <label for="editUserPass" class="form-label">Verificar contraseña</label>
+                        [ngClass]="{'is-invalid': userForm.get('password')?.invalid && userForm.get('password')?.touched}" />
+                    <div class="invalid-feedback"
+                        *ngIf="userForm.get('password')?.hasError('required') && userForm.get('password')?.touched">
+                        La contraseña es requerida.
+                    </div>
+                    <div class="invalid-feedback"
+                        *ngIf="userForm.get('password')?.hasError('minlength') && userForm.get('password')?.touched">
+                        Mínimo 6 caracteres.
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="editUserVerifyPass" class="form-label">Verificar Contraseña</label>
                     <input
                         type="password"
                         id="editUserVerifyPass"
-                        [(ngModel)]="userEnEdicion.verifyPassword"
-                        name="editUserVerifyPass"
+                        formControlName="verifyPassword"
                         class="form-control"
-                        required>
+                        [ngClass]="{'is-invalid': (userForm.hasError('notMatching') && userForm.get('verifyPassword')?.touched)}" />
+                    <div class="invalid-feedback"
+                        *ngIf="userForm.hasError('notMatching') && userForm.get('verifyPassword')?.touched">
+                        Las contraseñas no coinciden.
+                    </div>
                 </div>
+
                 <button type="submit" class="btn btn-dark">Guardar</button>
             </form>
         </div>

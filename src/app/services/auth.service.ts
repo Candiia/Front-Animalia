@@ -29,4 +29,12 @@ export class AuthService {
     });
   }
 
+
+  isAuthenticated(): boolean {
+    return !!localStorage.getItem('token');
+  }
+
+  getUserRole(): string | null {
+    return localStorage.getItem('roles');
+  }
 }

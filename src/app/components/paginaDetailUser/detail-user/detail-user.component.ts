@@ -63,6 +63,7 @@ export class DetailUserComponent implements OnInit {
   archivoPublicacion: File | null = null;
   @ViewChild('addPublicationModal') addPublicationModal!: any;
   @ViewChild('addPetModal') addPetModal!: any;
+  @ViewChild('confirmDeleteAccountModal') confirmDeleteAccountModal!: any;
 
   publicacion = {
     mascota: {
@@ -70,7 +71,13 @@ export class DetailUserComponent implements OnInit {
     },
     descripcion: ''
   };
+  @ViewChild('editUserModal') editUserModal!: any;
 
+  editUserForm = {
+    email: '',
+    password: '',
+    verifyPassword: ''
+  };
   constructor(
     private route: ActivatedRoute,
     private userService: UserService,
@@ -92,7 +99,6 @@ export class DetailUserComponent implements OnInit {
       this.mostrarBotonAddMascota = this.usuarioLogueado?.id === this.userId;
       this.getUserDetail(this.userId)
     });
-
     this.rolUsuario = localStorage.getItem('roles');
   }
 
@@ -138,7 +144,7 @@ export class DetailUserComponent implements OnInit {
   }
 
   getImage(url: string | undefined | null): string {
-    const prefix = "http://localhost:8080/download/";
+    const prefix = "http://localhost:8081/download/";
     if (!url) {
       return '';
     }
@@ -214,9 +220,9 @@ export class DetailUserComponent implements OnInit {
 
 
   cargarRazas(): void {
-    this.breedsService.obtenerListadoBreeds(0).subscribe({
+    this.breedsService.obtenerListadoSinPaginar().subscribe({
       next: res => {
-        this.listaRazas = res.contenido;
+        this.listaRazas = res.contenido ?? res;
       },
       error: err => {
         console.error('Error cargando razas', err);
@@ -224,10 +230,11 @@ export class DetailUserComponent implements OnInit {
     });
   }
 
+
   cargarEspecies(): void {
-    this.speciesService.obtenerListadoSpecies(0).subscribe({
+    this.speciesService.obtenerListadoSinPaginar().subscribe({
       next: res => {
-        this.listaEspecies = res.contenido;
+        this.listaEspecies = res.contenido ?? res;
       },
       error: err => {
         console.error('Error cargando especies', err);
@@ -305,5 +312,60 @@ export class DetailUserComponent implements OnInit {
     this.archivoAvatar = null;
   }
 
+  abrirModalEliminarCuenta() {
+    this.modalRef = this.modalService.open(this.confirmDeleteAccountModal, {
+      centered: true,
+      backdrop: 'static',
+    });
+  }
+
+  confirmarEliminarCuenta(modal: any) {
+    this.userService.eliminarMiCuenta().subscribe({
+      next: () => {
+        modal.close();
+        alert('Cuenta eliminada correctamente.');
+        this.router.navigate(['/login']);
+      },
+      error: err => {
+        modal.close();
+        alert('Error eliminando la cuenta.');
+        console.error(err);
+      }
+    });
+  }
+
+  abrirModalEditarUsuario() {
+    if (this.usuarioLogueado) {
+      this.editUserForm.email = this.usuarioLogueado.email;
+      this.editUserForm.password = '';
+      this.editUserForm.verifyPassword = '';
+      this.modalRef = this.modalService.open(this.editUserModal, { centered: true, backdrop: 'static' });
+    }
+  }
+
+
+  confirmarEditarUsuario(modal: any) {
+    const { email, password, verifyPassword } = this.editUserForm;
+
+    if (!email || !password || !verifyPassword) {
+      this.mostrarError = true;
+      setTimeout(() => this.mostrarError = false, 3000);
+      return;
+    }
+
+    this.userService.editarUsuarioLogueado(email, password, verifyPassword).subscribe({
+      next: () => {
+        modal.close();
+        this.mostrarToast = true;
+        this.userService.getUsuarioLogueado().subscribe(usuario => this.usuarioLogueado = usuario);
+        setTimeout(() => this.mostrarToast = false, 3000);
+      },
+      error: err => {
+        console.error('Error actualizando usuario', err);
+        this.mostrarError = true;
+        setTimeout(() => this.mostrarError = false, 3000);
+      }
+    });
+  }
 
 }

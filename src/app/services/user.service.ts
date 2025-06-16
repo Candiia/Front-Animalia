@@ -47,6 +47,22 @@ export class UserService {
     );
   }
 
+  addUserAdmin(username: string, password: string, verifyPassword: string, email: string): Observable<any> {
+    return this.http.post(`${environment.apiBaseUrl}/usuario/register/userAdmin`, {
+      username,
+      password,
+      verifyPassword,
+      email
+    },
+      {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json',
+        }
+      }
+    );
+  }
+
   addAdmin(username: string, password: string, verifyPassword: string, email: string): Observable<any> {
     return this.http.post(`${environment.apiBaseUrl}/usuario/register/admin`, {
       username,
@@ -106,5 +122,31 @@ export class UserService {
       }
     });
   }
+
+  eliminarMiCuenta(): Observable<void> {
+    return this.http.delete<void>(`${environment.apiBaseUrl}/usuario`, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      }
+    });
+  }
+
+  editarUsuarioLogueado(email: string, password: string, verifyPassword: string): Observable<any> {
+    return this.http.put(`${environment.apiBaseUrl}/usuario/me`,
+      {
+        email,
+        password,
+        verifyPassword
+      },
+      {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json',
+        }
+      }
+    );
+  }
+
 
 }

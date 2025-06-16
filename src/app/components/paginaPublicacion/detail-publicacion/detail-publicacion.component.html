@@ -5,11 +5,13 @@
         <app-card-user-line class="me-3"></app-card-user-line>
         <div class="card position-relative marginDe" #cardContainer>
             <div class="d-flex align-items-center px-3 pt-2">
-                <h5 class="mb-2 me-auto"   [routerLink]="['/detailPet', publicacion?.getMascotaDTOName?.id]" >{{ '@' + publicacion?.getMascotaDTOName?.nombre }}</h5>
+                <h5 class="mb-2 me-auto" [routerLink]="['/detailPet', publicacion?.getMascotaDTOName?.id]">{{ '@' +
+                    publicacion?.getMascotaDTOName?.nombre }}</h5>
                 <p class="mb-0 text-muted ms-2" style="font-size: 0.9rem;">{{ publicacion?.fechaRegistro }}</p>
                 <div class="d-flex align-items-center">
                     <div ngbDropdown class="d-inline-block ms-2">
-                        <button class="btn btn-sm btn-white text-dark" id="dropdownMenuButton" ngbDropdownToggle
+                        <button class="btn btn-sm btn-white text-dark" *ngIf="puedeEliminarPublicacion()" id="dropdownMenuButton"
+                            ngbDropdownToggle
                             style="min-width: 30px;">
                         </button>
                         <div ngbDropdownMenu aria-labelledby="dropdownMenuButton" class="dropdown-menu-end">
@@ -76,6 +78,7 @@
                             <p>{{comentario.texto}}</p>
                         </div>
                         <div
+                            *ngIf="rolUsuario === 'ADMIN' || comentario.userDTO.username === usernameActual"
                             class="btn-group btn-group-sm"
                             role="group"
                             aria-label="Acciones comentario">

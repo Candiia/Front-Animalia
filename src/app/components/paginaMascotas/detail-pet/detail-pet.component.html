@@ -1,4 +1,4 @@
-<div class="layout">
+ <div class="layout">
     <app-nav class="colorFondo ancho" *ngIf="rolUsuario === 'ADMIN'"></app-nav>
     <app-nav-user class="colorFondo ancho" *ngIf="rolUsuario === 'USER'"></app-nav-user>
     <main>
@@ -13,29 +13,54 @@
                 <div class="row align-items-center ">
                     <div class="col-md-4 text-center">
                         <img [src]="getImage(petDetails.avatar)" alt="{{ petDetails.nombre }}"
-                            class="img-fluid rounded-circle shadow mb-3"
+                            class="img-fluid rounded-circle shadow mb-3 mt-4"
                             style="width: 200px; height: 200px; object-fit: cover;">
-                        <h2 class="fw-bold text-dark">{{ petDetails.nombre }}</h2>
-
-                        <p class="text-muted fs-5">
-                            <i class="bi bi-person-fill me-2"></i>
-                            <a [routerLink]="['/detailUser', petDetails.userDTO.id]"
-                                class="fw-semibold text-decoration-none text-muted">
-                                {{ petDetails.userDTO.username }}
-                            </a>
-                        </p>
-
-                        <p class="text-muted"><i class="bi bi-cake2-fill me-2"></i><span class="fw-semibold">{{
-                                petDetails.fechaNacimiento | date:
-                                'dd/MM/yyyy' }}</span></p>
                     </div>
-                    <div class="col-md-8 ">
-                        <i *ngIf="petDetails?.userDTO?.id === currentUserId"
-                            class="bi bi-plus-circle-fill ms-2 text-dark btn-float"
-                            title="Agregar nueva publicación"
-                            (click)="abrirModalCrearPublicacion(modalPublicacion)"
-                            style="cursor: pointer;">
-                        </i>
+                    <div class="col-md-8">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <div>
+                                <h2 class="fw-bold text-dark mb-0">{{ petDetails.nombre }}</h2>
+                                <div class="d-flex align-items-center info-row mt-2">
+                                    <p class="text-muted mb-0 me-4 d-flex align-items-center">
+                                        <i class="bi bi-person-fill me-2"></i>
+                                        <a [routerLink]="['/detailUser', petDetails.userDTO.id]"
+                                            class="fw-semibold text-decoration-none text-muted">
+                                            {{ petDetails.userDTO.username }}
+                                        </a>
+                                    </p>
+                                    <p class="text-muted mb-0 me-4 d-flex align-items-center">
+                                        <i class="bi bi-cake2-fill me-2"></i>
+                                        <span class="fw-semibold">{{ petDetails.fechaNacimiento | date:'dd-MM-yyyy' }}</span>
+                                    </p>
+                                    <p class="text-muted mb-0 me-4 d-flex align-items-center">
+                                        <img src="/assets/espcies-removebg-preview.png" class="alturaFoto me-2" alt="Especies" />
+                                        <span class="fw-semibold">Especie: {{ petDetails.especie.nombre }}</span>
+                                    </p>
+                                    <p class="text-muted mb-0 d-flex align-items-center">
+                                        <img src="/assets/razas-removebg-preview.png" class="alturaFoto me-2" alt="Razas" />
+                                        <span class="fw-semibold">Raza: {{ petDetails.raza.nombre }}</span>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-center me-4">
+                                <i
+                                    class="bi bi-pen-fill me-3"
+                                    *ngIf="esDueno()"
+                                    style="cursor: pointer; font-size: 1.2rem;"
+                                    (click)="abrirModalEdicion(petDetails); $event.stopPropagation()"
+                                    title="Editar mascota">
+                                </i>
+                                <i
+                                    *ngIf="esDueno()"
+                                    class="bi bi-trash-fill text-danger"
+                                    title="Eliminar mascota"
+                                    style="cursor: pointer; font-size: 1.5rem;"
+                                    (click)="abrirModalConfirmacionEliminar(modalConfirmacionEliminar)">
+                                </i>
+                            </div>
+
+                        </div>
 
                         <div class="card p-4 shadow-sm cardDetail">
                             <div class="d-flex justify-content-between">
@@ -49,6 +74,13 @@
                                 </div>
                             </div>
                         </div>
+                        <i *ngIf="petDetails?.userDTO?.id === currentUserId"
+                            class="bi bi-plus-circle-fill ms-2 text-dark btn-float"
+                            title="Agregar nueva publicación"
+                            (click)="abrirModalCrearPublicacion(modalPublicacion)"
+                            style="cursor: pointer;">
+                        </i>
+
                     </div>
                 </div>
                 <div class="mt-5">
@@ -63,7 +95,7 @@
                                     <div class="d-flex align-items-center px-3 pt-2">
                                         <h6 class="mb-2 me-auto">{{ '@' + publicacion.getMascotaDTOName.nombre }}</h6>
                                         <p class="mb-0 text-muted ms-2" style="font-size: 0.8rem;">
-                                            {{ publicacion.fechaRegistro | date: 'dd/MM/yyyy' }}
+                                            {{ publicacion.fechaRegistro | date: 'dd-MM-yyyy' }}
                                         </p>
                                     </div>
                                     <img [src]="getImage(publicacion.imageURL)" class="img-card"
@@ -73,9 +105,9 @@
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div class="icon-text">
                                                 <i [ngClass]="{
-                          'bi bi-heart-fill text-danger': publicacion.hasLike,
-                          'bi bi-heart text-dark': !publicacion.hasLike
-                        }"></i>
+                            'bi bi-heart-fill text-danger': publicacion.hasLike,
+                            'bi bi-heart text-dark': !publicacion.hasLike
+                            }"></i>
                                                 <span class="ms-1">{{ publicacion.numeroLikes }}</span>
                                             </div>
                                             <div class="icon-text">
@@ -117,5 +149,125 @@
                 <button type="submit" class="btn btn-dark">Publicar</button>
             </div>
         </form>
+    </div>
+</ng-template>
+
+<ng-template #modalConfirmacionEliminar let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title">Confirmar eliminación</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+    </div>
+    <div class="modal-body">
+        <p>¿Estás seguro que quieres eliminar esta mascota?</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Cancelar</button>
+        <button type="button" class="btn btn-danger" (click)="confirmarEliminarMascota(modal)">Eliminar</button>
+    </div>
+</ng-template>
+
+<ng-template #editPetModal let-modal>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Editar Mascota</h5>
+            <button type="button" class="btn-close" (click)="modal.dismiss()" aria-label="Cerrar"></button>
+        </div>
+
+        <div class="modal-body">
+            <form #editPetForm="ngForm" (ngSubmit)="editarMascota(modal)" enctype="multipart/form-data" novalidate>
+                <div class="mb-3">
+                    <label for="editPetName" class="form-label">Nombre</label>
+                    <input
+                        type="text"
+                        id="editPetName"
+                        [(ngModel)]="petEnEdicion.nombre"
+                        name="nombre"
+                        class="form-control"
+                        required
+                        #nombre="ngModel" />
+                    <div *ngIf="nombre.invalid && nombre.touched" class="text-danger">El nombre es obligatorio.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="editPetBirth" class="form-label">Fecha de nacimiento</label>
+                    <input
+                        type="date"
+                        id="editPetBirth"
+                        [(ngModel)]="petEnEdicion.fechaNacimiento"
+                        name="fechaNacimiento"
+                        class="form-control"
+                        required
+                        #fechaNacimiento="ngModel" />
+                    <div *ngIf="fechaNacimiento.invalid && fechaNacimiento.touched" class="text-danger">La fecha es
+                        obligatoria.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="editPetBio" class="form-label">Biografía</label>
+                    <textarea
+                        id="editPetBio"
+                        [(ngModel)]="petEnEdicion.biografia"
+                        name="biografia"
+                        class="form-control"
+                        rows="3"
+                        required
+                        #biografia="ngModel"></textarea>
+                    <div *ngIf="biografia.invalid && biografia.touched" class="text-danger">La biografía es obligatoria.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="editPetRaza" class="form-label">Raza</label>
+                    <select
+                        id="editPetRaza"
+                        [(ngModel)]="petEnEdicion.raza.id"
+                        name="razaId"
+                        class="form-select"
+                        required
+                        #razaId="ngModel">
+                        <option [ngValue]="null" disabled>Seleccione raza</option>
+                        <option *ngFor="let raza of listaRazas" [value]="raza.id">{{ raza.nombre }}</option>
+                    </select>
+                    <div *ngIf="razaId.invalid && razaId.touched" class="text-danger">La raza es obligatoria.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="editPetEspecie" class="form-label">Especie</label>
+                    <select
+                        id="editPetEspecie"
+                        [(ngModel)]="petEnEdicion.especie.id"
+                        name="especieId"
+                        class="form-select"
+                        required
+                        #especieId="ngModel">
+                        <option [ngValue]="null" disabled>Seleccione especie</option>
+                        <option *ngFor="let especie of listaEspecies" [value]="especie.id">{{ especie.nombre }}</option>
+                    </select>
+                    <div *ngIf="especieId.invalid && especieId.touched" class="text-danger">La especie es obligatoria.</div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Avatar actual</label>
+                    <div>
+                        <img
+                            *ngIf="petEnEdicion.avatar"
+                            [src]="getImage(petEnEdicion.avatar)"
+                            alt="Avatar de {{petEnEdicion.nombre}}"
+                            style="max-width: 150px; max-height: 150px; object-fit: contain; border-radius: 20px;" />
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="editPetAvatar" class="form-label">Cambiar Avatar</label>
+                    <input
+                        type="file"
+                        id="editPetAvatar"
+                        (change)="onFileSelected($event)"
+                        accept="image/*"
+                        class="form-control" />
+                </div>
+
+                <button type="submit" class="btn btn-dark" [disabled]="editPetForm.invalid">Guardar</button>
+            </form>
+        </div>
     </div>
 </ng-template>

@@ -76,7 +76,7 @@ export class PantllaBuscarComponent {
 
 
   getImage(url: string | undefined | null): string {
-    const prefix = "http://localhost:8080/download/";
+    const prefix = "http://localhost:8081/download/";
     if (!url) {
       return '';
     }

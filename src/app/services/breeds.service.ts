@@ -20,6 +20,15 @@ export class BreedsService {
     });
   }
 
+  obtenerListadoSinPaginar(): Observable<BreedsListsResponse> {
+    return this.http.get<BreedsListsResponse>(`${environment.apiBaseUrl}/raza/todos`, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      }
+    });
+  }
+
 
   addRaza(nuevaRaza: string): Observable<any> {
     return this.http.post(`${environment.apiBaseUrl}/raza`, {

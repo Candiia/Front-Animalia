@@ -36,7 +36,6 @@ export class RegistrarComponent {
           return;
         }
 
-        // Usuario disponible, procede con el registro
         this.usuarioService.addUser(this.username, this.password, this.verifyPassword, this.email).subscribe({
           next: () => {
             this.successMessage = 'Registro exitoso';

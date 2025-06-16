@@ -24,6 +24,7 @@ export class DetailPublicacionComponent implements OnInit {
   @ViewChild('confirmDeletePublicacionModal', { static: true }) confirmarEliminarPublicacionTemplate!: TemplateRef<any>;
   modalPublicacionRef?: NgbModalRef;
   rolUsuario: string | null = null;
+  usernameActual: string | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -43,6 +44,8 @@ export class DetailPublicacionComponent implements OnInit {
       });
     }
     this.rolUsuario = localStorage.getItem('roles');
+    this.usernameActual = localStorage.getItem('username');
+
 
   }
 
@@ -51,7 +54,7 @@ export class DetailPublicacionComponent implements OnInit {
   }
 
   getImage(url: string | undefined | null): string {
-    const prefix = "http://localhost:8080/download/";
+    const prefix = "http://localhost:8081/download/";
     if (!url) {
       return '';
     }
@@ -75,7 +78,13 @@ export class DetailPublicacionComponent implements OnInit {
   confirmarEliminarComentario(): void {
     if (!this.comentarioEnEliminacion) return;
 
-    this.commentService.eliminarComentario(this.comentarioEnEliminacion.id).subscribe({
+    const isAdmin = this.rolUsuario === 'ADMIN';
+
+    const eliminar$ = isAdmin
+      ? this.commentService.eliminarComentario(this.comentarioEnEliminacion.id)
+      : this.commentService.eliminarComentarioUsuario(this.comentarioEnEliminacion.id);
+
+    eliminar$.subscribe({
       next: () => {
         this.modalRef?.close();
         this.comentarioEnEliminacion = null;
@@ -86,6 +95,13 @@ export class DetailPublicacionComponent implements OnInit {
       }
     });
   }
+
+  puedeEliminarPublicacion(): boolean {
+    if (!this.publicacion || !this.usernameActual) return false;
+
+    return this.rolUsuario === 'ADMIN' || this.publicacion.usename.username === this.usernameActual;
+  }
+
 
   private recargarPublicacion(): void {
     const id = this.route.snapshot.paramMap.get('id');
@@ -107,7 +123,13 @@ export class DetailPublicacionComponent implements OnInit {
 
     if (this.comentarioEditando) {
       const editDto = { comentario: this.nuevoComentario.trim() };
-      this.commentService.editarComentario(this.comentarioEditando.id, editDto).subscribe({
+      const isAdmin = this.rolUsuario === 'ADMIN';
+
+      const editar$ = isAdmin
+        ? this.commentService.editarComentario(this.comentarioEditando.id, editDto)
+        : this.commentService.editarComentarioUsuario(this.comentarioEditando.id, editDto);
+
+      editar$.subscribe({
         next: () => {
           this.nuevoComentario = '';
           this.comentarioEditando = null;
@@ -167,17 +189,26 @@ export class DetailPublicacionComponent implements OnInit {
   confirmarEliminarPublicacion(): void {
     if (!this.publicacion?.id) return;
 
-    this.publicationService.eliminarPublicacion(this.publicacion.id).subscribe({
+    const isAdmin = this.rolUsuario === 'ADMIN';
+
+    const eliminar$ = isAdmin
+      ? this.publicationService.eliminarPublicacion(this.publicacion.id)
+      : this.publicationService.eliminarPublicacionUsuario(this.publicacion.id);
+
+    eliminar$.subscribe({
       next: () => {
         this.modalPublicacionRef?.close();
         setTimeout(() => {
-          this.router.navigate(['/user-list']);
+          const ruta = isAdmin ? '/user-list' : '/paraTi';
+          this.router.navigate([ruta]);
         });
+
       },
       error: err => {
         console.error('Error al eliminar la publicación', err);
       }
     });
   }
+
 
 }

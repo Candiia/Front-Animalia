@@ -2,6 +2,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges, TemplateRef, ViewCh
 import { UserService } from '../../../services/user.service';
 import { UserList, UserListsResponse } from '../../../../models/user-list.interfaces';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-card-user',
@@ -11,7 +12,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 export class CardUserComponent implements OnChanges, OnInit {
 
 
-  constructor(private userServices: UserService, private modalService: NgbModal) { }
+  constructor(private userServices: UserService, private modalService: NgbModal, private fb: FormBuilder) { }
   @Input() searchTerm: string = '';
   userFiltrados: UserList[] = [];
   users: UserList[] = [];
@@ -35,9 +36,14 @@ export class CardUserComponent implements OnChanges, OnInit {
     verifyPassword: ''
   };
 
+  mostrarError = false;
+  userForm!: FormGroup;
+  mostrarToast = false;
+
 
   ngOnInit(): void {
     this.obtenerListado();
+    this.initForm();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -46,27 +52,19 @@ export class CardUserComponent implements OnChanges, OnInit {
     }
   }
 
-  obtenerListado(): void {
-    this.userServices.obtenerListadoUser(this.page - 1).subscribe({
-      next: (res: UserListsResponse) => {
-        console.log(res.contenido);
-        this.users = res.contenido;
-        this.tamanioPagina = res.tamanioPagina;
-        this.elementosEncontrados = res.elementosEncontrados;
-        this.filtrarUser();
-      },
-      error: (err) => {
-        console.error('Error al obtener el listado', err);
-      }
-    });
+  initForm(): void {
+    this.userForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      verifyPassword: ['', Validators.required]
+    }, { validators: this.passwordsMatch });
   }
 
-
-  onPage(newPage: number): void {
-    this.page = newPage;
-    this.obtenerListado();
+  passwordsMatch(group: AbstractControl): { [key: string]: boolean } | null {
+    const password = group.get('password')?.value;
+    const confirm = group.get('verifyPassword')?.value;
+    return password === confirm ? null : { notMatching: true };
   }
-
 
   abrirModalDeEliminar(user: UserList) {
     this.userEnEliminacion = user;
@@ -75,7 +73,6 @@ export class CardUserComponent implements OnChanges, OnInit {
       backdrop: 'static'
     });
   }
-
 
   confirmarEliminar(): void {
     if (!this.userEnEliminacion || !this.modalRef) return;
@@ -91,23 +88,69 @@ export class CardUserComponent implements OnChanges, OnInit {
     });
   }
 
-  abrirModalEdicion(user: UserList) {
-    this.userEnEdicion = { ...user };
-    this.modalRef = this.modalService.open(this.editUserModal, { centered: true, backdrop: 'static' });
+  abrirModalEdicion(user: UserList): void {
+    this.userEnEdicion = user;
+
+    this.userForm.patchValue({
+      tipo: user.roles.includes('ADMIN') ? 'admin' : 'user',
+      username: user.username,
+      email: user.email,
+      password: user.password,
+      verifyPassword: user.password
+    });
+
+    this.modalService.open(this.editUserModal, { centered: true });
   }
 
-  editarUsuario(modal: any) {
-    this.userServices.editUser(this.userEnEdicion.id, this.userEnEdicion.email, this.userEnEdicion.password, this.userEnEdicion.verifyPassword).subscribe({
+
+  editarUsuario(modalRef: any) {
+    if (this.userForm.invalid) {
+      this.userForm.markAllAsTouched();
+      this.mostrarError = true;
+      setTimeout(() => this.mostrarError = false, 3000);
+      return;
+    }
+
+    const { email, password, verifyPassword } = this.userForm.value;
+
+    this.userServices.editUser(
+      this.userEnEdicion.id,
+      email,
+      password,
+      verifyPassword
+    ).subscribe({
       next: () => {
-        modal.close();
+        modalRef.close();
         this.obtenerListado();
+        this.mostrarToast = true;
+        setTimeout(() => this.mostrarToast = false, 3000);
       },
       error: err => {
         console.error('Error editando usuario', err);
+        this.mostrarError = true;
+        setTimeout(() => this.mostrarError = false, 3000);
       }
     });
   }
 
+  obtenerListado(): void {
+    this.userServices.obtenerListadoUser(this.page - 1).subscribe({
+      next: (res: UserListsResponse) => {
+        this.users = res.contenido;
+        this.tamanioPagina = res.tamanioPagina;
+        this.elementosEncontrados = res.elementosEncontrados;
+        this.filtrarUser();
+      },
+      error: (err) => {
+        console.error('Error al obtener el listado', err);
+      }
+    });
+  }
+
+  onPage(newPage: number): void {
+    this.page = newPage;
+    this.obtenerListado();
+  }
 
   filtrarUser(): void {
     const term = this.searchTerm.toLowerCase().trim();
@@ -117,8 +160,11 @@ export class CardUserComponent implements OnChanges, OnInit {
       this.userFiltrados = this.users.filter(e =>
         e.username.toLowerCase().includes(term)
       );
-
     }
+  }
+
+  esAdmin(user: UserList): boolean {
+    return user.roles.some(rol => rol.toLowerCase() === 'admin');
   }
 
 }

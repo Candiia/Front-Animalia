@@ -11,7 +11,7 @@ import { FooterComponent } from './shared/footer/footer.component';
 import { CardUserLineComponent } from './components/paginaPrincipal/card-user-line/card-user-line.component';
 import { CardUserPetComponent } from './components/paginaPrincipal/card-user-pet/card-user-pet.component';
 import { LoginComponent } from './components/login/login.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { provideHttpClient } from '@angular/common/http';
 import { CardComentariosLikesComponent } from './components/paginaPrincipal/card-comentarios-likes/card-comentarios-likes.component';
 import { CardRazasEspeciesComponent } from './components/paginaPrincipal/card-razas-especies/card-razas-especies.component';
@@ -71,7 +71,8 @@ import { PantllaBuscarComponent } from './components/pantlla-buscar/pantlla-busc
     FormsModule,
     AgChartsModule,
     NgbModule,
-    NgbDropdownModule
+    NgbDropdownModule,
+    ReactiveFormsModule
   ],
   providers: [
     provideAnimationsAsync(),
