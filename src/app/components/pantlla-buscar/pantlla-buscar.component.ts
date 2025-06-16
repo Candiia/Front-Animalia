@@ -1,6 +1,10 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Publicaicones } from '../../../models/publication-list.interrface';
 import { PublicationService } from '../../services/publication.service';
+import { SpeciesService } from '../../services/species.service';
+import { BreedsService } from '../../services/breeds.service';
+import { SpeciesLists } from '../../../models/species-list.interfaces';
+import { Breed } from '../../../models/breeds-list.interfaces';
 
 @Component({
   selector: 'app-pantlla-buscar',
@@ -20,13 +24,34 @@ export class PantllaBuscarComponent {
   busquedaNombre: string = '';
   busquedaRaza: string = '';
   busquedaEspecie: string = '';
+  listaRazas: Breed[] = [];
+  listaEspecies: SpeciesLists[] = [];
 
-  constructor(private publicationService: PublicationService) { }
-
+  constructor(private publicationService: PublicationService, private especieService: SpeciesService, private razaService: BreedsService) { }
   ngOnInit() {
-
     this.paginaActual = 0;
     this.cargarPublicaciones();
+    this.cargarListas();
+  }
+
+  cargarListas() {
+    this.razaService.obtenerListadoBreeds(0).subscribe({
+      next: res => {
+        this.listaRazas = res.contenido;
+      },
+      error: err => {
+        console.error('Error cargando razas', err);
+      }
+    });
+
+    this.especieService.obtenerListadoSpecies(0).subscribe({
+      next: res => {
+        this.listaEspecies = res.contenido;
+      },
+      error: err => {
+        console.error('Error cargando especies', err);
+      }
+    });
   }
 
   ngAfterViewInit() {
@@ -76,7 +101,7 @@ export class PantllaBuscarComponent {
 
 
   getImage(url: string | undefined | null): string {
-    const prefix = "http://localhost:8080/download/";
+    const prefix = "http://localhost:8081/download/";
     if (!url) {
       return '';
     }

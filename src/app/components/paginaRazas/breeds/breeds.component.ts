@@ -3,6 +3,7 @@ import { BreedsService } from '../../../services/breeds.service';
 import bootstrap from 'bootstrap';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Breed } from '../../../../models/breeds-list.interfaces';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-breeds',
@@ -14,38 +15,46 @@ export class BreedsComponent {
   mostrarToast = false;
   nuevaRaza: { nombre: string } = { nombre: '' };
   @ViewChild('breedModal') breedModal!: TemplateRef<any>;
+  breedForm!: FormGroup;
   mostrarError = false;
+  razaYaExiste = false;
   searchTerm: string = '';
 
-  constructor(private breedsService: BreedsService, private modalService: NgbModal) { }
-
-  openModal() {
-    this.modalService.open(this.breedModal, { centered: true });
+  constructor(private fb: FormBuilder, private breedsService: BreedsService, private modalService: NgbModal) {
+    this.breedForm = this.fb.group({
+      nombre: ['', Validators.required]
+    });
   }
 
+  openModal() {
+    this.razaYaExiste = false;
+    this.breedForm.reset();
+    this.modalService.open(this.breedModal, { centered: true });
+  }
   guardarRaza(modalRef: any) {
-    if (!this.nuevaRaza.nombre) return;
+    if (this.breedForm.invalid) return;
 
-    this.breedsService.addRaza(this.nuevaRaza.nombre).subscribe({
+    const nombreRaza = this.breedForm.value.nombre;
+
+    this.breedsService.addRaza(nombreRaza).subscribe({
       next: (raza: Breed) => {
-        this.nuevaRaza.nombre = '';
+        this.breedForm.reset();
         modalRef.close();
         this.mostrarToast = true;
         setTimeout(() => this.mostrarToast = false, 3000);
       },
-      error: (error) => {
-        console.error('Error al guardar la raza', error);
+     error: (error) => {
+      if (error.status === 400) {
+        this.razaYaExiste = true;
+        const control = this.breedForm.get('nombre');
+        control?.setErrors({ taken: true });
+        console.log(this.breedForm.get('nombre')?.errors);
 
-        if (error.status === 409) {
-          this.mostrarError = true;
-        } else {
-          this.mostrarError = true;
-        }
-
+      } else {
+        this.mostrarError = true;
         setTimeout(() => this.mostrarError = false, 3000);
-
       }
-    });
+    }});
   }
 
 

@@ -3,6 +3,7 @@ import { SpeciesService } from '../../../services/species.service';
 import { SpeciesLists, SpeciesListsResponse } from '../../../../models/species-list.interfaces';
 import { Especie } from '../../../../models/pet-list.interfaces';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-card-species',
@@ -13,7 +14,7 @@ export class CardSpeciesComponent implements OnChanges, OnInit {
   modalRef: any;
   @Input() searchTerm: string = '';
   especiesFiltradas: Especie[] = [];
-  constructor(private speciesService: SpeciesService, private modalService: NgbModal) { }
+  constructor(private speciesService: SpeciesService, private modalService: NgbModal, private fb: FormBuilder) { }
   espcieEnEdicion: Especie = { id: '00000000-0000-0000-0000-000000000000', nombre: '', localDate: '' };
   especies: SpeciesLists[] = [];
   page = 1;
@@ -22,9 +23,13 @@ export class CardSpeciesComponent implements OnChanges, OnInit {
   @ViewChild('editBreedModal') editBreedModal!: TemplateRef<any>;
   @ViewChild('confirmDeleteModal') confirmDeleteModal!: TemplateRef<any>;
   especieEnEliminacion: Especie | null = null;
+  speciesEditForm!: FormGroup;
 
   ngOnInit(): void {
     this.obtenerListado();
+    this.speciesEditForm = this.fb.group({
+      nombre: ['', Validators.required]
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -56,21 +61,38 @@ export class CardSpeciesComponent implements OnChanges, OnInit {
 
   abrirModalEdicion(especie: Especie) {
     this.espcieEnEdicion = { ...especie };
+     this.speciesEditForm.reset();
+    this.speciesEditForm.patchValue({
+      nombre: this.espcieEnEdicion.nombre
+    });
     this.modalRef = this.modalService.open(this.editBreedModal, { centered: true, backdrop: 'static' });
   }
 
   editarEspecie(modal: any) {
-    this.speciesService.editEspecie(this.espcieEnEdicion.id, this.espcieEnEdicion.nombre).subscribe({
-      next: () => {
-        modal.close();
-        this.obtenerListado();
-      },
-      error: err => {
-        console.error('Error editando especie', err);
-      }
-    });
+  if (this.speciesEditForm.invalid) {
+    this.speciesEditForm.markAllAsTouched();
+    return;
   }
 
+  const nombre = this.speciesEditForm.value.nombre.trim().toLowerCase();
+
+  const existe = this.especies.some(r => r.nombre.toLowerCase() === nombre && r.id !== this.espcieEnEdicion.id);
+
+  if (existe) {
+    this.speciesEditForm.get('nombre')?.setErrors({ taken: true });
+    return;
+  }
+
+  this.speciesService.editEspecie(this.espcieEnEdicion.id, this.speciesEditForm.value.nombre).subscribe({
+    next: () => {
+      modal.close();
+      this.obtenerListado();
+    },
+    error: err => {
+      console.error('Error editando especie', err);
+    }
+  });
+}
 
   abrirModalDeEliminar(especie: Especie) {
     this.espcieEnEdicion = especie;

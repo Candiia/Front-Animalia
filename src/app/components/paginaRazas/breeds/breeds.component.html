@@ -12,7 +12,7 @@
         <div *ngIf="mostrarError"
             class="alert alert-danger alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x text-center"
             role="alert" style="z-index: 1055; margin-top: 20px; margin-left: 60px; min-width: 300px;">
-            No se pudo guardar. La raza ya existe.
+            No se pudo guardar.
             <button type="button" class="btn-close" aria-label="Close" (click)="mostrarError = false"></button>
         </div>
 
@@ -41,20 +41,29 @@
         </div>
 
         <div class="modal-body">
-            <form (ngSubmit)="guardarRaza(modal)">
+            <form [formGroup]="breedForm" (ngSubmit)="guardarRaza(modal)">
                 <div class="mb-3">
                     <label for="breedName" class="form-label">Nombre</label>
                     <input
-                        type="text"
                         id="breedName"
-                        [(ngModel)]="nuevaRaza.nombre"
-                        name="nombre"
+                        type="text"
+                        formControlName="nombre"
                         class="form-control"
-                        required>
+                        [ngClass]="{'is-invalid': breedForm.get('nombre')?.touched && breedForm.get('nombre')?.invalid}" />
+
+                    <div class="invalid-feedback"
+                        *ngIf="breedForm.get('nombre')?.touched && breedForm.get('nombre')?.hasError('required')">
+                        El nombre es obligatorio.
+                    </div>
+
+                   <div class="invalid-feedback" *ngIf="breedForm.get('nombre')?.touched && breedForm.get('nombre')?.hasError('taken')">
+                Esta raza ya existe.
+                    </div>
+
                 </div>
+
                 <button type="submit" class="btn btn-dark">Guardar</button>
             </form>
         </div>
-
     </div>
 </ng-template>

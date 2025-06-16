@@ -20,3 +20,16 @@ section {
     font-family: "jura";
     src: url(../../../../public/assets/fonts/Jura/static/Jura-Bold.ttf);
 }
+
+.form-outline {
+    position: relative;
+    min-height: 60px;
+}
+
+.form-outline div.text-danger {
+    position: absolute;
+    bottom: -18px;
+    left: 0;
+    font-size: 0.85rem;
+    width: 100%;
+}

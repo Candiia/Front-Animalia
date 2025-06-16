@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { delay, Observable, of } from 'rxjs';
 import { UserList, UserListsResponse } from '../../models/user-list.interfaces';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
@@ -33,6 +33,22 @@ export class UserService {
 
   addUser(username: string, password: string, verifyPassword: string, email: string): Observable<any> {
     return this.http.post(`${environment.apiBaseUrl}/usuario/register`, {
+      username,
+      password,
+      verifyPassword,
+      email
+    },
+      {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json',
+        }
+      }
+    );
+  }
+
+  addUserAdmin(username: string, password: string, verifyPassword: string, email: string): Observable<any> {
+    return this.http.post(`${environment.apiBaseUrl}/usuario/register/userAdmin`, {
       username,
       password,
       verifyPassword,
@@ -98,6 +114,15 @@ export class UserService {
     });
   }
 
+  getAllUsers(): Observable<UserDetailResponse[]> {
+    return this.http.get<UserDetailResponse[]>(`${environment.apiBaseUrl}/usuario/todos`, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      }
+    });
+  }
+
   eliminarMiCuenta(): Observable<void> {
     return this.http.delete<void>(`${environment.apiBaseUrl}/usuario`, {
       headers: {
@@ -107,21 +132,21 @@ export class UserService {
     });
   }
 
-editarUsuarioLogueado(email: string, password: string, verifyPassword: string): Observable<any> {
-  return this.http.put(`${environment.apiBaseUrl}/usuario/me`,
-    {
-      email,
-      password,
-      verifyPassword
-    },
-    {
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`,
-        'Content-Type': 'application/json',
+  editarUsuarioLogueado(email: string, password: string, verifyPassword: string): Observable<any> {
+    return this.http.put(`${environment.apiBaseUrl}/usuario/me`,
+      {
+        email,
+        password,
+        verifyPassword
+      },
+      {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json',
+        }
       }
-    }
-  );
-}
+    );
+  }
 
 
 }

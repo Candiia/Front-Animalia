@@ -15,25 +15,42 @@ export class RegistrarComponent {
   verifyPassword: string = '';
   errorMessage: string = '';
   successMessage: string = '';
+  usernameTaken: boolean = false;
 
   constructor(private usuarioService: UserService, private router: Router) { }
 
   registerUser() {
+    this.usernameTaken = false;
+    this.errorMessage = '';
+    this.successMessage = '';
+
     if (this.password !== this.verifyPassword) {
-      this.errorMessage = 'Las contraseñas no coinciden';
       return;
     }
 
-    this.usuarioService.addUser(this.username, this.password, this.verifyPassword, this.email).subscribe({
-      next: () => {
-        this.successMessage = 'Registro exitoso';
-        this.errorMessage = '';
-        this.router.navigate(['/validacion']);
+    this.usuarioService.getAllUsers().subscribe({
+      next: (users) => {
+        const exists = users.some(user => user.username === this.username);
+        if (exists) {
+          this.usernameTaken = true;
+          return;
+        }
+
+        this.usuarioService.addUser(this.username, this.password, this.verifyPassword, this.email).subscribe({
+          next: () => {
+            this.successMessage = 'Registro exitoso';
+            this.router.navigate(['/validacion']);
+          },
+          error: err => {
+            this.errorMessage = err.error.message || 'Error al registrar';
+          }
+        });
       },
-      error: err => {
-        this.errorMessage = err.error.message || 'Error al registrar';
-        this.successMessage = '';
+      error: () => {
+        this.errorMessage = 'No se pudo verificar el nombre de usuario.';
       }
     });
   }
+
+
 }

@@ -7,7 +7,7 @@
 }
 
 .card {
-    width: 280px;
+    width: 3000px;
     height: 65px;
     background: transparent;
     border: 1px solid rgba(0, 0, 0, 0.3);
@@ -134,4 +134,8 @@ ngb-pagination {
 .btn-close:focus {
     outline: none;
     box-shadow: none;
+}
+
+.modal-header .modal-title {
+    margin-bottom: 0 !important;
 }

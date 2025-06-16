@@ -10,6 +10,7 @@ import { SpeciesService } from '../../../services/species.service';
 import { BreedsService } from '../../../services/breeds.service';
 import { PublicationService } from '../../../services/publication.service';
 import { MascotaList } from '../../../../models/pet-list.interfaces';
+import { NavUserComponent } from "../../../shared/nav-user/nav-user.component";
 
 @Component({
   selector: 'app-detail-user',
@@ -78,6 +79,8 @@ export class DetailUserComponent implements OnInit {
     password: '',
     verifyPassword: ''
   };
+  fechaMaxima: string = '';
+
   constructor(
     private route: ActivatedRoute,
     private userService: UserService,
@@ -100,6 +103,16 @@ export class DetailUserComponent implements OnInit {
       this.getUserDetail(this.userId)
     });
     this.rolUsuario = localStorage.getItem('roles');
+    this.fechaMaxima = this.obtenerFechaHoy();
+
+  }
+
+  obtenerFechaHoy(): string {
+    const hoy = new Date();
+    const yyyy = hoy.getFullYear();
+    const mm = (hoy.getMonth() + 1).toString().padStart(2, '0');
+    const dd = hoy.getDate().toString().padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
   }
 
   getUserDetail(id: string) {
@@ -144,7 +157,7 @@ export class DetailUserComponent implements OnInit {
   }
 
   getImage(url: string | undefined | null): string {
-    const prefix = "http://localhost:8080/download/";
+    const prefix = "http://localhost:8081/download/";
     if (!url) {
       return '';
     }
@@ -220,9 +233,9 @@ export class DetailUserComponent implements OnInit {
 
 
   cargarRazas(): void {
-    this.breedsService.obtenerListadoBreeds(0).subscribe({
+    this.breedsService.obtenerListadoSinPaginar().subscribe({
       next: res => {
-        this.listaRazas = res.contenido;
+        this.listaRazas = res.contenido ?? res;
       },
       error: err => {
         console.error('Error cargando razas', err);
@@ -230,10 +243,11 @@ export class DetailUserComponent implements OnInit {
     });
   }
 
+
   cargarEspecies(): void {
-    this.speciesService.obtenerListadoSpecies(0).subscribe({
+    this.speciesService.obtenerListadoSinPaginar().subscribe({
       next: res => {
-        this.listaEspecies = res.contenido;
+        this.listaEspecies = res.contenido ?? res;
       },
       error: err => {
         console.error('Error cargando especies', err);

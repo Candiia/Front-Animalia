@@ -20,6 +20,16 @@ export class SpeciesService {
     });
   }
 
+
+  obtenerListadoSinPaginar(): Observable<SpeciesListsResponse> {
+    return this.http.get<SpeciesListsResponse>(`${environment.apiBaseUrl}/especie/todos`, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      }
+    });
+  }
+
   addEspecie(nuevaEspecie: string): Observable<any> {
     return this.http.post(`${environment.apiBaseUrl}/especie`, {
       nombre: nuevaEspecie

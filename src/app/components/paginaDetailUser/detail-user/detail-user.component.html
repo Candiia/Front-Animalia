@@ -158,30 +158,35 @@
 
         <div class="modal-body">
             <form #addPetForm="ngForm" (ngSubmit)="crearMascota(modal)" enctype="multipart/form-data" novalidate>
-                <div class="mb-3">
-                    <label for="addPetName" class="form-label">Nombre</label>
-                    <input
-                        type="text"
-                        id="addPetName"
-                        [(ngModel)]="nuevaMascota.nombre"
-                        name="nombre"
-                        class="form-control"
-                        required
-                        #nombre="ngModel" />
-                </div>
+                <div class="d-flex justify-content-between">
+                    <div class="mb-3">
+                        <label for="addPetName" class="form-label">Nombre</label>
+                        <input
+                            type="text"
+                            id="addPetName"
+                            [(ngModel)]="nuevaMascota.nombre"
+                            name="nombre"
+                            class="form-control"
+                            required
+                            #nombre="ngModel" />
+                    </div>
 
-                <div class="mb-3">
-                    <label for="addPetBirth" class="form-label">Fecha de nacimiento</label>
-                    <input
-                        type="date"
-                        id="addPetBirth"
-                        [(ngModel)]="nuevaMascota.fechaNacimiento"
-                        name="fechaNacimiento"
-                        class="form-control"
-                        required
-                        #fechaNacimiento="ngModel" />
+                    <div class="mb-3">
+                        <label for="addPetBirth" class="form-label">Fecha de nacimiento</label>
+                        <input
+                            type="date"
+                            id="addPetBirth"
+                            [(ngModel)]="nuevaMascota.fechaNacimiento"
+                            name="fechaNacimiento"
+                            class="form-control"
+                            required
+                            #fechaNacimiento="ngModel"
+                            [max]="fechaMaxima" />
+                        <div *ngIf="fechaNacimiento.errors?.['max'] && fechaNacimiento.touched" class="text-danger">
+                            La fecha no puede ser mayor a hoy.
+                        </div>
+                    </div>
                 </div>
-
                 <div class="mb-3">
                     <label for="addPetBio" class="form-label">Biografía</label>
                     <textarea
@@ -193,33 +198,34 @@
                         required
                         #biografia="ngModel"></textarea>
                 </div>
+                <div class="d-flex justify-content-between">
+                    <div class="mb-3">
+                        <label for="addPetRaza" class="form-label">Raza</label>
+                        <select
+                            id="addPetRaza"
+                            [(ngModel)]="nuevaMascota.raza.id"
+                            name="razaId"
+                            class="form-select"
+                            required
+                            #razaId="ngModel">
+                            <option [ngValue]="null" disabled>Seleccione raza</option>
+                            <option *ngFor="let raza of listaRazas" [value]="raza.id">{{ raza.nombre }}</option>
+                        </select>
+                    </div>
 
-                <div class="mb-3">
-                    <label for="addPetRaza" class="form-label">Raza</label>
-                    <select
-                        id="addPetRaza"
-                        [(ngModel)]="nuevaMascota.raza.id"
-                        name="razaId"
-                        class="form-select"
-                        required
-                        #razaId="ngModel">
-                        <option [ngValue]="null" disabled>Seleccione raza</option>
-                        <option *ngFor="let raza of listaRazas" [value]="raza.id">{{ raza.nombre }}</option>
-                    </select>
-                </div>
-
-                <div class="mb-3">
-                    <label for="addPetEspecie" class="form-label">Especie</label>
-                    <select
-                        id="addPetEspecie"
-                        [(ngModel)]="nuevaMascota.especie.id"
-                        name="especieId"
-                        class="form-select"
-                        required
-                        #especieId="ngModel">
-                        <option [ngValue]="null" disabled>Seleccione especie</option>
-                        <option *ngFor="let especie of listaEspecies" [value]="especie.id">{{ especie.nombre }}</option>
-                    </select>
+                    <div class="mb-3">
+                        <label for="addPetEspecie" class="form-label">Especie</label>
+                        <select
+                            id="addPetEspecie"
+                            [(ngModel)]="nuevaMascota.especie.id"
+                            name="especieId"
+                            class="form-select"
+                            required
+                            #especieId="ngModel">
+                            <option [ngValue]="null" disabled>Seleccione especie</option>
+                            <option *ngFor="let especie of listaEspecies" [value]="especie.id">{{ especie.nombre }}</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div class="mb-3">

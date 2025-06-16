@@ -57,6 +57,8 @@ export class DetailPetComponent {
   avatarFile: File | null = null;
   listaRazas: Breed[] = [];
   listaEspecies: SpeciesLists[] = [];
+  maxDate: string = '';
+
   constructor(
     private route: ActivatedRoute,
     private petService: PetService,
@@ -93,10 +95,11 @@ export class DetailPetComponent {
     this.rolUsuario = localStorage.getItem('roles');
     this.cargarRazas();
     this.cargarEspecies();
+    const today = new Date();
+    this.maxDate = today.toISOString().split('T')[0];
   }
-
   cargarRazas(): void {
-    this.razaService.obtenerListadoBreeds(0).subscribe({
+    this.razaService.obtenerListadoSinPaginar().subscribe({
       next: res => {
         this.listaRazas = res.contenido;
       },
@@ -105,6 +108,7 @@ export class DetailPetComponent {
       }
     });
   }
+
 
   cargarEspecies(): void {
     this.especieService.obtenerListadoSpecies(0).subscribe({
@@ -136,14 +140,20 @@ export class DetailPetComponent {
 
 
   getImage(url: string | undefined | null): string {
-    const prefix = 'http://localhost:8080/download/';
     if (!url) {
       return '';
     }
-    if (url.startsWith(prefix) && url.includes('http', prefix.length)) {
+
+    if (url.startsWith('data:image/')) {
+      return url;
+    }
+
+    const prefix = "http://localhost:8081/download/";
+
+    if (url.startsWith(prefix) && url.includes("http", prefix.length)) {
       return url.substring(prefix.length);
     }
-    if (!url.startsWith(prefix) && !url.startsWith('http')) {
+    if (!url.startsWith(prefix) && !url.startsWith("http")) {
       return prefix + url;
     }
     return url;

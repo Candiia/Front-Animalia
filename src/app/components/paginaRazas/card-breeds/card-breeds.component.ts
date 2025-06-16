@@ -2,6 +2,7 @@ import { Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, Templat
 import { BreedsService } from '../../../services/breeds.service';
 import { Breed, BreedsListsResponse } from '../../../../models/breeds-list.interfaces';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-card-breeds',
@@ -10,7 +11,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 })
 export class CardBreedsComponent implements OnChanges, OnInit {
 
-  constructor(private breedsService: BreedsService, private modalService: NgbModal) { }
+  constructor(private breedsService: BreedsService, private modalService: NgbModal, private fb: FormBuilder) { }
 
   razaEnEdicion: Breed = { id: '00000000-0000-0000-0000-000000000000', nombre: '' };
   razas: Breed[] = [];
@@ -23,9 +24,13 @@ export class CardBreedsComponent implements OnChanges, OnInit {
   @ViewChild('confirmDeleteModal') confirmDeleteModal!: TemplateRef<any>;
   razaEnEliminacion: Breed | null = null;
   private modalRef?: NgbModalRef;
+  breedEditForm!: FormGroup;
 
   ngOnInit(): void {
     this.obtenerListado();
+    this.breedEditForm = this.fb.group({
+      nombre: ['', Validators.required]
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -57,11 +62,30 @@ export class CardBreedsComponent implements OnChanges, OnInit {
 
   abrirModalEdicion(raza: Breed) {
     this.razaEnEdicion = { ...raza };
+    this.breedEditForm.reset();
+    this.breedEditForm.patchValue({
+      nombre: this.razaEnEdicion.nombre
+    });
     this.modalRef = this.modalService.open(this.editBreedModal, { centered: true, backdrop: 'static' });
   }
 
+
   editarRaza(modal: any) {
-    this.breedsService.editRaza(this.razaEnEdicion.id, this.razaEnEdicion.nombre).subscribe({
+    if (this.breedEditForm.invalid) {
+      this.breedEditForm.markAllAsTouched();
+      return;
+    }
+
+    const nombre = this.breedEditForm.value.nombre.trim().toLowerCase();
+
+    const existe = this.razas.some(r => r.nombre.toLowerCase() === nombre && r.id !== this.razaEnEdicion.id);
+
+    if (existe) {
+      this.breedEditForm.get('nombre')?.setErrors({ taken: true });
+      return;
+    }
+
+    this.breedsService.editRaza(this.razaEnEdicion.id, this.breedEditForm.value.nombre).subscribe({
       next: () => {
         modal.close();
         this.obtenerListado();
@@ -71,6 +95,7 @@ export class CardBreedsComponent implements OnChanges, OnInit {
       }
     });
   }
+
 
 
   abrirModalDeEliminar(raza: Breed) {
