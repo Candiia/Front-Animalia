@@ -10,6 +10,7 @@ import { SpeciesService } from '../../../services/species.service';
 import { BreedsService } from '../../../services/breeds.service';
 import { PublicationService } from '../../../services/publication.service';
 import { MascotaList } from '../../../../models/pet-list.interfaces';
+import { NavUserComponent } from "../../../shared/nav-user/nav-user.component";
 
 @Component({
   selector: 'app-detail-user',
@@ -78,6 +79,8 @@ export class DetailUserComponent implements OnInit {
     password: '',
     verifyPassword: ''
   };
+  fechaMaxima: string = '';
+
   constructor(
     private route: ActivatedRoute,
     private userService: UserService,
@@ -100,6 +103,16 @@ export class DetailUserComponent implements OnInit {
       this.getUserDetail(this.userId)
     });
     this.rolUsuario = localStorage.getItem('roles');
+    this.fechaMaxima = this.obtenerFechaHoy();
+
+  }
+
+  obtenerFechaHoy(): string {
+    const hoy = new Date();
+    const yyyy = hoy.getFullYear();
+    const mm = (hoy.getMonth() + 1).toString().padStart(2, '0');
+    const dd = hoy.getDate().toString().padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
   }
 
   getUserDetail(id: string) {

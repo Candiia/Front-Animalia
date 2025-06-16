@@ -7,8 +7,8 @@ RUN rm -rf node_modules package-lock.json \
 COPY . .
 RUN npm run build -- --configuration production
 
-FROM nginx:1.25.5-alpine
+FROM nginx:1.25.5
 RUN rm -rf /usr/share/nginx/html/*
-COPY --from=builder /usr/src/app/dist/animalia-proyec/browser /usr/share/nginx/html
+COPY --from=builder /usr/src/app/dist/animalia-proyec/browser/ /usr/share/nginx/html/
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]

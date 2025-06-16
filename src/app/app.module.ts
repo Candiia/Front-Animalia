@@ -26,14 +26,14 @@ import { PetComponent } from './components/paginaMascotas/pet/pet.component';
 import { SpeciesComponent } from './components/paginaEspecie/species/species.component';
 import { CardSpeciesComponent } from './components/paginaEspecie/card-species/card-species.component';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-import { DetailUserComponent } from './components/paginaDetailUser/detail-user/detail-user.component';
 import { DetailPublicacionComponent } from './components/paginaPublicacion/detail-publicacion/detail-publicacion.component';
 import { DetailPetComponent } from './components/paginaMascotas/detail-pet/detail-pet.component';
 import { ParaTiComponent } from './components/paginaPrincpaUser/para-ti/para-ti.component';
-import { NavUserComponent } from './shared/nav-user/nav-user.component';
 import { RegistrarComponent } from './components/registrar/registrar.component';
 import { ValidacionComponent } from './components/validacion/validacion.component';
 import { PantllaBuscarComponent } from './components/pantlla-buscar/pantlla-buscar.component';
+import { DetailUserComponent } from './components/paginaDetailUser/detail-user/detail-user.component';
+import { NavUserComponent } from './shared/nav-user/nav-user.component';
 
 
 @NgModule({

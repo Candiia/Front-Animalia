@@ -51,6 +51,7 @@ export class CardPetComponent implements OnChanges, OnInit {
       id: '00000000-0000-0000-0000-000000000000',
     }
   };
+  erroresFormulario: { [key: string]: string } = {};
 
   archivoAvatar: File | null = null;
 
@@ -132,7 +133,7 @@ export class CardPetComponent implements OnChanges, OnInit {
     }
 
     const prefix = "http://localhost:8081/download/";
-    
+
     if (url.startsWith(prefix) && url.includes("http", prefix.length)) {
       return url.substring(prefix.length);
     }
@@ -172,6 +173,18 @@ export class CardPetComponent implements OnChanges, OnInit {
   }
 
   editarMascota(modal: any) {
+    const fechaNacimiento = new Date(this.petEnEdicion.fechaNacimiento);
+    const hoy = new Date();
+
+    fechaNacimiento.setHours(0, 0, 0, 0);
+    hoy.setHours(0, 0, 0, 0);
+    this.erroresFormulario = {};
+
+    if (fechaNacimiento > hoy) {
+      this.erroresFormulario['fechaNacimiento'] = 'La fecha de nacimiento no puede ser mayor que la fecha actual.';
+      return;
+    }
+
     const postData: any = {
       nombre: this.petEnEdicion.nombre,
       fechaNacimiento: this.petEnEdicion.fechaNacimiento,
@@ -187,6 +200,8 @@ export class CardPetComponent implements OnChanges, OnInit {
         modal.close();
         this.obtenerListado();
         this.archivoAvatar = null;
+        this.erroresFormulario = {};
+
       },
       error: err => {
         console.error('Error editando mascota', err);

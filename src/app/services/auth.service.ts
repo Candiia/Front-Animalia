@@ -29,9 +29,15 @@ export class AuthService {
     });
   }
 
+  isBrowser(): boolean {
+    return typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
+  }
 
   isAuthenticated(): boolean {
-    return !!localStorage.getItem('token');
+    if (!this.isBrowser()) {
+      return false; 
+    }
+    return !!localStorage.getItem('token'); 
   }
 
   getUserRole(): string | null {
