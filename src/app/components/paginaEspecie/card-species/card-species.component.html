@@ -33,18 +33,26 @@
         </div>
 
         <div class="modal-body">
-            <form (ngSubmit)="editarEspecie(modal)">
+             <form [formGroup]="speciesEditForm" (ngSubmit)="editarEspecie(modal)">
                 <div class="mb-3">
                     <label for="editBreedName" class="form-label">Nombre</label>
                     <input
                         type="text"
                         id="editBreedName"
-                        [(ngModel)]="espcieEnEdicion.nombre"
-                        name="nombre"
+                        formControlName="nombre"
                         class="form-control"
-                        required>
+                        [ngClass]="{'is-invalid': speciesEditForm.get('nombre')?.touched && speciesEditForm.get('nombre')?.invalid}" />
+                    <div class="invalid-feedback"
+                        *ngIf="speciesEditForm.get('nombre')?.touched && speciesEditForm.get('nombre')?.hasError('required')">
+                        El nombre es obligatorio.
+                    </div>
+                    <div class="invalid-feedback"
+                        *ngIf="speciesEditForm.get('nombre')?.touched && speciesEditForm.get('nombre')?.hasError('taken')">
+                        Esta especie ya existe.
+                    </div>
                 </div>
-                <button type="submit" class="btn btn-dark">Guardar</button>
+                <button type="submit" class="btn btn-dark"
+                    [disabled]="speciesEditForm.invalid">Guardar</button>
             </form>
         </div>
     </div>

@@ -136,18 +136,24 @@ export class DetailPetComponent {
 
 
   getImage(url: string | undefined | null): string {
-    const prefix = 'http://localhost:8081/download/';
-    if (!url) {
-      return '';
-    }
-    if (url.startsWith(prefix) && url.includes('http', prefix.length)) {
-      return url.substring(prefix.length);
-    }
-    if (!url.startsWith(prefix) && !url.startsWith('http')) {
-      return prefix + url;
-    }
+  if (!url) {
+    return '';
+  }
+
+  if (url.startsWith('data:image/')) {
     return url;
   }
+
+  const prefix = "http://localhost:8081/download/";
+  
+  if (url.startsWith(prefix) && url.includes("http", prefix.length)) {
+    return url.substring(prefix.length);
+  }
+  if (!url.startsWith(prefix) && !url.startsWith("http")) {
+    return prefix + url;
+  }
+  return url;
+}
 
   abrirModalCrearPublicacion(content: any) {
     this.modalService.open(content, { centered: true });

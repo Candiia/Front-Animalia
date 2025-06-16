@@ -43,16 +43,18 @@ export class BreedsComponent {
         this.mostrarToast = true;
         setTimeout(() => this.mostrarToast = false, 3000);
       },
-      error: (error) => {
-        if (error.status === 409) {
-          this.razaYaExiste = true;
-          this.breedForm.get('nombre')?.setErrors({ taken: true });
-        } else {
-          this.mostrarError = true;
-          setTimeout(() => this.mostrarError = false, 3000);
-        }
+     error: (error) => {
+      if (error.status === 400) {
+        this.razaYaExiste = true;
+        const control = this.breedForm.get('nombre');
+        control?.setErrors({ taken: true });
+        console.log(this.breedForm.get('nombre')?.errors);
+
+      } else {
+        this.mostrarError = true;
+        setTimeout(() => this.mostrarError = false, 3000);
       }
-    });
+    }});
   }
 
 

@@ -116,16 +116,23 @@ export class CardPetComponent implements OnChanges, OnInit {
   }
 
 
+
   onPage(newPage: number): void {
     this.page = newPage;
     this.obtenerListado();
   }
 
   getImage(url: string | undefined | null): string {
-    const prefix = "http://localhost:8081/download/";
     if (!url) {
       return '';
     }
+
+    if (url.startsWith('data:image/')) {
+      return url;
+    }
+
+    const prefix = "http://localhost:8081/download/";
+    
     if (url.startsWith(prefix) && url.includes("http", prefix.length)) {
       return url.substring(prefix.length);
     }
@@ -134,6 +141,7 @@ export class CardPetComponent implements OnChanges, OnInit {
     }
     return url;
   }
+
 
   abrirModalDeEliminar(mascota: MascotaList) {
     this.mascotaEnEliminacion = mascota;

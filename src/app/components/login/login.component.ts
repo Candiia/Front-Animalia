@@ -17,13 +17,6 @@ export class LoginComponent {
 
   constructor(private authService: AuthService, private router: Router) { }
 
-  ngOnInit(): void {
-    if (typeof window !== 'undefined') {
-      localStorage.clear();
-    }
-  }
-
-
   loginUser() {
     this.authService.loginUser(this.username, this.password).subscribe({
       next: resp => {

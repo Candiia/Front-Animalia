@@ -56,9 +56,10 @@
                         El nombre es obligatorio.
                     </div>
 
-                    <div class="invalid-feedback" *ngIf="breedForm.get('nombre')?.hasError('taken')">
-                        Esta raza ya existe.
+                   <div class="invalid-feedback" *ngIf="breedForm.get('nombre')?.touched && breedForm.get('nombre')?.hasError('taken')">
+                Esta raza ya existe.
                     </div>
+
                 </div>
 
                 <button type="submit" class="btn btn-dark">Guardar</button>
