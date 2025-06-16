@@ -99,7 +99,7 @@ export class DetailPetComponent {
     this.maxDate = today.toISOString().split('T')[0];
   }
   cargarRazas(): void {
-    this.razaService.obtenerListadoSinPaginar().subscribe({
+    this.razaService.obtenerListadoBreeds(0).subscribe({
       next: res => {
         this.listaRazas = res.contenido;
       },
