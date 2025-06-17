@@ -11,12 +11,12 @@
                     }
                 </div>
             </div>
-            <div class="position-absolute end-0 me-3" ngbDropdown>
+            <div class="position-absolute end-0 me-3" ngbDropdown *ngIf="!esAdmin(user)">
                 <button class="btn btn-link text-dark p-0" ngbDropdownToggle (click)="$event.stopPropagation()"></button>
                 <div ngbDropdownMenu (click)="$event.stopPropagation()">
                     <button class="dropdown-item" (click)="abrirModalEdicion(user); $event.stopPropagation()">Editar</button>
                     <button class="dropdown-item text-danger"
-                        (click)="abrirModalDeEliminar(user); $event.stopPropagation()" *ngIf="!esAdmin(user)">Eliminar</button>
+                        (click)="abrirModalDeEliminar(user); $event.stopPropagation()">Eliminar</button>
                 </div>
 
             </div>
