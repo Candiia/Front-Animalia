@@ -226,7 +226,11 @@ export class DetailPetComponent {
         next: () => {
           modal.close();
           console.log('Mascota eliminada correctamente');
-          this.router.navigate(['/paraTi']);
+          if (this.rolUsuario === 'ADMIN') {
+            this.router.navigate(['/home']);
+          } else {
+            this.router.navigate(['/paraTi']);
+          }
 
         },
         error: (err) => {
