@@ -149,3 +149,12 @@ select:focus {
     box-shadow: none;
     border-color: #ccc;
 }
+
+
+.dropdown-item:focus,
+.dropdown-item:active {
+    outline: none;
+    background-color: transparent;
+    color: inherit;
+    box-shadow: none;
+}

@@ -21,6 +21,14 @@
     margin-top: 90px;
 }
 
+.dropdown-item:focus,
+.dropdown-item:active {
+    outline: none;
+    background-color: transparent;
+    color: inherit;
+    box-shadow: none;
+}
+
 .card {
     max-width: 900px;
     width: 100%;

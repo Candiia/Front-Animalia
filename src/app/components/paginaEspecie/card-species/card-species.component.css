@@ -22,6 +22,14 @@
     transform: none !important;
 }
 
+.dropdown-item:focus,
+.dropdown-item:active {
+    outline: none;
+    background-color: transparent;
+    color: inherit;
+    box-shadow: none;
+}
+
 .card .position-absolute {
     position: absolute;
     top: 10px;

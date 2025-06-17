@@ -120,7 +120,7 @@
                             required
                             #razaId="ngModel">
                             <option [ngValue]="null" disabled>Seleccione raza</option>
-                            <option *ngFor="let raza of listaRazas" [value]="raza.id">{{ raza.nombre }}</option>
+                            <option *ngFor="let raza of listaRazas" [value]="raza.id">{{ raza?.nombre || 'Sin raza' }}</option>
                         </select>
                         <div *ngIf="razaId.invalid && razaId.touched" class="text-danger">La raza es obligatoria.</div>
                     </div>

@@ -91,7 +91,14 @@ export class CardPetComponent implements OnChanges, OnInit {
   obtenerListado(): void {
     this.petService.obtenerListadoMascotas(this.page - 1).subscribe({
       next: (res: PetListsResponse) => {
-        console.log(res.contenido);
+        const totalPages = Math.ceil(res.elementosEncontrados / res.tamanioPagina);
+
+        if (this.page > totalPages && totalPages > 0) {
+          this.page = totalPages;
+          this.obtenerListado(); // volver a obtener ahora con la página corregida
+          return;
+        }
+
         this.mascotas = res.contenido;
         this.tamanioPagina = res.tamanioPagina;
         this.elementosEncontrados = res.elementosEncontrados;
@@ -102,6 +109,7 @@ export class CardPetComponent implements OnChanges, OnInit {
       }
     });
   }
+
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;

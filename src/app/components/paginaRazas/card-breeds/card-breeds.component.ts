@@ -25,6 +25,9 @@ export class CardBreedsComponent implements OnChanges, OnInit {
   razaEnEliminacion: Breed | null = null;
   private modalRef?: NgbModalRef;
   breedEditForm!: FormGroup;
+  mostrarToast: boolean = false;
+  mensajeToast: string = '';
+  toastTipo: 'success' | 'error' = 'success';
 
   ngOnInit(): void {
     this.obtenerListado();
@@ -37,6 +40,15 @@ export class CardBreedsComponent implements OnChanges, OnInit {
     if (changes['searchTerm']) {
       this.filtrarRazas();
     }
+  }
+
+  mostrarMensaje(mensaje: string, tipo: 'success' | 'error' = 'success') {
+    this.mensajeToast = mensaje;
+    this.toastTipo = tipo;
+    this.mostrarToast = true;
+    setTimeout(() => {
+      this.mostrarToast = false;
+    }, 3000);
   }
 
   obtenerListado(): void {
@@ -89,12 +101,15 @@ export class CardBreedsComponent implements OnChanges, OnInit {
       next: () => {
         modal.close();
         this.obtenerListado();
+        this.mostrarMensaje('Raza editada correctamente.', 'success');
       },
       error: err => {
         console.error('Error editando raza', err);
+        this.mostrarMensaje('Ocurrió un error al editar la raza.', 'error');
       }
     });
   }
+
 
 
 
@@ -110,9 +125,16 @@ export class CardBreedsComponent implements OnChanges, OnInit {
       next: () => {
         modal.close();
         this.obtenerListado();
+        this.mostrarMensaje('Raza eliminada correctamente.', 'success');
       },
       error: err => {
-        console.error('Error eliminando raza', err);
+        modal.close();
+        if (err.status === 409 && err.error?.detail?.includes('mascotas asociadas')) {
+          this.mostrarMensaje('No se puede eliminar esta raza porque tiene mascotas asociadas.', 'error');
+        } else {
+          console.error('Error eliminando especie', err);
+          this.mostrarMensaje('Ocurrió un error al eliminar la raza.', 'error');
+        }
       }
     });
   }
