@@ -28,6 +28,14 @@
     z-index: 1060;
 }
 
+.dropdown-item:focus,
+.dropdown-item:active {
+    outline: none;
+    background-color: transparent;
+    color: inherit;
+    box-shadow: none;
+}
+
 .card .dropdown-menu {
     position: absolute;
     margin-top: 5px;

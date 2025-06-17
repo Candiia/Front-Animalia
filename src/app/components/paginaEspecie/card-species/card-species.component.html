@@ -16,6 +16,17 @@
     </div>
     }
 </div>
+<div *ngIf="mostrarToast"
+    class="alert alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x text-center"
+    [ngClass]="{
+       'alert-success': toastTipo === 'success',
+       'alert-danger': toastTipo === 'error'
+     }"
+    role="alert"
+    style="z-index: 1055; margin-top: 20px; min-width: 300px;">
+    {{ mensajeToast }}
+    <button type="button" class="btn-close" aria-label="Close" (click)="mostrarToast = false"></button>
+</div>
 
 <ngb-pagination class="d-flex justify-content-center margenTop"
     [collectionSize]="elementosEncontrados"
@@ -33,7 +44,7 @@
         </div>
 
         <div class="modal-body">
-             <form [formGroup]="speciesEditForm" (ngSubmit)="editarEspecie(modal)">
+            <form [formGroup]="speciesEditForm" (ngSubmit)="editarEspecie(modal)">
                 <div class="mb-3">
                     <label for="editBreedName" class="form-label">Nombre</label>
                     <input

@@ -336,7 +336,6 @@ export class DetailUserComponent implements OnInit {
     this.userService.eliminarMiCuenta().subscribe({
       next: () => {
         modal.close();
-        alert('Cuenta eliminada correctamente.');
         this.router.navigate(['/login']);
       },
       error: err => {
