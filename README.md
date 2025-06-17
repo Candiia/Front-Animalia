@@ -16,8 +16,8 @@ Animalia es una plataforma innovadora diseñada para conectar a amantes de los a
 ## 💡 **Características principales**
 ### 🎨 **Para usuarios**
 - **Acceso usuario**
-  - 🆔 **Usuario:** `user1`
-  - 🔑 **Contraseña:** `1234`
+  - 🆔 **Usuario:** `user2`
+  - 🔑 **Contraseña:** `9865432`
 - **Creación de perfiles de mascotas** con nombre, especie, raza, edad y fotografías.
 - **Publicaciones interactivas** con imágenes y textos.
 - **Interacción social**, permitiendo comentar y reaccionar con "Me gusta".
